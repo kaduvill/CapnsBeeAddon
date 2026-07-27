@@ -1,0 +1,22 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# IDE
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+bin/
+
+# Run directories
+run/
+runs/
+
+# Local dependency jars
+libs/*.jar
+
+# Generated Mixin output
+.mixin.out/

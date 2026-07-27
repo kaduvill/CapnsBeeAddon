@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.kaduvill.capnsbeeaddon.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "capnsbeeaddon.refmap.json",
+  "mixins": [
+    "careerbees.EffectAccelerationMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

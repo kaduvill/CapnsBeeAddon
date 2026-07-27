@@ -1,0 +1,132 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'eclipse'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.3'
+    id 'com.gtnewhorizons.retrofuturagradle' version '2.0.2'
+}
+
+group = 'com.kaduvill.capnsbeeaddon'
+version = '1.12.2-0.1.0'
+
+if (System.getenv('BUILD_NUMBER') != null) {
+    version = "${version}.${System.getenv('BUILD_NUMBER')}"
+}
+
+base {
+    archivesName.set('CapnsBeeAddon')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    options.release.set(8)
+
+    javaCompiler.set(javaToolchains.compilerFor {
+        languageVersion.set(JavaLanguageVersion.of(17))
+        vendor.set(JvmVendorSpec.AZUL)
+    })
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+        vendor = JvmVendorSpec.AZUL
+    }
+
+    withSourcesJar()
+}
+
+minecraft {
+    mcVersion.set('1.12.2')
+    mcpMappingChannel.set('snapshot')
+    mcpMappingVersion.set('20180616')
+    useDependencyAccessTransformers.set(true)
+    username.set('Developer')
+
+    extraRunJvmArguments.add("-ea:${project.group}")
+    extraRunJvmArguments.add('-Dmixin.hotSwap=true')
+    extraRunJvmArguments.add('-Dmixin.checks.interfaces=true')
+    extraRunJvmArguments.add('-Dmixin.debug.export=true')
+
+    tagReplacementFiles.add('CapnsBeeAddon.java')
+    injectedTags.put('GRADLETOKEN_VERSION', project.version.toString())
+}
+
+repositories {
+    mavenCentral()
+
+    maven {
+        name = 'Curse Maven'
+        url = uri('https://cursemaven.com')
+    }
+
+    maven {
+        name = 'CleanroomMC'
+        url = uri('https://maven.cleanroommc.com')
+    }
+
+    maven {
+        name = 'GTNH Maven'
+        url = uri('https://nexus.gtnewhorizons.com/repository/public/')
+    }
+
+    maven {
+        name = 'Sponge'
+        url = uri('https://repo.spongepowered.org/maven')
+    }
+
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    String mixinBooter = modUtils.enableMixins(
+        'zone.rong:mixinbooter:10.7',
+        'capnsbeeaddon.refmap.json'
+    )
+    api(mixinBooter) {
+        transitive = false
+    }
+    annotationProcessor 'org.ow2.asm:asm-debug-all:5.2'
+    annotationProcessor 'com.google.guava:guava:32.1.2-jre'
+    annotationProcessor 'com.google.code.gson:gson:2.8.9'
+    annotationProcessor(mixinBooter) {
+        transitive = false
+    }
+
+    implementation rfg.deobf('curse.maven:forestry-59751:7398359')       // 5.8.2.427
+    implementation rfg.deobf('curse.maven:bdlib-70496:4675629')          // 1.14.4.1
+    implementation rfg.deobf('curse.maven:gendustry-70492:2516215')      // 1.6.5.8
+    implementation rfg.deobf('curse.maven:career-bees-281791:2534481')   // 0.4.0
+}
+
+processResources {
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', minecraft.mcVersion.get()
+
+    filesMatching('mcmod.info') { fcd ->
+        fcd.expand(
+            'version': project.version,
+            'mcversion': minecraft.mcVersion.get()
+        )
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+        inheritOutputDirs = true
+    }
+}
