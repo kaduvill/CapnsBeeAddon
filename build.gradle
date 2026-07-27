@@ -50,7 +50,7 @@ minecraft {
     extraRunJvmArguments.add('-Dmixin.checks.interfaces=true')
     extraRunJvmArguments.add('-Dmixin.debug.export=true')
 
-    tagReplacementFiles.add('CapnsBeeAddon.java')
+    tagReplacementFiles.add('**/CapnsBeeAddon.java')
     injectedTags.put('GRADLETOKEN_VERSION', project.version.toString())
 }
 

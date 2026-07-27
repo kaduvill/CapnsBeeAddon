@@ -19,7 +19,3 @@ Place it in one of the Industrial Apiary's upgrade slots. Maximum installed coun
 - MixinBooter 10.7
 
 Runtime metadata currently pins these bee-mod versions exactly because the mixin targets Career Bees implementation details.
-
-## Important behavior
-
-Career Bees stores accelerated positions in one shared per-world map. The focused path only adds valid Industrial Apiaries; it never removes entries belonging to ordinary Temporal bees. If the upgrade is inserted immediately after that same apiary previously ran unfocused, old targets can remain accelerated for roughly one second until Career Bees expires them normally.
