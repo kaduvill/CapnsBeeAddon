@@ -1,23 +1,5 @@
 # Capn's Bee Addon
 
-## First feature: Temporal Focus Upgrade
-
-Install the upgrade in the **Industrial Apiary running the Temporal effect**.
-
-While installed, that source Temporal effect:
-
-- accelerates only other loaded Gendustry Industrial Apiaries inside its exact Career Bees territory;
-- never accelerates its own source apiary;
-- ignores every other TileEntity;
-- does not schedule random-ticking blocks;
-- does not load chunks;
-- scans loaded chunk TileEntity maps instead of every block in the volume.
-
-Industrial Apiaries targeted by another normal or focused Temporal bee can still be accelerated. Normal Temporal bees without this upgrade are completely unchanged.
-
-### Test item
-
-No crafting recipe is included yet. For development:
 
 ```text
 /give @p capnsbeeaddons:temporal_focus_upgrade
