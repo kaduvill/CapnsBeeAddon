@@ -25,21 +25,6 @@ No crafting recipe is included yet. For development:
 
 Place it in one of the Industrial Apiary's upgrade slots. Maximum installed count is one.
 
-## Build
-
-The wrapper scripts download Gradle's official 9.2.1 wrapper JAR from the Gradle GitHub tag on first use, then the wrapper verifies the 9.2.1 distribution checksum.
-
-Windows:
-
-```text
-gradlew.bat build
-```
-
-Run client:
-
-```text
-gradlew.bat runClient
-```
 
 ## Exact development versions
 
@@ -56,7 +41,3 @@ Runtime metadata currently pins these bee-mod versions exactly because the mixin
 ## Important behavior
 
 Career Bees stores accelerated positions in one shared per-world map. The focused path only adds valid Industrial Apiaries; it never removes entries belonging to ordinary Temporal bees. If the upgrade is inserted immediately after that same apiary previously ran unfocused, old targets can remain accelerated for roughly one second until Career Bees expires them normally.
-
-## Planned extension
-
-A future `Effect Territory Restrictor` can be implemented as another normal `IApiaryUpgrade` by multiplying `ApiaryModifiers.territory`. It does not need another Career Bees mixin.
