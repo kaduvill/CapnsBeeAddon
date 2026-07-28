@@ -26,7 +26,7 @@ public final class ItemTemporalFocusApiary extends Item implements IApiaryUpgrad
         setRegistryName(CapnsBeeAddon.MODID, "temporal_focus_apiary");
         setUnlocalizedName(CapnsBeeAddon.MODID + ".temporal_focus_apiary");
         setCreativeTab(CreativeTabs.MISC);
-        setMaxStackSize(1);
+        setMaxStackSize(MAX_INSTALLED);
         setNoRepair();
     }
 

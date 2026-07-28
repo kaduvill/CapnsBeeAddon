@@ -6,5 +6,6 @@ gui.capnsbeeaddon.territory.size=Effect area: %s
 item.capnsbeeaddon.territory_restrictor.name=Territory Restrictor Upgrade
 item.capnsbeeaddon.temporal_focus_apiary.name=Temporal Focus Upgrade
 
-item.capnsbeeaddon.temporal_focus_apiary.detail.1=* Affects only other Industrial Apiaries
-item.capnsbeeaddon.temporal_focus_apiary.detail.2=* Ignores other machines and random-ticking blocks
+item.capnsbeeaddon.temporal_focus_apiary.detail.1=* Temporal Bee accelerates
+item.capnsbeeaddon.temporal_focus_apiary.detail.2=* Industrial Apiaries only
+
