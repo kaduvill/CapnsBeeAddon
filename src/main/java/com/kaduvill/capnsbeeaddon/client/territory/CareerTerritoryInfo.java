@@ -79,9 +79,9 @@ public final class CareerTerritoryInfo {
 
         if (blockAligned) {
             /*
-             * Every block-aligned geometry method constructs exact integer
-             * boundaries. Round instead of ceil so floating-point noise cannot
-             * turn a 5-block box into 6.
+             Every block-aligned geometry method constructs exact integer
+             boundaries. Round instead of ceil so floating-point noise cannot
+             turn a 5-block box into 6.
              */
             return Math.round(width)
                     + " × "

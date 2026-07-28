@@ -30,7 +30,7 @@ public final class IndustrialApiaryTerritoryClientEvents {
     private static final int GUI_WIDTH = 176;
     private static final int GUI_HEIGHT = 166;
 
-    // Immediately left of Gendustry's redstone-mode widget at (137, 5).
+    // left of redstone-mode widget at (137, 5).
     private static final int BUTTON_RELATIVE_X = 119;
     private static final int BUTTON_RELATIVE_Y = 5;
 
@@ -63,12 +63,12 @@ public final class IndustrialApiaryTerritoryClientEvents {
         int guiTop = (gui.height - GUI_HEIGHT) / 2;
 
         /*
-         * GuiApiary#te() has the concrete return type TileApiary.
-         * Resolving TileApiary's full inheritance tree at compile time pulls
-         * in Gendustry's optional Redstone Flux API.
-         *
-         * Erase the concrete type first, then use the Forestry interface that
-         * this feature actually needs.
+         GuiApiary#te() has the concrete return type TileApiary.
+         Resolving TileApiary's full inheritance tree at compile time pulls
+         in Gendustry's optional Redstone Flux API.
+
+         Erase the concrete type first, then use the Forestry interface that
+         this feature actually needs.
          */
         Object apiary = gui.te();
         if (!(apiary instanceof IBeeHousing)) {

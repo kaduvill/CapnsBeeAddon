@@ -53,10 +53,10 @@ public abstract class TileApiaryRedstoneLookupMixin {
             TileEntity tile = world.getTileEntity(pos);
 
             /*
-             * Preserve original behavior if something unexpected changed
-             * the tile or prevented the accessor from being applied.
-             *
-             * Do not cache failure: retry on a later update.
+             Preserve original behavior if something unexpected changed
+             the tile or prevented the accessor from being applied.
+
+             Do not cache failure: retry on a later update.
              */
             if (!(tile instanceof TileApiaryAccessor)) {
                 return world.isBlockIndirectlyGettingPowered(pos);
