@@ -1,7 +1,7 @@
 gui.capnsbeeaddon.territory.show=Show Career Bee territory
 gui.capnsbeeaddon.territory.hide=Hide Career Bee territory
 gui.capnsbeeaddon.territory.effect=Effect: %s
-gui.capnsbeeaddon.territory.size=Territory: %s x %s x %s blocks
+gui.capnsbeeaddon.territory.size=Effect area: %s
 
 item.capnsbeeaddon.territory_restrictor.name=Territory Restrictor Upgrade
 item.capnsbeeaddon.territory_restrictor.detail.territory=Reduces territory radius by %s%% per upgrade

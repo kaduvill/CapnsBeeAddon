@@ -140,9 +140,7 @@ public final class GuiButtonCareerTerritory extends GuiButton {
         ));
         tooltip.add(I18n.format(
                 "gui.capnsbeeaddon.territory.size",
-                cachedInfo.getWidth(),
-                cachedInfo.getHeight(),
-                cachedInfo.getDepth()
+                cachedInfo.getSizeText()
         ));
 
         GuiUtils.drawHoveringText(
