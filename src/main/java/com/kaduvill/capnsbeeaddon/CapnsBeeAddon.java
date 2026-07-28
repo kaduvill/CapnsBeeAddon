@@ -19,7 +19,7 @@ public final class CapnsBeeAddon {
     public static final String VERSION = "GRADLETOKEN_VERSION";
 
     public static final String DEPENDENCIES =
-            "required-after:mixinbooter@[10.7];" +
+            "required-after:mixinbooter@[10.7,);" +
             "required-after:forestry@[5.8.2.427];" +
             "required-after:bdlib@[1.14.4.1];" +
             "required-after:gendustry@[1.6.5.8];" +

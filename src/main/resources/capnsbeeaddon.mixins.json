@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "capnsbeeaddon.refmap.json",
   "mixins": [
-    "careerbees.EffectAccelerationMixin"
+    "careerbees.EffectAccelerationMixin",
+    "gendustry.TileApiaryAccessor",
+    "gendustry.TileApiaryRedstoneLookupMixin"
   ],
   "injectors": {
     "defaultRequire": 1
