@@ -7,7 +7,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
@@ -21,32 +20,21 @@ public final class ItemTerritoryRestrictor
 
     public static final float TERRITORY_MULTIPLIER_PER_UPGRADE = 0.70F;
     public static final int MAX_INSTALLED = 6;
+    public static final float ENERGY_MULTIPLIER_PER_UPGRADE = 1.05F; //+5% energy consumption per installed upgrade.
+    private static final long STACKING_ID = 0x4341504E42454502L;
+    private static final String LABEL_MAX_INSTALLED = "gendustry.label.maxinstall";
+    private static final String LABEL_TERRITORY = "gendustry.label.mod.territory";
+    private static final String LABEL_ENERGY = "gendustry.label.mod.energy";
 
-    /*
-     * Mirrors Gendustry's existing Territory Upgrade:
-     * +5% energy consumption per installed upgrade.
-     *
-     * Set this to 1.00F if you want no energy penalty.
-     */
-    public static final float ENERGY_MULTIPLIER_PER_UPGRADE = 1.05F;
+    private static String formatModifier(float value, float base) {
+        int percent = Math.round(
+                (value - base) * 100.0F
+        );
 
-    /*
-     * Must be unique among your upgrade types.
-     *
-     * Do not share this with the Temporal Focus Upgrade,
-     * otherwise Gendustry will count them toward the same limit.
-     */
-    private static final long STACKING_ID =
-            0x4341504E42454502L;
-
-    private static final String DETAIL_TERRITORY =
-            "item.capnsbeeaddon.territory_restrictor.detail.territory";
-
-    private static final String DETAIL_ENERGY =
-            "item.capnsbeeaddon.territory_restrictor.detail.energy";
-
-    private static final String DETAIL_MAX =
-            "item.capnsbeeaddon.territory_restrictor.detail.max";
+        return (percent > 0 ? "+" : "")
+                + percent
+                + "%";
+    }
 
     public ItemTerritoryRestrictor() {
         setRegistryName(
@@ -76,28 +64,23 @@ public final class ItemTerritoryRestrictor
 
     @Override
     public List<String> getDisplayDetails(ItemStack stack) {
-        int territoryReductionPercent = Math.round(
-                (1.0F - TERRITORY_MULTIPLIER_PER_UPGRADE)
-                        * 100.0F
-        );
-
-        int energyIncreasePercent = Math.round(
-                (ENERGY_MULTIPLIER_PER_UPGRADE - 1.0F)
-                        * 100.0F
-        );
-
         return Arrays.asList(
-                I18n.translateToLocalFormatted(
-                        DETAIL_TERRITORY,
-                        territoryReductionPercent
+                I18n.translateToLocal(
+                        LABEL_MAX_INSTALLED
+                ) + " " + getMaxNumber(stack),
+
+                I18n.translateToLocal(
+                        LABEL_TERRITORY
+                ) + " " + formatModifier(
+                        TERRITORY_MULTIPLIER_PER_UPGRADE,
+                        1.0F
                 ),
-                I18n.translateToLocalFormatted(
-                        DETAIL_ENERGY,
-                        energyIncreasePercent
-                ),
-                I18n.translateToLocalFormatted(
-                        DETAIL_MAX,
-                        MAX_INSTALLED
+
+                I18n.translateToLocal(
+                        LABEL_ENERGY
+                ) + " " + formatModifier(
+                        ENERGY_MULTIPLIER_PER_UPGRADE,
+                        1.0F
                 )
         );
     }
@@ -146,8 +129,6 @@ public final class ItemTerritoryRestrictor
             List<String> tooltip,
             ITooltipFlag flag
     ) {
-        for (String line : getDisplayDetails(stack)) {
-            tooltip.add(TextFormatting.GRAY + line);
-        }
+        tooltip.addAll(getDisplayDetails(stack));
     }
 }
