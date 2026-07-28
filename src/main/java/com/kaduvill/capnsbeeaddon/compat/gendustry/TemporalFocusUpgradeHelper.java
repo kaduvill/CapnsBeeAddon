@@ -24,7 +24,7 @@ public final class TemporalFocusUpgradeHelper {
 
         for (ItemStack stack : upgrades) {
             if (!stack.isEmpty()
-                    && stack.getItem() == ModItems.TEMPORAL_FOCUS_UPGRADE) {
+                    && stack.getItem() == ModItems.TEMPORAL_FOCUS_APIARY) {
                 return true;
             }
         }
