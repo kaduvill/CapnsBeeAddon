@@ -1,3 +1,13 @@
+gui.capnsbeeaddon.territory.show=显示职业蜂活动范围
+gui.capnsbeeaddon.territory.hide=隐藏职业蜂活动范围
+gui.capnsbeeaddon.territory.effect=效果：%s
+gui.capnsbeeaddon.territory.size=效果范围：%s
+
+item.capnsbeeaddon.territory_restrictor.name=活动范围限制器升级
+item.capnsbeeaddon.territory_restrictor.detail.territory=每安装一个升级，活动范围的半径减少%s%%
+item.capnsbeeaddon.territory_restrictor.detail.energy=每安装一个升级，能量消耗增加%s%%
+item.capnsbeeaddon.territory_restrictor.detail.max=最大安装量：%s
+
 item.capnsbeeaddon.temporal_focus_upgrade.name=时间聚焦升级
 item.capnsbeeaddon.temporal_focus_upgrade.detail.1=时间加速效果仅影响其他工业蜂箱。
 item.capnsbeeaddon.temporal_focus_upgrade.detail.2=其他机器和使用游戏刻参与计算的方块将被忽略。
