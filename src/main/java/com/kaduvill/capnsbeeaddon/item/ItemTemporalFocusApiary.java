@@ -15,18 +15,18 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public final class ItemTemporalFocusUpgrade extends Item implements IApiaryUpgrade {
+public final class ItemTemporalFocusApiary extends Item implements IApiaryUpgrade {
 
     private static final long STACKING_ID = 0x4341504E42454501L;
 
     private static final String DETAIL_1 =
-            "item.capnsbeeaddon.temporal_focus_upgrade.detail.1";
+            "item.capnsbeeaddon.temporal_focus_apiary.detail.1";
     private static final String DETAIL_2 =
-            "item.capnsbeeaddon.temporal_focus_upgrade.detail.2";
+            "item.capnsbeeaddon.temporal_focus_apiary.detail.2";
 
-    public ItemTemporalFocusUpgrade() {
-        setRegistryName(CapnsBeeAddon.MODID, "temporal_focus_upgrade");
-        setUnlocalizedName(CapnsBeeAddon.MODID + ".temporal_focus_upgrade");
+    public ItemTemporalFocusApiary() {
+        setRegistryName(CapnsBeeAddon.MODID, "temporal_focus_apiary");
+        setUnlocalizedName(CapnsBeeAddon.MODID + ".temporal_focus_apiary");
         setCreativeTab(CreativeTabs.MISC);
         setMaxStackSize(1);
         setNoRepair();

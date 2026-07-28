@@ -1,6 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "capnsbeeaddon:items/temporal_focus_upgrade"
-  }
-}

@@ -1,6 +1,7 @@
 package com.kaduvill.capnsbeeaddon.mixin.careerbees;
 
 import com.kaduvill.capnsbeeaddon.compat.gendustry.TemporalFocusUpgradeHelper;
+import com.kaduvill.capnsbeeaddon.compat.careerbees.FocusedScanState;
 import com.rwtema.careerbees.effects.EffectAcceleration;
 import com.rwtema.careerbees.effects.EffectBase;
 import com.rwtema.careerbees.effects.settings.IEffectSettingsHolder;
@@ -8,7 +9,6 @@ import forestry.api.apiculture.IBeeGenome;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
 import gnu.trove.map.hash.TObjectIntHashMap;
-import gnu.trove.map.hash.TObjectLongHashMap;
 import net.bdew.gendustry.api.blocks.IIndustrialApiary;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -40,8 +40,8 @@ public abstract class EffectAccelerationMixin {
     private boolean processing;
 
     @Unique
-    private final WeakHashMap<World, TObjectLongHashMap<BlockPos>>
-            capnsbeeaddon$lastFocusedScan = new WeakHashMap<>();
+    private final WeakHashMap<World, FocusedScanState>
+            capnsbeeaddon$focusedScanStates = new WeakHashMap<>();
 
     @Inject(
             method = "doEffectBase",
@@ -56,52 +56,89 @@ public abstract class EffectAccelerationMixin {
             IEffectSettingsHolder settings,
             CallbackInfoReturnable<IEffectData> cir
     ) {
-        if (!TemporalFocusUpgradeHelper.hasFocusUpgrade(housing)) {
-            return;
-        }
-
+        /*
+         * Mirror Career Bees' original cheap exits before inspecting Gendustry's
+         * upgrade inventory. This avoids getUpgrades() on recursive/client calls
+         * and on 19 out of every 20 server ticks.
+         */
         if (processing) {
             cir.setReturnValue(storedData);
             return;
         }
 
         World world = housing.getWorldObj();
-        if (world.isRemote || !(world instanceof WorldServer)) {
+
+        if (world.isRemote) {
             cir.setReturnValue(storedData);
             return;
         }
 
         long worldTime = world.getTotalWorldTime();
+
         if ((worldTime % 20L) != 0L) {
             cir.setReturnValue(storedData);
             return;
         }
 
-        BlockPos source = housing.getCoordinates().toImmutable();
-        TObjectIntHashMap<BlockPos> targets =
-                posToTick.computeIfAbsent(world, ignored -> new TObjectIntHashMap<>());
+        /*
+         * No focus upgrade: do not cancel. Career Bees executes its original,
+         * completely unchanged scan.
+         */
+        if (!TemporalFocusUpgradeHelper.hasFocusUpgrade(housing)) {
+            return;
+        }
 
-        // Preserve Career Bees' anti-cascade behavior. A Temporal apiary currently
-        // accelerated by another source does not register its own area.
+        /*
+         * Real server worlds are WorldServer. Fail closed for focused mode rather
+         * than falling back to Career Bees' unfiltered scan in an unusual World
+         * implementation.
+         */
+        if (!(world instanceof WorldServer)) {
+            cir.setReturnValue(storedData);
+            return;
+        }
+
+        BlockPos source = housing.getCoordinates().toImmutable();
+
+        TObjectIntHashMap<BlockPos> targets =
+                posToTick.computeIfAbsent(
+                        world,
+                        ignored -> new TObjectIntHashMap<>()
+                );
+
+        /*
+         * Preserve Career Bees' anti-cascade rule. If another Temporal source is
+         * currently accelerating this source, it does not register its own area.
+         *
+         * This may also suppress it briefly while a stale TTL entry expires,
+         * exactly like Career Bees' original behavior.
+         */
         if (targets.containsKey(source)) {
             cir.setReturnValue(storedData);
             return;
         }
 
-        TObjectLongHashMap<BlockPos> lastScans =
-                capnsbeeaddon$lastFocusedScan.computeIfAbsent(
+        /*
+         * Career Bees normally uses the source position as a map marker to prevent
+         * duplicate scans. Focused mode deliberately does not add the source to
+         * posToTick because the source must not accelerate itself.
+         *
+         * Use a separate bounded per-world scan state instead.
+         */
+        FocusedScanState scanState =
+                capnsbeeaddon$focusedScanStates.computeIfAbsent(
                         world,
-                        ignored -> new TObjectLongHashMap<>()
+                        ignored -> new FocusedScanState()
                 );
 
-        if (lastScans.containsKey(source) && lastScans.get(source) == worldTime) {
+        if (!scanState.markScanned(worldTime, source)) {
             cir.setReturnValue(storedData);
             return;
         }
-        lastScans.put(source, worldTime);
 
         try {
             processing = true;
+
             capnsbeeaddon$registerFocusedTargets(
                     (WorldServer) world,
                     source,

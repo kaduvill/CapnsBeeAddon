@@ -1,3 +1,13 @@
-item.capnsbeeaddon.temporal_focus_upgrade.name=Temporal Focus Upgrade
-item.capnsbeeaddon.temporal_focus_upgrade.detail.1=Temporal acceleration affects only other Industrial Apiaries.
-item.capnsbeeaddon.temporal_focus_upgrade.detail.2=Other machines and random-ticking blocks are ignored.
+gui.capnsbeeaddon.territory.show=Show Career Bee territory
+gui.capnsbeeaddon.territory.hide=Hide Career Bee territory
+gui.capnsbeeaddon.territory.effect=Effect: %s
+gui.capnsbeeaddon.territory.size=Effect area: %s
+
+item.capnsbeeaddon.territory_restrictor.name=Territory Restrictor Upgrade
+item.capnsbeeaddon.territory_restrictor.detail.territory=Reduces territory radius by %s%% per upgrade
+item.capnsbeeaddon.territory_restrictor.detail.energy=Increases energy use by %s%% per upgrade
+item.capnsbeeaddon.territory_restrictor.detail.max=Maximum installed: %s
+
+item.capnsbeeaddon.temporal_focus_apiary.name=Temporal Focus Upgrade
+item.capnsbeeaddon.temporal_focus_apiary.detail.1=Temporal acceleration affects only other Industrial Apiaries.
+item.capnsbeeaddon.temporal_focus_apiary.detail.2=Other machines and random-ticking blocks are ignored.
