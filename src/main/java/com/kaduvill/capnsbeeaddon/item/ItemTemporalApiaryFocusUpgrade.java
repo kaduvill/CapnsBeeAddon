@@ -69,14 +69,9 @@ public final class ItemTemporalApiaryFocusUpgrade
     }
 
     @Override
-    public long getStackingId(ItemStack stack) {
-        return STACKING_ID;
-    }
-
+    public long getStackingId(ItemStack stack) {return STACKING_ID;}
     @Override
-    public int getMaxNumber(ItemStack stack) {
-        return MAX_INSTALLED;
-    }
+    public int getMaxNumber(ItemStack stack) {return MAX_INSTALLED;}
 
     @Override
     public void applyModifiers(

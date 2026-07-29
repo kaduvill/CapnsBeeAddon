@@ -16,7 +16,6 @@ public final class TemporalFocusUpgradeHelper {
         if (!(housing instanceof IIndustrialApiary)) {
             return TemporalFocusMode.NONE;
         }
-
         List<ItemStack> upgrades = ((IIndustrialApiary) housing).getUpgrades();
         if (upgrades == null || upgrades.isEmpty()) {
             return TemporalFocusMode.NONE;
@@ -28,16 +27,13 @@ public final class TemporalFocusUpgradeHelper {
             if (stack.isEmpty()) {
                 continue;
             }
-
             if (stack.getItem() == ModItems.TEMPORAL_FOCUS_APIARY) {
                 return TemporalFocusMode.APIARY;
             }
-
             if (stack.getItem() == ModItems.TEMPORAL_FOCUS_GROWTH) {
                 growthFound = true;
             }
         }
-
         return growthFound
                 ? TemporalFocusMode.GROWTH
                 : TemporalFocusMode.NONE;
