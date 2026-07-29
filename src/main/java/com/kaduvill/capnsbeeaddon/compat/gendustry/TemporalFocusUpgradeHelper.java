@@ -12,23 +12,36 @@ public final class TemporalFocusUpgradeHelper {
     private TemporalFocusUpgradeHelper() {
     }
 
-    public static boolean hasFocusUpgrade(IBeeHousing housing) {
+    public static TemporalFocusMode getFocusMode(IBeeHousing housing) {
         if (!(housing instanceof IIndustrialApiary)) {
-            return false;
+            return TemporalFocusMode.NONE;
         }
-
         List<ItemStack> upgrades = ((IIndustrialApiary) housing).getUpgrades();
         if (upgrades == null || upgrades.isEmpty()) {
-            return false;
+            return TemporalFocusMode.NONE;
         }
+
+        boolean growthFound = false;
 
         for (ItemStack stack : upgrades) {
-            if (!stack.isEmpty()
-                    && stack.getItem() == ModItems.TEMPORAL_FOCUS_APIARY) {
-                return true;
+            if (stack.isEmpty()) {
+                continue;
+            }
+            if (stack.getItem() == ModItems.TEMPORAL_FOCUS_APIARY) {
+                return TemporalFocusMode.APIARY;
+            }
+            if (stack.getItem() == ModItems.TEMPORAL_FOCUS_GROWTH) {
+                growthFound = true;
             }
         }
+        return growthFound
+                ? TemporalFocusMode.GROWTH
+                : TemporalFocusMode.NONE;
+    }
 
-        return false;
+    public enum TemporalFocusMode {
+        NONE,
+        APIARY,
+        GROWTH
     }
 }

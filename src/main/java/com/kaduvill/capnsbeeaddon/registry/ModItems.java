@@ -1,7 +1,8 @@
 package com.kaduvill.capnsbeeaddon.registry;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
-import com.kaduvill.capnsbeeaddon.item.ItemTemporalFocusApiary;
+import com.kaduvill.capnsbeeaddon.item.ItemTemporalApiaryFocusUpgrade;
+import com.kaduvill.capnsbeeaddon.item.ItemTemporalGrowthFocusUpgrade;
 import com.kaduvill.capnsbeeaddon.item.ItemTerritoryRestrictor;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -11,21 +12,22 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Mod.EventBusSubscriber(modid = CapnsBeeAddon.MODID)
 public final class ModItems {
 
-    public static final ItemTemporalFocusApiary TEMPORAL_FOCUS_APIARY =
-            new ItemTemporalFocusApiary();
+    public static final ItemTemporalApiaryFocusUpgrade TEMPORAL_FOCUS_APIARY =
+            new ItemTemporalApiaryFocusUpgrade();
+    public static final ItemTemporalGrowthFocusUpgrade TEMPORAL_FOCUS_GROWTH =
+            new ItemTemporalGrowthFocusUpgrade();
+    public static final ItemTerritoryRestrictor TERRITORY_RESTRICTOR =
+            new ItemTerritoryRestrictor();
 
     private ModItems() {
     }
 
-    public static final ItemTerritoryRestrictor
-            TERRITORY_RESTRICTOR =
-            new ItemTerritoryRestrictor();
-
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                ModItems.TEMPORAL_FOCUS_APIARY,
-                ModItems.TERRITORY_RESTRICTOR
+                TEMPORAL_FOCUS_APIARY,
+                TEMPORAL_FOCUS_GROWTH,
+                TERRITORY_RESTRICTOR
         );
     }
 }
