@@ -7,7 +7,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
@@ -18,17 +17,16 @@ import java.util.List;
 public final class ItemTemporalFocusApiary extends Item implements IApiaryUpgrade {
 
     private static final long STACKING_ID = 0x4341504E42454501L;
-
-    private static final String DETAIL_1 =
-            "item.capnsbeeaddon.temporal_focus_apiary.detail.1";
-    private static final String DETAIL_2 =
-            "item.capnsbeeaddon.temporal_focus_apiary.detail.2";
+    private static final String DETAIL_1 = "item.capnsbeeaddon.temporal_focus_apiary.detail.1";
+    private static final String DETAIL_2 = "item.capnsbeeaddon.temporal_focus_apiary.detail.2";
+    public static final int MAX_INSTALLED = 1;
+    private static final String LABEL_MAX_INSTALLED = "gendustry.label.maxinstall";
 
     public ItemTemporalFocusApiary() {
         setRegistryName(CapnsBeeAddon.MODID, "temporal_focus_apiary");
         setUnlocalizedName(CapnsBeeAddon.MODID + ".temporal_focus_apiary");
         setCreativeTab(CreativeTabs.MISC);
-        setMaxStackSize(1);
+        setMaxStackSize(MAX_INSTALLED);
         setNoRepair();
     }
 
@@ -40,6 +38,7 @@ public final class ItemTemporalFocusApiary extends Item implements IApiaryUpgrad
     @Override
     public List<String> getDisplayDetails(ItemStack stack) {
         return Arrays.asList(
+                I18n.translateToLocal(LABEL_MAX_INSTALLED) + " " + getMaxNumber(stack),
                 I18n.translateToLocal(DETAIL_1),
                 I18n.translateToLocal(DETAIL_2)
         );
@@ -49,11 +48,8 @@ public final class ItemTemporalFocusApiary extends Item implements IApiaryUpgrad
     public long getStackingId(ItemStack stack) {
         return STACKING_ID;
     }
-
     @Override
-    public int getMaxNumber(ItemStack stack) {
-        return 1;
-    }
+    public int getMaxNumber(ItemStack stack) {return MAX_INSTALLED;}
 
     @Override
     public void applyModifiers(ApiaryModifiers mods, ItemStack stack) {
@@ -67,8 +63,6 @@ public final class ItemTemporalFocusApiary extends Item implements IApiaryUpgrad
             List<String> tooltip,
             ITooltipFlag flag
     ) {
-        for (String line : getDisplayDetails(stack)) {
-            tooltip.add(TextFormatting.GRAY + line);
-        }
+        tooltip.addAll(getDisplayDetails(stack));
     }
 }
