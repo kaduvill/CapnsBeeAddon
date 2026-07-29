@@ -1,7 +1,8 @@
 package com.kaduvill.capnsbeeaddon.mixin.careerbees;
 
-import com.kaduvill.capnsbeeaddon.compat.gendustry.TemporalFocusUpgradeHelper;
 import com.kaduvill.capnsbeeaddon.compat.careerbees.FocusedScanState;
+import com.kaduvill.capnsbeeaddon.compat.gendustry.TemporalFocusUpgradeHelper;
+import com.kaduvill.capnsbeeaddon.compat.gendustry.TemporalFocusUpgradeHelper.TemporalFocusMode;
 import com.rwtema.careerbees.effects.EffectAcceleration;
 import com.rwtema.careerbees.effects.EffectBase;
 import com.rwtema.careerbees.effects.settings.IEffectSettingsHolder;
@@ -10,6 +11,8 @@ import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import net.bdew.gendustry.api.blocks.IIndustrialApiary;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -49,88 +52,62 @@ public abstract class EffectAccelerationMixin {
             cancellable = true,
             remap = false
     )
-    private void capnsbeeaddon$scanOnlyIndustrialApiaries(
+    private void capnsbeeaddon$applyFocusedScan(
             IBeeGenome genome,
             IEffectData storedData,
             IBeeHousing housing,
             IEffectSettingsHolder settings,
             CallbackInfoReturnable<IEffectData> cir
     ) {
-        /*
-         * Mirror Career Bees' original cheap exits before inspecting Gendustry's
-         * upgrade inventory. This avoids getUpgrades() on recursive/client calls
-         * and on 19 out of every 20 server ticks.
-         */
+        // Keep Career Bees' cheap gates ahead of Gendustry's upgrade-list read.
         if (processing) {
             cir.setReturnValue(storedData);
             return;
         }
 
         World world = housing.getWorldObj();
-
         if (world.isRemote) {
             cir.setReturnValue(storedData);
             return;
         }
 
         long worldTime = world.getTotalWorldTime();
-
         if ((worldTime % 20L) != 0L) {
             cir.setReturnValue(storedData);
             return;
         }
 
-        /*
-         * No focus upgrade: do not cancel. Career Bees executes its original,
-         * completely unchanged scan.
-         */
-        if (!TemporalFocusUpgradeHelper.hasFocusUpgrade(housing)) {
+        TemporalFocusMode mode = TemporalFocusUpgradeHelper.getFocusMode(housing);
+        if (mode == TemporalFocusMode.NONE) {
             return;
         }
 
-        /*
-         * Real server worlds are WorldServer. Fail closed for focused mode rather
-         * than falling back to Career Bees' unfiltered scan in an unusual World
-         * implementation.
-         */
+        // Focused scans require loaded-chunk access without fallback generation.
         if (!(world instanceof WorldServer)) {
             cir.setReturnValue(storedData);
             return;
         }
 
         BlockPos source = housing.getCoordinates().toImmutable();
+        TObjectIntHashMap<BlockPos> apiaryTargets = null;
 
-        TObjectIntHashMap<BlockPos> targets =
-                posToTick.computeIfAbsent(
-                        world,
-                        ignored -> new TObjectIntHashMap<>()
-                );
+        if (mode == TemporalFocusMode.APIARY) {
+            apiaryTargets = posToTick.computeIfAbsent(
+                    world,
+                    ignored -> new TObjectIntHashMap<>()
+            );
 
-        /*
-         * Preserve Career Bees' anti-cascade rule. If another Temporal source is
-         * currently accelerating this source, it does not register its own area.
-         *
-         * This may also suppress it briefly while a stale TTL entry expires,
-         * exactly like Career Bees' original behavior.
-         */
-        if (targets.containsKey(source)) {
-            cir.setReturnValue(storedData);
-            return;
+            // Preserve Career Bees' anti-cascade behavior for accelerated sources.
+            if (apiaryTargets.containsKey(source)) {
+                cir.setReturnValue(storedData);
+                return;
+            }
         }
 
-        /*
-         * Career Bees normally uses the source position as a map marker to prevent
-         * duplicate scans. Focused mode deliberately does not add the source to
-         * posToTick because the source must not accelerate itself.
-         *
-         * Use a separate bounded per-world scan state instead.
-         */
-        FocusedScanState scanState =
-                capnsbeeaddon$focusedScanStates.computeIfAbsent(
-                        world,
-                        ignored -> new FocusedScanState()
-                );
-
+        FocusedScanState scanState = capnsbeeaddon$focusedScanStates.computeIfAbsent(
+                world,
+                ignored -> new FocusedScanState()
+        );
         if (!scanState.markScanned(worldTime, source)) {
             cir.setReturnValue(storedData);
             return;
@@ -139,13 +116,22 @@ public abstract class EffectAccelerationMixin {
         try {
             processing = true;
 
-            capnsbeeaddon$registerFocusedTargets(
-                    (WorldServer) world,
-                    source,
-                    genome,
-                    housing,
-                    targets
-            );
+            if (mode == TemporalFocusMode.APIARY) {
+                capnsbeeaddon$registerApiaryTargets(
+                        (WorldServer) world,
+                        source,
+                        genome,
+                        housing,
+                        apiaryTargets
+                );
+            } else {
+                capnsbeeaddon$scheduleGrowthTargets(
+                        (WorldServer) world,
+                        source,
+                        genome,
+                        housing
+                );
+            }
         } finally {
             processing = false;
         }
@@ -167,33 +153,39 @@ public abstract class EffectAccelerationMixin {
             IBeeHousing housing,
             CallbackInfoReturnable<Boolean> cir
     ) {
-        if (!TemporalFocusUpgradeHelper.hasFocusUpgrade(housing)) {
+        TemporalFocusMode mode = TemporalFocusUpgradeHelper.getFocusMode(housing);
+        if (mode == TemporalFocusMode.NONE) {
             return;
         }
 
         if (!world.isRemote && world.isBlockLoaded(pos, false)) {
-            TileEntity tile = world.getTileEntity(pos);
-            if (capnsbeeaddon$isEligibleTarget(
-                    tile,
-                    pos,
-                    housing.getCoordinates()
-            )) {
-                TObjectIntHashMap<BlockPos> targets =
-                        posToTick.computeIfAbsent(
-                                world,
-                                ignored -> new TObjectIntHashMap<>()
-                        );
-                targets.put(pos.toImmutable(), 40);
+            if (mode == TemporalFocusMode.APIARY) {
+                TileEntity tile = world.getTileEntity(pos);
+                if (capnsbeeaddon$isEligibleApiaryTarget(
+                        tile,
+                        pos,
+                        housing.getCoordinates()
+                )) {
+                    TObjectIntHashMap<BlockPos> targets = posToTick.computeIfAbsent(
+                            world,
+                            ignored -> new TObjectIntHashMap<>()
+                    );
+                    targets.put(pos.toImmutable(), 40);
+                }
+            } else {
+                IBlockState state = world.getBlockState(pos);
+                Block block = state.getBlock();
+                if (block.getTickRandomly()) {
+                    world.scheduleUpdate(pos.toImmutable(), block, 1);
+                }
             }
         }
 
-        // Focused mode intentionally does not schedule random block updates
-        // and never loads a chunk just to inspect a direct target.
         cir.setReturnValue(true);
     }
 
     @Unique
-    private void capnsbeeaddon$registerFocusedTargets(
+    private void capnsbeeaddon$registerApiaryTargets(
             WorldServer world,
             BlockPos source,
             IBeeGenome genome,
@@ -201,7 +193,6 @@ public abstract class EffectAccelerationMixin {
             TObjectIntHashMap<BlockPos> targets
     ) {
         Vec3d territory = EffectBase.getTerritory(genome, housing);
-
         int radiusX = MathHelper.floor(territory.x);
         int radiusY = MathHelper.floor(territory.y);
         int radiusZ = MathHelper.floor(territory.z);
@@ -220,10 +211,7 @@ public abstract class EffectAccelerationMixin {
 
         for (int chunkX = minChunkX; chunkX <= maxChunkX; chunkX++) {
             for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ++) {
-                Chunk chunk = world.getChunkProvider().getLoadedChunk(
-                        chunkX,
-                        chunkZ
-                );
+                Chunk chunk = world.getChunkProvider().getLoadedChunk(chunkX, chunkZ);
                 if (chunk == null) {
                     continue;
                 }
@@ -240,11 +228,7 @@ public abstract class EffectAccelerationMixin {
                         continue;
                     }
 
-                    if (capnsbeeaddon$isEligibleTarget(
-                            tile,
-                            targetPos,
-                            source
-                    )) {
+                    if (capnsbeeaddon$isEligibleApiaryTarget(tile, targetPos, source)) {
                         targets.put(targetPos.toImmutable(), 40);
                     }
                 }
@@ -253,13 +237,80 @@ public abstract class EffectAccelerationMixin {
     }
 
     @Unique
-    private static boolean capnsbeeaddon$isEligibleTarget(
+    private void capnsbeeaddon$scheduleGrowthTargets(
+            WorldServer world,
+            BlockPos source,
+            IBeeGenome genome,
+            IBeeHousing housing
+    ) {
+        Vec3d territory = EffectBase.getTerritory(genome, housing);
+        int radiusX = MathHelper.floor(territory.x);
+        int radiusY = MathHelper.floor(territory.y);
+        int radiusZ = MathHelper.floor(territory.z);
+
+        int minX = source.getX() - radiusX;
+        int minY = Math.max(0, source.getY() - radiusY);
+        int minZ = source.getZ() - radiusZ;
+        int maxX = source.getX() + radiusX;
+        int maxY = Math.min(255, source.getY() + radiusY);
+        int maxZ = source.getZ() + radiusZ;
+
+        if (minY > maxY) {
+            return;
+        }
+
+        int minChunkX = minX >> 4;
+        int minChunkZ = minZ >> 4;
+        int maxChunkX = maxX >> 4;
+        int maxChunkZ = maxZ >> 4;
+        BlockPos.MutableBlockPos position = new BlockPos.MutableBlockPos();
+
+        for (int chunkX = minChunkX; chunkX <= maxChunkX; chunkX++) {
+            int chunkMinX = chunkX << 4;
+            int scanMinX = Math.max(minX, chunkMinX);
+            int scanMaxX = Math.min(maxX, chunkMinX + 15);
+
+            for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ++) {
+                Chunk chunk = world.getChunkProvider().getLoadedChunk(chunkX, chunkZ);
+                if (chunk == null) {
+                    continue;
+                }
+
+                int chunkMinZ = chunkZ << 4;
+                int scanMinZ = Math.max(minZ, chunkMinZ);
+                int scanMaxZ = Math.min(maxZ, chunkMinZ + 15);
+
+                for (int x = scanMinX; x <= scanMaxX; x++) {
+                    for (int z = scanMinZ; z <= scanMaxZ; z++) {
+                        for (int y = minY; y <= maxY; y++) {
+                            position.setPos(x, y, z);
+                            IBlockState state = chunk.getBlockState(position);
+                            Block block = state.getBlock();
+
+                            if (block.getTickRandomly()) {
+                                world.scheduleUpdate(
+                                        position.toImmutable(),
+                                        block,
+                                        1
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Unique
+    private static boolean capnsbeeaddon$isEligibleApiaryTarget(
             TileEntity tile,
             BlockPos targetPos,
-            BlockPos sourcePos
+            BlockPos source
     ) {
-        return tile instanceof IIndustrialApiary
+        return tile != null
+                && !tile.isInvalid()
+                && tile instanceof IIndustrialApiary
                 && tile instanceof ITickable
-                && !targetPos.equals(sourcePos);
+                && !targetPos.equals(source);
     }
 }

@@ -22,11 +22,22 @@ public final class ClientRegistration {
                 ModItems.TEMPORAL_FOCUS_APIARY,
                 0,
                 new ModelResourceLocation(
-                        Objects.requireNonNull(ModItems.TEMPORAL_FOCUS_APIARY.getRegistryName()),
+                        Objects.requireNonNull(
+                                ModItems.TEMPORAL_FOCUS_APIARY.getRegistryName()
+                        ),
                         "inventory"
                 )
         );
-
+        ModelLoader.setCustomModelResourceLocation(
+                ModItems.TEMPORAL_FOCUS_GROWTH,
+                0,
+                new ModelResourceLocation(
+                        Objects.requireNonNull(
+                                ModItems.TEMPORAL_FOCUS_GROWTH.getRegistryName()
+                        ),
+                        "inventory"
+                )
+        );
         ModelLoader.setCustomModelResourceLocation(
                 ModItems.TERRITORY_RESTRICTOR,
                 0,

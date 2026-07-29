@@ -14,17 +14,38 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public final class ItemTemporalFocusApiary extends Item implements IApiaryUpgrade {
+public final class ItemTemporalGrowthFocusUpgrade
+        extends Item
+        implements IApiaryUpgrade {
 
-    private static final long STACKING_ID = 0x4341504E42454501L;
-    private static final String DETAIL_1 = "item.capnsbeeaddon.temporal_focus_apiary.detail.1";
-    private static final String DETAIL_2 = "item.capnsbeeaddon.temporal_focus_apiary.detail.2";
     public static final int MAX_INSTALLED = 1;
-    private static final String LABEL_MAX_INSTALLED = "gendustry.label.maxinstall";
 
-    public ItemTemporalFocusApiary() {
-        setRegistryName(CapnsBeeAddon.MODID, "temporal_focus_apiary");
-        setUnlocalizedName(CapnsBeeAddon.MODID + ".temporal_focus_apiary");
+    /*
+     Shared by Temporal Focus upgrades so Gendustry allows
+     at most one focus upgrade of either type to be installed.
+     */
+    private static final long STACKING_ID = 0x4341504E42454501L;
+
+    private static final String LABEL_MAX_INSTALLED =
+            "gendustry.label.maxinstall";
+
+    private static final String DETAIL_1 =
+            "item.capnsbeeaddon.temporal_focus_growth.detail.1";
+
+    private static final String DETAIL_2 =
+            "item.capnsbeeaddon.temporal_focus_growth.detail.2";
+
+    public ItemTemporalGrowthFocusUpgrade() {
+        setRegistryName(
+                CapnsBeeAddon.MODID,
+                "temporal_focus_growth"
+        );
+
+        setUnlocalizedName(
+                CapnsBeeAddon.MODID
+                        + ".temporal_focus_growth"
+        );
+
         setCreativeTab(CreativeTabs.MISC);
         setMaxStackSize(MAX_INSTALLED);
         setNoRepair();
@@ -38,22 +59,25 @@ public final class ItemTemporalFocusApiary extends Item implements IApiaryUpgrad
     @Override
     public List<String> getDisplayDetails(ItemStack stack) {
         return Arrays.asList(
-                I18n.translateToLocal(LABEL_MAX_INSTALLED) + " " + getMaxNumber(stack),
+                I18n.translateToLocal(
+                        LABEL_MAX_INSTALLED
+                ) + " " + getMaxNumber(stack),
+
                 I18n.translateToLocal(DETAIL_1),
                 I18n.translateToLocal(DETAIL_2)
         );
     }
 
     @Override
-    public long getStackingId(ItemStack stack) {
-        return STACKING_ID;
-    }
+    public long getStackingId(ItemStack stack) {return STACKING_ID;}
     @Override
     public int getMaxNumber(ItemStack stack) {return MAX_INSTALLED;}
 
     @Override
-    public void applyModifiers(ApiaryModifiers mods, ItemStack stack) {
-        // Target filtering is behavior, not a numeric housing modifier.
+    public void applyModifiers(
+            ApiaryModifiers modifiers,
+            ItemStack stack
+    ) {// Target filtering is behavior, not a numeric housing modifier.
     }
 
     @Override
