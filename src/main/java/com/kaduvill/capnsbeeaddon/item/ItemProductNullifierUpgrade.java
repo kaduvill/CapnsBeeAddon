@@ -14,29 +14,24 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public final class ItemTemporalGrowthFocusUpgrade
+public final class ItemProductNullifierUpgrade
         extends Item
         implements IApiaryUpgrade {
 
-    /*
-     Shared by Temporal Focus upgrades so Gendustry allows
-     at most one focus upgrade of either type to be installed.
-     */
-    private static final long STACKING_ID = 0x4341504E42454501L;
+    private static final long STACKING_ID = 0x4341504E42454503L;
     public static final int MAX_INSTALLED = 1;
     private static final String LABEL_MAX_INSTALLED = "gendustry.label.maxinstall";
-    private static final String DETAIL_1 = "item.capnsbeeaddon.temporal_focus_growth.detail.1";
-    private static final String DETAIL_2 = "item.capnsbeeaddon.temporal_focus_growth.detail.2";
+    private static final String DETAIL_1 = "item.capnsbeeaddon.product_nullifier.detail.1";
+    private static final String DETAIL_2 = "item.capnsbeeaddon.product_nullifier.detail.2";
 
-    public ItemTemporalGrowthFocusUpgrade() {
+    public ItemProductNullifierUpgrade() {
         setRegistryName(
                 CapnsBeeAddon.MODID,
-                "temporal_focus_growth"
+                "product_nullifier"
         );
-
         setUnlocalizedName(
                 CapnsBeeAddon.MODID
-                        + ".temporal_focus_growth"
+                        + ".product_nullifier"
         );
 
         setCreativeTab(CreativeTabs.MISC);
@@ -70,7 +65,7 @@ public final class ItemTemporalGrowthFocusUpgrade
     public void applyModifiers(
             ApiaryModifiers modifiers,
             ItemStack stack
-    ) {// Target filtering is behavior, not a numeric housing modifier.
+    ) {// Product suppression is behavior, not a numeric housing modifier.
     }
 
     @Override

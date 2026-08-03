@@ -6,6 +6,8 @@
   "refmap": "capnsbeeaddon.refmap.json",
   "mixins": [
     "careerbees.EffectAccelerationMixin",
+    "forestry.BeekeepingLogicProductNullifierMixin",
+    "forestry.QueenCanWorkCacheMixin",
     "gendustry.TileApiaryAccessor",
     "gendustry.TileApiaryRedstoneLookupMixin"
   ],

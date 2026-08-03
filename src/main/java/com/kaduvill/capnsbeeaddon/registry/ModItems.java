@@ -1,6 +1,7 @@
 package com.kaduvill.capnsbeeaddon.registry;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
+import com.kaduvill.capnsbeeaddon.item.ItemProductNullifierUpgrade;
 import com.kaduvill.capnsbeeaddon.item.ItemTemporalApiaryFocusUpgrade;
 import com.kaduvill.capnsbeeaddon.item.ItemTemporalGrowthFocusUpgrade;
 import com.kaduvill.capnsbeeaddon.item.ItemTerritoryRestrictor;
@@ -18,7 +19,8 @@ public final class ModItems {
             new ItemTemporalGrowthFocusUpgrade();
     public static final ItemTerritoryRestrictor TERRITORY_RESTRICTOR =
             new ItemTerritoryRestrictor();
-
+    public static final ItemProductNullifierUpgrade PRODUCT_NULLIFIER =
+            new ItemProductNullifierUpgrade();
     private ModItems() {
     }
 
@@ -27,7 +29,8 @@ public final class ModItems {
         event.getRegistry().registerAll(
                 TEMPORAL_FOCUS_APIARY,
                 TEMPORAL_FOCUS_GROWTH,
-                TERRITORY_RESTRICTOR
+                TERRITORY_RESTRICTOR,
+                PRODUCT_NULLIFIER
         );
     }
 }

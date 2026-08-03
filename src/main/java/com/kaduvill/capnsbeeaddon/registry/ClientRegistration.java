@@ -46,5 +46,15 @@ public final class ClientRegistration {
                         "inventory"
                 )
         );
+        ModelLoader.setCustomModelResourceLocation(
+                ModItems.PRODUCT_NULLIFIER,
+                0,
+                new ModelResourceLocation(
+                        Objects.requireNonNull(
+                                ModItems.PRODUCT_NULLIFIER.getRegistryName()
+                        ),
+                        "inventory"
+                )
+        );
     }
 }
