@@ -13,6 +13,10 @@ item.capnsbeeaddon.temporal_focus_growth.name=Temporal Growth Focus Upgrade
 item.capnsbeeaddon.temporal_focus_growth.detail.1=* Temporal Bee accelerates
 item.capnsbeeaddon.temporal_focus_growth.detail.2=* Random-ticking blocks
 
+item.capnsbeeaddon.product_nullifier.name=Product Nullifier Upgrade
+item.capnsbeeaddon.product_nullifier.detail.1=* Normal bee products are not generated
+item.capnsbeeaddon.product_nullifier.detail.2=* Bee effects and lifecycle continue
+
 #maybe?
 #item.capnsbeeaddon.temporal_focus_apiary.detail.1=* Temporal acceleration: Industrial Apiaries only
 #item.capnsbeeaddon.temporal_focus_apiary.detail.2=* Other machines and blocks unaffected

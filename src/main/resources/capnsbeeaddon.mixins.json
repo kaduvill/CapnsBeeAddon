@@ -6,8 +6,11 @@
   "refmap": "capnsbeeaddon.refmap.json",
   "mixins": [
     "careerbees.EffectAccelerationMixin",
+    "forestry.BeekeepingLogicProductNullifierMixin",
+    "forestry.QueenCanWorkCacheMixin",
     "gendustry.TileApiaryAccessor",
-    "gendustry.TileApiaryRedstoneLookupMixin"
+    "gendustry.TileApiaryRedstoneLookupMixin",
+    "gendustry.TileApiaryEmptyCoverTickMixin"
   ],
   "injectors": {
     "defaultRequire": 1

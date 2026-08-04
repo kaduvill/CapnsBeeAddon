@@ -18,22 +18,15 @@ public final class ItemTemporalApiaryFocusUpgrade
         extends Item
         implements IApiaryUpgrade {
 
-    public static final int MAX_INSTALLED = 1;
-
     /*
      Shared by Temporal Focus upgrades so Gendustry allows
      at most one focus upgrade of either type to be installed.
      */
     private static final long STACKING_ID = 0x4341504E42454501L;
-
-    private static final String LABEL_MAX_INSTALLED =
-            "gendustry.label.maxinstall";
-
-    private static final String DETAIL_1 =
-            "item.capnsbeeaddon.temporal_focus_apiary.detail.1";
-
-    private static final String DETAIL_2 =
-            "item.capnsbeeaddon.temporal_focus_apiary.detail.2";
+    public static final int MAX_INSTALLED = 1;
+    private static final String LABEL_MAX_INSTALLED = "gendustry.label.maxinstall";
+    private static final String DETAIL_1 = "item.capnsbeeaddon.temporal_focus_apiary.detail.1";
+    private static final String DETAIL_2 = "item.capnsbeeaddon.temporal_focus_apiary.detail.2";
 
     public ItemTemporalApiaryFocusUpgrade() {
         setRegistryName(
