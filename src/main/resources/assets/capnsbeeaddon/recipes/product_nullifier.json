@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OHO",
+    "RFR",
+    "OHO"
+  ],
+  "key": {
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "F": {
+      "item": "gendustry:upgrade_frame"
+    }
+  },
+  "result": {
+    "item": "capnsbeeaddon:product_nullifier"
+  }
+}

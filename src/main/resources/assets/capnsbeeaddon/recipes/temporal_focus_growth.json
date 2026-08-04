@@ -1,0 +1,29 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "RCR",
+    "QFQ",
+    "RMR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "C": {
+      "item": "minecraft:clock"
+    },
+    "Q": {
+      "item": "minecraft:quartz"
+    },
+    "F": {
+      "item": "gendustry:upgrade_frame"
+    },
+    "M": {
+      "type": "forge:ore_dict",
+      "ore": "treeSapling"
+    }
+  },
+  "result": {
+    "item": "capnsbeeaddon:temporal_focus_growth"
+  }
+}

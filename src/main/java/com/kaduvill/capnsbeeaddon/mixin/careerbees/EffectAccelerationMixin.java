@@ -30,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Map;
 import java.util.WeakHashMap;
 
 @Mixin(value = EffectAcceleration.class, remap = false)
@@ -77,37 +78,36 @@ public abstract class EffectAccelerationMixin {
             return;
         }
 
-        TemporalFocusMode mode = TemporalFocusUpgradeHelper.getFocusMode(housing);
+        TemporalFocusMode mode =
+                TemporalFocusUpgradeHelper.getFocusMode(housing);
+
         if (mode == TemporalFocusMode.NONE) {
+            // Leave Career Bees completely unchanged without a focus upgrade.
             return;
         }
 
-        // Focused scans require loaded-chunk access without fallback generation.
+        // Focused scans require loaded-chunk access without fallback loading.
         if (!(world instanceof WorldServer)) {
             cir.setReturnValue(storedData);
             return;
         }
 
         BlockPos source = housing.getCoordinates().toImmutable();
-        TObjectIntHashMap<BlockPos> apiaryTargets = null;
+        boolean registersTileTargets = capnsbeeaddon$isTileFocus(mode);
+        TObjectIntHashMap<BlockPos> existingTargets = posToTick.get(world);
 
-        if (mode == TemporalFocusMode.APIARY) {
-            apiaryTargets = posToTick.computeIfAbsent(
-                    world,
-                    ignored -> new TObjectIntHashMap<>()
-            );
-
-            // Preserve Career Bees' anti-cascade behavior for accelerated sources.
-            if (apiaryTargets.containsKey(source)) {
-                cir.setReturnValue(storedData);
-                return;
-            }
+        // Preserve Career Bees' source anti-cascade behavior for every focus.
+        if (existingTargets != null && existingTargets.containsKey(source)) {
+            cir.setReturnValue(storedData);
+            return;
         }
 
-        FocusedScanState scanState = capnsbeeaddon$focusedScanStates.computeIfAbsent(
-                world,
-                ignored -> new FocusedScanState()
-        );
+        FocusedScanState scanState =
+                capnsbeeaddon$focusedScanStates.computeIfAbsent(
+                        world,
+                        ignored -> new FocusedScanState()
+                );
+
         if (!scanState.markScanned(worldTime, source)) {
             cir.setReturnValue(storedData);
             return;
@@ -116,15 +116,23 @@ public abstract class EffectAccelerationMixin {
         try {
             processing = true;
 
-            if (mode == TemporalFocusMode.APIARY) {
-                capnsbeeaddon$registerApiaryTargets(
+            if (registersTileTargets) {
+                TObjectIntHashMap<BlockPos> targets = existingTargets;
+                if (targets == null) {
+                    targets = posToTick.computeIfAbsent(
+                            world,
+                            ignored -> new TObjectIntHashMap<>()
+                    );
+                }
+                capnsbeeaddon$registerTileTargets(
                         (WorldServer) world,
                         source,
                         genome,
                         housing,
-                        apiaryTargets
+                        mode,
+                        targets
                 );
-            } else {
+            } else if (mode == TemporalFocusMode.GROWTH) {
                 capnsbeeaddon$scheduleGrowthTargets(
                         (WorldServer) world,
                         source,
@@ -153,46 +161,60 @@ public abstract class EffectAccelerationMixin {
             IBeeHousing housing,
             CallbackInfoReturnable<Boolean> cir
     ) {
-        TemporalFocusMode mode = TemporalFocusUpgradeHelper.getFocusMode(housing);
+        TemporalFocusMode mode =
+                TemporalFocusUpgradeHelper.getFocusMode(housing);
+
         if (mode == TemporalFocusMode.NONE) {
             return;
         }
 
         if (!world.isRemote && world.isBlockLoaded(pos, false)) {
-            if (mode == TemporalFocusMode.APIARY) {
+            if (capnsbeeaddon$isTileFocus(mode)) {
                 TileEntity tile = world.getTileEntity(pos);
-                if (capnsbeeaddon$isEligibleApiaryTarget(
+
+                if (capnsbeeaddon$isEligibleTileTarget(
+                        mode,
                         tile,
                         pos,
                         housing.getCoordinates()
                 )) {
-                    TObjectIntHashMap<BlockPos> targets = posToTick.computeIfAbsent(
-                            world,
-                            ignored -> new TObjectIntHashMap<>()
-                    );
+                    TObjectIntHashMap<BlockPos> targets =
+                            posToTick.computeIfAbsent(
+                                    world,
+                                    ignored -> new TObjectIntHashMap<>()
+                            );
+
                     targets.put(pos.toImmutable(), 40);
                 }
-            } else {
+            } else if (mode == TemporalFocusMode.GROWTH) {
                 IBlockState state = world.getBlockState(pos);
                 Block block = state.getBlock();
+
                 if (block.getTickRandomly()) {
-                    world.scheduleUpdate(pos.toImmutable(), block, 1);
+                    world.scheduleUpdate(
+                            pos.toImmutable(),
+                            block,
+                            1
+                    );
                 }
             }
         }
 
+        // Preserve EffectAcceleration.handleBlock()'s normal return value.
         cir.setReturnValue(true);
     }
 
     @Unique
-    private void capnsbeeaddon$registerApiaryTargets(
+    private void capnsbeeaddon$registerTileTargets(
             WorldServer world,
             BlockPos source,
             IBeeGenome genome,
             IBeeHousing housing,
+            TemporalFocusMode mode,
             TObjectIntHashMap<BlockPos> targets
     ) {
         Vec3d territory = EffectBase.getTerritory(genome, housing);
+
         int radiusX = MathHelper.floor(territory.x);
         int radiusY = MathHelper.floor(territory.y);
         int radiusZ = MathHelper.floor(territory.z);
@@ -200,6 +222,7 @@ public abstract class EffectAccelerationMixin {
         int minX = source.getX() - radiusX;
         int minY = source.getY() - radiusY;
         int minZ = source.getZ() - radiusZ;
+
         int maxX = source.getX() + radiusX;
         int maxY = source.getY() + radiusY;
         int maxZ = source.getZ() + radiusZ;
@@ -209,26 +232,41 @@ public abstract class EffectAccelerationMixin {
         int maxChunkX = maxX >> 4;
         int maxChunkZ = maxZ >> 4;
 
-        for (int chunkX = minChunkX; chunkX <= maxChunkX; chunkX++) {
-            for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ++) {
-                Chunk chunk = world.getChunkProvider().getLoadedChunk(chunkX, chunkZ);
+        for (int chunkX = minChunkX;
+             chunkX <= maxChunkX;
+             chunkX++) {
+
+            for (int chunkZ = minChunkZ;
+                 chunkZ <= maxChunkZ;
+                 chunkZ++) {
+
+                Chunk chunk = world.getChunkProvider()
+                        .getLoadedChunk(chunkX, chunkZ);
+
                 if (chunk == null) {
                     continue;
                 }
 
-                for (TileEntity tile : chunk.getTileEntityMap().values()) {
-                    if (tile == null || tile.isInvalid()) {
+                for (Map.Entry<BlockPos, TileEntity> entry
+                        : chunk.getTileEntityMap().entrySet()) {
+
+                    BlockPos targetPos = entry.getKey();
+
+                    if (targetPos.getX() < minX
+                            || targetPos.getX() > maxX
+                            || targetPos.getY() < minY
+                            || targetPos.getY() > maxY
+                            || targetPos.getZ() < minZ
+                            || targetPos.getZ() > maxZ) {
                         continue;
                     }
 
-                    BlockPos targetPos = tile.getPos();
-                    if (targetPos.getX() < minX || targetPos.getX() > maxX
-                            || targetPos.getY() < minY || targetPos.getY() > maxY
-                            || targetPos.getZ() < minZ || targetPos.getZ() > maxZ) {
-                        continue;
-                    }
-
-                    if (capnsbeeaddon$isEligibleApiaryTarget(tile, targetPos, source)) {
+                    if (capnsbeeaddon$isEligibleTileTarget(
+                            mode,
+                            entry.getValue(),
+                            targetPos,
+                            source
+                    )) {
                         targets.put(targetPos.toImmutable(), 40);
                     }
                 }
@@ -244,6 +282,7 @@ public abstract class EffectAccelerationMixin {
             IBeeHousing housing
     ) {
         Vec3d territory = EffectBase.getTerritory(genome, housing);
+
         int radiusX = MathHelper.floor(territory.x);
         int radiusY = MathHelper.floor(territory.y);
         int radiusZ = MathHelper.floor(territory.z);
@@ -251,6 +290,7 @@ public abstract class EffectAccelerationMixin {
         int minX = source.getX() - radiusX;
         int minY = Math.max(0, source.getY() - radiusY);
         int minZ = source.getZ() - radiusZ;
+
         int maxX = source.getX() + radiusX;
         int maxY = Math.min(255, source.getY() + radiusY);
         int maxZ = source.getZ() + radiusZ;
@@ -263,15 +303,25 @@ public abstract class EffectAccelerationMixin {
         int minChunkZ = minZ >> 4;
         int maxChunkX = maxX >> 4;
         int maxChunkZ = maxZ >> 4;
-        BlockPos.MutableBlockPos position = new BlockPos.MutableBlockPos();
 
-        for (int chunkX = minChunkX; chunkX <= maxChunkX; chunkX++) {
+        BlockPos.MutableBlockPos position =
+                new BlockPos.MutableBlockPos();
+
+        for (int chunkX = minChunkX;
+             chunkX <= maxChunkX;
+             chunkX++) {
+
             int chunkMinX = chunkX << 4;
             int scanMinX = Math.max(minX, chunkMinX);
             int scanMaxX = Math.min(maxX, chunkMinX + 15);
 
-            for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ++) {
-                Chunk chunk = world.getChunkProvider().getLoadedChunk(chunkX, chunkZ);
+            for (int chunkZ = minChunkZ;
+                 chunkZ <= maxChunkZ;
+                 chunkZ++) {
+
+                Chunk chunk = world.getChunkProvider()
+                        .getLoadedChunk(chunkX, chunkZ);
+
                 if (chunk == null) {
                     continue;
                 }
@@ -284,7 +334,10 @@ public abstract class EffectAccelerationMixin {
                     for (int z = scanMinZ; z <= scanMaxZ; z++) {
                         for (int y = minY; y <= maxY; y++) {
                             position.setPos(x, y, z);
-                            IBlockState state = chunk.getBlockState(position);
+
+                            IBlockState state =
+                                    chunk.getBlockState(position);
+
                             Block block = state.getBlock();
 
                             if (block.getTickRandomly()) {
@@ -302,15 +355,35 @@ public abstract class EffectAccelerationMixin {
     }
 
     @Unique
-    private static boolean capnsbeeaddon$isEligibleApiaryTarget(
+    private static boolean capnsbeeaddon$isTileFocus(
+            TemporalFocusMode mode
+    ) {
+        return mode == TemporalFocusMode.APIARY
+                || mode == TemporalFocusMode.TILE_ENTITY;
+    }
+
+    @Unique
+    private static boolean capnsbeeaddon$isEligibleTileTarget(
+            TemporalFocusMode mode,
             TileEntity tile,
             BlockPos targetPos,
             BlockPos source
     ) {
-        return tile != null
-                && !tile.isInvalid()
-                && tile instanceof IIndustrialApiary
-                && tile instanceof ITickable
-                && !targetPos.equals(source);
+        if (tile == null
+                || tile.isInvalid()
+                || targetPos.equals(source)) {
+            return false;
+        }
+
+        if (mode == TemporalFocusMode.APIARY) {
+            if (!(tile instanceof IIndustrialApiary)) {
+                return false;
+            }
+        } else if (mode != TemporalFocusMode.TILE_ENTITY) {
+            return false;
+        }
+
+        return tile instanceof ITickable
+                && targetPos.equals(tile.getPos());
     }
 }

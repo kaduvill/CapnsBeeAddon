@@ -16,11 +16,15 @@ public final class TemporalFocusUpgradeHelper {
         if (!(housing instanceof IIndustrialApiary)) {
             return TemporalFocusMode.NONE;
         }
-        List<ItemStack> upgrades = ((IIndustrialApiary) housing).getUpgrades();
+
+        List<ItemStack> upgrades =
+                ((IIndustrialApiary) housing).getUpgrades();
+
         if (upgrades == null || upgrades.isEmpty()) {
             return TemporalFocusMode.NONE;
         }
 
+        boolean tileEntityFound = false;
         boolean growthFound = false;
 
         for (ItemStack stack : upgrades) {
@@ -30,10 +34,18 @@ public final class TemporalFocusUpgradeHelper {
             if (stack.getItem() == ModItems.TEMPORAL_FOCUS_APIARY) {
                 return TemporalFocusMode.APIARY;
             }
-            if (stack.getItem() == ModItems.TEMPORAL_FOCUS_GROWTH) {
+
+            if (stack.getItem() == ModItems.TEMPORAL_FOCUS_TILEENTITY) {
+                tileEntityFound = true;
+            } else if (stack.getItem() == ModItems.TEMPORAL_FOCUS_GROWTH) {
                 growthFound = true;
             }
         }
+
+        if (tileEntityFound) {
+            return TemporalFocusMode.TILE_ENTITY;
+        }
+
         return growthFound
                 ? TemporalFocusMode.GROWTH
                 : TemporalFocusMode.NONE;
@@ -42,6 +54,7 @@ public final class TemporalFocusUpgradeHelper {
     public enum TemporalFocusMode {
         NONE,
         APIARY,
+        TILE_ENTITY,
         GROWTH
     }
 }

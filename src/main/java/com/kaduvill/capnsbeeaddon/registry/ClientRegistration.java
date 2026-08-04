@@ -29,6 +29,17 @@ public final class ClientRegistration {
                 )
         );
         ModelLoader.setCustomModelResourceLocation(
+                ModItems.TEMPORAL_FOCUS_TILEENTITY,
+                0,
+                new ModelResourceLocation(
+                        Objects.requireNonNull(
+                                ModItems.TEMPORAL_FOCUS_TILEENTITY
+                                        .getRegistryName()
+                        ),
+                        "inventory"
+                )
+        );
+        ModelLoader.setCustomModelResourceLocation(
                 ModItems.TEMPORAL_FOCUS_GROWTH,
                 0,
                 new ModelResourceLocation(
