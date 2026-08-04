@@ -45,16 +45,10 @@ Bee effects and the normal queen lifecycle continue to run. The upgrade does not
 
 ### Career Bee territory overlay
 
-Adds a compact button to supported bee-housing GUIs when the active Career Bee effect has a meaningful territory.
+Adds a GUI toggle that displays the active Career Bee effect territory as an in-world wireframe.
 
-The overlay:
+Uses Territory modifiers, refreshes once per second, and requires no chunk scanning or custom networking.
 
-* shows the active effect name and area size;
-* renders the effect area as an in-world wireframe box;
-* accounts for the bee genome, housing modifiers, beekeeping mode, and Territory Restrictors;
-* refreshes from the live client housing once per second;
-* does not scan or load chunks;
-* requires no custom networking.
 
 ### Performance improvements
 
