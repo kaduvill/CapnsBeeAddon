@@ -14,6 +14,10 @@ item.capnsbeeaddon.temporal_focus_growth.name=时间生长聚焦升级
 item.capnsbeeaddon.temporal_focus_growth.detail.1=* 时间蜜蜂会加速
 item.capnsbeeaddon.temporal_focus_growth.detail.2=* 可响应随机刻的方块
 
+item.capnsbeeaddon.product_nullifier.name=产物无效化升级
+item.capnsbeeaddon.product_nullifier.detail.1=* 不生成常规蜜蜂产物
+item.capnsbeeaddon.product_nullifier.detail.2=* 蜜蜂效果与生命周期正常执行
+
 #maybe?
 #item.capnsbeeaddon.temporal_focus_apiary.detail.1=* 时间加速：仅工业蜂箱
 #item.capnsbeeaddon.temporal_focus_apiary.detail.2=* 其他机器和方块不受影响
