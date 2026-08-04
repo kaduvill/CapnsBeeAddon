@@ -2,7 +2,7 @@
   {
     "modid": "capnsbeeaddon",
     "name": "Capn's Bee Addon",
-    "description": "Focused additions and compatibility improvements for Forestry bee addons. Includes a Gendustry Temporal Focus Upgrade that restricts Career Bees acceleration to other Industrial Apiaries.",
+    "description": "Focused additions and performance improvements for Forestry, Gendustry, and Career Bees.\nAdds Temporal target-focus upgrades, territory restriction and visualization, product nullification, and Industrial Apiary hot-path optimizations.",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "https://github.com/kaduvill/CapnsBeeAddon",

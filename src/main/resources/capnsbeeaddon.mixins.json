@@ -7,8 +7,10 @@
   "mixins": [
     "careerbees.EffectAccelerationMixin",
     "forestry.BeekeepingLogicProductNullifierMixin",
+    "forestry.BeeCanWorkEnvironmentFastPathMixin",
     "forestry.QueenCanWorkCacheMixin",
     "gendustry.TileApiaryAccessor",
+    "gendustry.TileApiaryServerTickClosureAccessor",
     "gendustry.TileApiaryRedstoneLookupMixin",
     "gendustry.TileApiaryEmptyCoverTickMixin"
   ],

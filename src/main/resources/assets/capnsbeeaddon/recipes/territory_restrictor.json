@@ -1,0 +1,26 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "IBI",
+    "RFR",
+    "IBI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_bars"
+    },
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "ingotBronze"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "F": {
+      "item": "gendustry:upgrade_frame"
+    }
+  },
+  "result": {
+    "item": "capnsbeeaddon:territory_restrictor"
+  }
+}
