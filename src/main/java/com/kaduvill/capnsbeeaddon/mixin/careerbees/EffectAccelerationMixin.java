@@ -267,7 +267,7 @@ public abstract class EffectAccelerationMixin {
                             targetPos,
                             source
                     )) {
-                        targets.put(targetPos.toImmutable(), 40);
+                        targets.putIfAbsent(targetPos.toImmutable(), 40);
                     }
                 }
             }
