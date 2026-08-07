@@ -62,7 +62,7 @@ Uses Territory modifiers, refreshes once per second, and requires no chunk scann
 
 ```text
 capnsbeeaddon:temporal_focus_apiary
-capnsbeeaddon:temporal_focus_tile_entity
+capnsbeeaddon:temporal_focus_tileentity
 capnsbeeaddon:temporal_focus_growth
 capnsbeeaddon:territory_restrictor
 capnsbeeaddon:product_nullifier
