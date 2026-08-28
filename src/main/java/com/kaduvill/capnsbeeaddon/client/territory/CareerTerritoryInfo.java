@@ -18,19 +18,22 @@ public final class CareerTerritoryInfo {
     private final AxisAlignedBB bounds;
     private final String effectName;
     private final String sizeText;
+    private final boolean temporal;
 
     public CareerTerritoryInfo(
             int dimension,
             @Nonnull BlockPos source,
             @Nonnull AxisAlignedBB bounds,
             @Nonnull String effectName,
-            boolean blockAligned
+            boolean blockAligned,
+            boolean temporal
     ) {
         this.dimension = dimension;
         this.source = source.toImmutable();
         this.bounds = bounds;
         this.effectName = effectName;
         this.sizeText = formatSize(bounds, blockAligned);
+        this.temporal = temporal;
     }
 
     public int getDimension() {
@@ -61,6 +64,10 @@ public final class CareerTerritoryInfo {
     @Nonnull
     public String getSizeText() {
         return sizeText;
+    }
+
+    public boolean isTemporal() {
+        return temporal;
     }
 
     public boolean hasSameSource(@Nonnull CareerTerritoryInfo other) {

@@ -6,6 +6,7 @@
   "refmap": "capnsbeeaddon.refmap.json",
   "mixins": [
     "careerbees.EffectAccelerationMixin",
+    "careerbees.EffectAccelerationAccessor",
     "forestry.BeekeepingLogicProductNullifierMixin",
     "forestry.BeeCanWorkEnvironmentFastPathMixin",
     "forestry.QueenCanWorkCacheMixin",

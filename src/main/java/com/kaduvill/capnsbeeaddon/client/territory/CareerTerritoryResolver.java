@@ -201,7 +201,8 @@ public final class CareerTerritoryResolver {
                 source,
                 bounds,
                 effect.getAlleleName(),
-                blockAligned
+                blockAligned,
+                effect instanceof EffectAcceleration
         );
     }
 

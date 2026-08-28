@@ -3,11 +3,22 @@ package com.kaduvill.capnsbeeaddon.compat.gendustry;
 import com.kaduvill.capnsbeeaddon.registry.ModItems;
 import forestry.api.apiculture.IBeeHousing;
 import net.bdew.gendustry.api.blocks.IIndustrialApiary;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
 public final class TemporalFocusUpgradeHelper {
+
+    public enum TemporalFocusMode {
+        NONE,
+        APIARY,
+        TILE_ENTITY,
+        GROWTH
+    }
 
     private TemporalFocusUpgradeHelper() {
     }
@@ -51,10 +62,38 @@ public final class TemporalFocusUpgradeHelper {
                 : TemporalFocusMode.NONE;
     }
 
-    public enum TemporalFocusMode {
-        NONE,
-        APIARY,
-        TILE_ENTITY,
-        GROWTH
+    public static boolean isTileFocus(TemporalFocusMode mode) {
+        return mode == TemporalFocusMode.APIARY
+                || mode == TemporalFocusMode.TILE_ENTITY;
     }
+
+    public static boolean isEligibleTileTarget(
+            TemporalFocusMode mode,
+            TileEntity tile,
+            BlockPos targetPos,
+            BlockPos source
+    ) {
+        if (tile == null
+                || tile.isInvalid()
+                || targetPos.equals(source)) {
+            return false;
+        }
+
+        if (mode == TemporalFocusMode.APIARY) {
+            if (!(tile instanceof IIndustrialApiary)) {
+                return false;
+            }
+        } else if (mode != TemporalFocusMode.TILE_ENTITY) {
+            return false;
+        }
+
+        return tile instanceof ITickable
+                && targetPos.equals(tile.getPos());
+    }
+
+    public static boolean isRandomTickTarget(IBlockState state) {
+        return state.getBlock().getTickRandomly();
+    }
+
+
 }

@@ -1,11 +1,14 @@
 package com.kaduvill.capnsbeeaddon.client.territory;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
+import com.kaduvill.capnsbeeaddon.network.CapnsBeeAddonNetwork.TemporalSnapshotEvent;
 import forestry.api.apiculture.IBeeHousing;
 import net.bdew.gendustry.machines.apiary.GuiApiary;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -17,7 +20,7 @@ import java.util.Iterator;
 
 /**
  * Adds one vanilla GUI button over Gendustry's Industrial Apiary GUI and owns
- * the client-only overlay events. No mixin or packet is required.
+ * the client-only overlay events.
  */
 @Mod.EventBusSubscriber(
         modid = CapnsBeeAddon.MODID,
@@ -92,8 +95,18 @@ public final class IndustrialApiaryTerritoryClientEvents {
             GuiScreenEvent.ActionPerformedEvent.Post event
     ) {
         if (event.getButton() instanceof GuiButtonCareerTerritory) {
-            ((GuiButtonCareerTerritory) event.getButton()).toggleOverlay();
+            Minecraft minecraft = Minecraft.getMinecraft();
+            boolean advanced = GameSettings.isKeyDown(
+                    minecraft.gameSettings.keyBindSneak
+            );
+            ((GuiButtonCareerTerritory) event.getButton())
+                    .toggleOverlay(advanced);
         }
+    }
+
+    @SubscribeEvent
+    public static void onTemporalSnapshot(TemporalSnapshotEvent event) {
+        CareerTerritoryOverlay.acceptSnapshot(event.getSnapshot());
     }
 
     /**
@@ -131,5 +144,16 @@ public final class IndustrialApiaryTerritoryClientEvents {
     @SubscribeEvent
     public static void onRenderWorldLast(RenderWorldLastEvent event) {
         CareerTerritoryOverlay.render(event.getPartialTicks());
+    }
+
+    @SubscribeEvent
+    public static void onRenderHud(RenderGameOverlayEvent.Post event) {
+        if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
+            CareerTerritoryOverlay.renderHud();
+        }
+
+
+        // Temporary player-hitbox visualization for territory testing.
+        //PlayerHitboxDebugOverlay.render(event.getPartialTicks());
     }
 }

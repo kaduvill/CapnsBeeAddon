@@ -10,12 +10,10 @@ import forestry.api.apiculture.IBeeGenome;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
 import gnu.trove.map.hash.TObjectIntHashMap;
-import net.bdew.gendustry.api.blocks.IIndustrialApiary;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -93,7 +91,7 @@ public abstract class EffectAccelerationMixin {
         }
 
         BlockPos source = housing.getCoordinates().toImmutable();
-        boolean registersTileTargets = capnsbeeaddon$isTileFocus(mode);
+        boolean registersTileTargets = TemporalFocusUpgradeHelper.isTileFocus(mode);
         TObjectIntHashMap<BlockPos> existingTargets = posToTick.get(world);
 
         // Preserve Career Bees' source anti-cascade behavior for every focus.
@@ -169,10 +167,10 @@ public abstract class EffectAccelerationMixin {
         }
 
         if (!world.isRemote && world.isBlockLoaded(pos, false)) {
-            if (capnsbeeaddon$isTileFocus(mode)) {
+            if (TemporalFocusUpgradeHelper.isTileFocus(mode)) {
                 TileEntity tile = world.getTileEntity(pos);
 
-                if (capnsbeeaddon$isEligibleTileTarget(
+                if (TemporalFocusUpgradeHelper.isEligibleTileTarget(
                         mode,
                         tile,
                         pos,
@@ -190,7 +188,7 @@ public abstract class EffectAccelerationMixin {
                 IBlockState state = world.getBlockState(pos);
                 Block block = state.getBlock();
 
-                if (block.getTickRandomly()) {
+                if (TemporalFocusUpgradeHelper.isRandomTickTarget(state)) {
                     world.scheduleUpdate(
                             pos.toImmutable(),
                             block,
@@ -261,7 +259,7 @@ public abstract class EffectAccelerationMixin {
                         continue;
                     }
 
-                    if (capnsbeeaddon$isEligibleTileTarget(
+                    if (TemporalFocusUpgradeHelper.isEligibleTileTarget(
                             mode,
                             entry.getValue(),
                             targetPos,
@@ -340,7 +338,9 @@ public abstract class EffectAccelerationMixin {
 
                             Block block = state.getBlock();
 
-                            if (block.getTickRandomly()) {
+                            if (TemporalFocusUpgradeHelper.isRandomTickTarget(
+                                    state
+                            )) {
                                 world.scheduleUpdate(
                                         position.toImmutable(),
                                         block,
@@ -354,36 +354,4 @@ public abstract class EffectAccelerationMixin {
         }
     }
 
-    @Unique
-    private static boolean capnsbeeaddon$isTileFocus(
-            TemporalFocusMode mode
-    ) {
-        return mode == TemporalFocusMode.APIARY
-                || mode == TemporalFocusMode.TILE_ENTITY;
-    }
-
-    @Unique
-    private static boolean capnsbeeaddon$isEligibleTileTarget(
-            TemporalFocusMode mode,
-            TileEntity tile,
-            BlockPos targetPos,
-            BlockPos source
-    ) {
-        if (tile == null
-                || tile.isInvalid()
-                || targetPos.equals(source)) {
-            return false;
-        }
-
-        if (mode == TemporalFocusMode.APIARY) {
-            if (!(tile instanceof IIndustrialApiary)) {
-                return false;
-            }
-        } else if (mode != TemporalFocusMode.TILE_ENTITY) {
-            return false;
-        }
-
-        return tile instanceof ITickable
-                && targetPos.equals(tile.getPos());
-    }
 }

@@ -2,6 +2,31 @@ gui.capnsbeeaddon.territory.show=Show Career Bee territory
 gui.capnsbeeaddon.territory.hide=Hide Career Bee territory
 gui.capnsbeeaddon.territory.effect=Effect: %s
 gui.capnsbeeaddon.territory.size=Effect area: %s
+gui.capnsbeeaddon.temporal.show=Sneak-click: Show advanced Temporal targets
+gui.capnsbeeaddon.temporal.hide=Sneak-click: Hide advanced Temporal targets
+gui.capnsbeeaddon.temporal.pending=Advanced Temporal: waiting for server snapshot
+gui.capnsbeeaddon.temporal.title=Advanced Temporal — %s
+gui.capnsbeeaddon.temporal.mode.normal=Normal Career Bees behavior
+gui.capnsbeeaddon.temporal.mode.apiary=Apiary Focus
+gui.capnsbeeaddon.temporal.mode.tile_entity=TileEntity Focus
+gui.capnsbeeaddon.temporal.mode.growth=Growth Focus
+gui.capnsbeeaddon.temporal.status.unavailable=State: Source unavailable
+gui.capnsbeeaddon.temporal.status.no_queen=State: No live queen
+gui.capnsbeeaddon.temporal.status.not_temporal=State: Queen is not Temporal
+gui.capnsbeeaddon.temporal.status.invalid_species=State: Temporal allele is invalid for this species
+gui.capnsbeeaddon.temporal.status.inactive=State: Source inactive; no Temporal scan can run
+gui.capnsbeeaddon.temporal.status.active=State: Source capable of running Temporal
+gui.capnsbeeaddon.temporal.legend.territory=Temporal scan territory
+gui.capnsbeeaddon.temporal.legend.qualified=Eligible for selected source's next unsuppressed scan
+gui.capnsbeeaddon.temporal.legend.excluded=Excluded by current targeting rules
+gui.capnsbeeaddon.temporal.tiles.qualified=TileEntities qualified: %s; shown %s; omitted %s
+gui.capnsbeeaddon.temporal.tiles.excluded=TileEntities excluded: %s; shown %s; omitted %s
+gui.capnsbeeaddon.temporal.random.qualified=Random-tick blocks qualified: %s; shown %s; omitted %s
+gui.capnsbeeaddon.temporal.random.excluded=Random-tick blocks excluded: %s; shown %s; omitted %s
+gui.capnsbeeaddon.temporal.chunks=Loaded territory chunks: %s / %s; unloaded not inspected: %s
+gui.capnsbeeaddon.temporal.inspected=Snapshot inspected TE entries: %s; block positions: %s
+gui.capnsbeeaddon.temporal.global=Qualified TileEntities registered globally now: %s / %s (source ownership unknown)
+gui.capnsbeeaddon.temporal.source_registered=Source position is globally registered; its next scan can be suppressed
 
 item.capnsbeeaddon.territory_restrictor.name=Territory Restrictor Upgrade
 
@@ -24,6 +49,4 @@ item.capnsbeeaddon.product_nullifier.detail.2=* Bee effects and lifecycle contin
 #maybe?
 #item.capnsbeeaddon.temporal_focus_apiary.detail.1=* Temporal acceleration: Industrial Apiaries only
 #item.capnsbeeaddon.temporal_focus_apiary.detail.2=* Other machines and blocks unaffected
-
-
 

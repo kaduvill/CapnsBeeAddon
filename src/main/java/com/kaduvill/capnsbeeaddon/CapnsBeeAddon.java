@@ -1,5 +1,6 @@
 package com.kaduvill.capnsbeeaddon;
 
+import com.kaduvill.capnsbeeaddon.network.CapnsBeeAddonNetwork;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import org.apache.logging.log4j.LogManager;
@@ -29,6 +30,7 @@ public final class CapnsBeeAddon {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        CapnsBeeAddonNetwork.init();
         LOGGER.info("{} {} initialized", NAME, VERSION);
     }
 }

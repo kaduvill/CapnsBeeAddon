@@ -128,12 +128,19 @@ public final class GuiButtonCareerTerritory extends GuiButton {
             return;
         }
 
-        List<String> tooltip = new ArrayList<>(3);
+        List<String> tooltip = new ArrayList<>(5);
         tooltip.add(I18n.format(
-                CareerTerritoryOverlay.isSelected(cachedInfo)
+                CareerTerritoryOverlay.isBasicSelected(cachedInfo)
                         ? "gui.capnsbeeaddon.territory.hide"
                         : "gui.capnsbeeaddon.territory.show"
         ));
+        if (cachedInfo.isTemporal()) {
+            tooltip.add(I18n.format(
+                    CareerTerritoryOverlay.isAdvancedSelected(cachedInfo)
+                            ? "gui.capnsbeeaddon.temporal.hide"
+                            : "gui.capnsbeeaddon.temporal.show"
+            ));
+        }
         tooltip.add(I18n.format(
                 "gui.capnsbeeaddon.territory.effect",
                 cachedInfo.getEffectName()
@@ -154,10 +161,10 @@ public final class GuiButtonCareerTerritory extends GuiButton {
         );
     }
 
-    public void toggleOverlay() {
+    public void toggleOverlay(boolean advanced) {
         refresh(Minecraft.getMinecraft(), true);
         if (cachedInfo != null) {
-            CareerTerritoryOverlay.toggle(cachedInfo);
+            CareerTerritoryOverlay.toggle(cachedInfo, advanced);
         }
     }
 
