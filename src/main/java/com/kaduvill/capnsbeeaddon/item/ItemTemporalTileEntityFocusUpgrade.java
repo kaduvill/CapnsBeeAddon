@@ -14,9 +14,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public final class ItemTemporalTileEntityFocusUpgrade
-        extends Item
-        implements IApiaryUpgrade {
+public final class ItemTemporalTileEntityFocusUpgrade extends Item implements IApiaryUpgrade {
 
     public static final int MAX_INSTALLED = 1;
 
@@ -25,26 +23,15 @@ public final class ItemTemporalTileEntityFocusUpgrade
      at most one Temporal Focus upgrade to be installed.
      */
     private static final long STACKING_ID = 0x4341504E42454501L;
-
-    private static final String LABEL_MAX_INSTALLED =
-            "gendustry.label.maxinstall";
-
-    private static final String DETAIL_1 =
-            "item.capnsbeeaddon.temporal_focus_tileentity.detail.1";
-
-    private static final String DETAIL_2 =
-            "item.capnsbeeaddon.temporal_focus_tileentity.detail.2";
+    private static final String LABEL_MAX_INSTALLED = "gendustry.label.maxinstall";
+    private static final String DETAIL_1 = "item.capnsbeeaddon.temporal_focus_tileentity.detail.1";
+    private static final String DETAIL_2 = "item.capnsbeeaddon.temporal_focus_tileentity.detail.2";
 
     public ItemTemporalTileEntityFocusUpgrade() {
-        setRegistryName(
-                CapnsBeeAddon.MODID,
-                "temporal_focus_tileentity"
+        setRegistryName(CapnsBeeAddon.MODID, "temporal_focus_tileentity"
         );
-        setUnlocalizedName(
-                CapnsBeeAddon.MODID
-                        + ".temporal_focus_tileentity"
+        setUnlocalizedName(CapnsBeeAddon.MODID + ".temporal_focus_tileentity"
         );
-
         setCreativeTab(CreativeTabs.MISC);
         setMaxStackSize(MAX_INSTALLED);
         setNoRepair();
@@ -58,10 +45,7 @@ public final class ItemTemporalTileEntityFocusUpgrade
     @Override
     public List<String> getDisplayDetails(ItemStack stack) {
         return Arrays.asList(
-                I18n.translateToLocal(
-                        LABEL_MAX_INSTALLED
-                ) + " " + getMaxNumber(stack),
-
+                I18n.translateToLocal(LABEL_MAX_INSTALLED) + " " + getMaxNumber(stack),
                 I18n.translateToLocal(DETAIL_1),
                 I18n.translateToLocal(DETAIL_2)
         );
@@ -78,20 +62,13 @@ public final class ItemTemporalTileEntityFocusUpgrade
     }
 
     @Override
-    public void applyModifiers(
-            ApiaryModifiers modifiers,
-            ItemStack stack
-    ) {
+    public void applyModifiers(ApiaryModifiers modifiers, ItemStack stack) {
         // Target filtering is behavior, not a numeric housing modifier.
     }
 
     @Override
-    public void addInformation(
-            ItemStack stack,
-            @Nullable World world,
-            List<String> tooltip,
-            ITooltipFlag flag
-    ) {
+    public void addInformation(ItemStack stack, @Nullable World world,
+                               List<String> tooltip, ITooltipFlag flag) {
         tooltip.addAll(getDisplayDetails(stack));
     }
 }
