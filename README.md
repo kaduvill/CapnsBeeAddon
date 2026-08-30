@@ -2,7 +2,7 @@
 
 Capn's Bee Addon is a focused Minecraft 1.12.2 addon for Forestry, Gendustry, and Career Bees.
 
-It adds Industrial Apiary upgrades, accurate Career Bee territory visualization, and targeted performance improvements for large apiary setups.
+It adds Industrial Apiary upgrades, accurate Career Bee territory visualization, and targeted performance improvements for large/sped up apiary setups.
 
 ## Features
 
@@ -58,16 +58,6 @@ Uses Territory modifiers, refreshes once per second, and requires no chunk scann
 * Invalidates the empty-cover fast path whenever covers change and falls back to BDLib's original behavior for covered or unexpected states.
 * Uses loaded-chunk TileEntity maps for focused TileEntity scans instead of scanning every block position.
 
-## Item IDs
-
-```text
-capnsbeeaddon:temporal_focus_apiary
-capnsbeeaddon:temporal_focus_tileentity
-capnsbeeaddon:temporal_focus_growth
-capnsbeeaddon:territory_restrictor
-capnsbeeaddon:product_nullifier
-```
-
 
 ## Development versions
 
@@ -79,9 +69,3 @@ Capn's Bee Addon is developed against these exact Minecraft 1.12.2 dependencies:
 * Career Bees 0.4.0, internally reporting version 1.0
 * MixinBooter 10.7
 * Mixin 0.8.7
-
-Other versions are not currently tested.
-
-## License
-
-Capn's Bee Addon is licensed under the MIT License. See [LICENSE](LICENSE).
