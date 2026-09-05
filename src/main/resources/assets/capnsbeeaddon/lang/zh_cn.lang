@@ -1,0 +1,51 @@
+gui.capnsbeeaddon.territory.show=显示职业蜜蜂活动范围
+gui.capnsbeeaddon.territory.hide=隐藏职业蜜蜂活动范围
+gui.capnsbeeaddon.territory.effect=效果：%s
+gui.capnsbeeaddon.territory.size=效果范围：%s
+gui.capnsbeeaddon.temporal.show=潜行点击：显示高级时间目标
+gui.capnsbeeaddon.temporal.hide=潜行点击：隐藏高级时间目标
+gui.capnsbeeaddon.temporal.pending=高级时间：正在等待服务器快照
+gui.capnsbeeaddon.temporal.title=高级时间 — %s
+gui.capnsbeeaddon.temporal.mode.normal=正常职业蜜蜂行为
+gui.capnsbeeaddon.temporal.mode.apiary=蜂箱聚焦
+gui.capnsbeeaddon.temporal.mode.tile_entity=方块实体聚焦
+gui.capnsbeeaddon.temporal.mode.growth=生长聚焦
+gui.capnsbeeaddon.temporal.status.unavailable=状态：来源不可用
+gui.capnsbeeaddon.temporal.status.no_queen=状态：无存活蜂后
+gui.capnsbeeaddon.temporal.status.not_temporal=状态：蜂后不是时间蜜蜂
+gui.capnsbeeaddon.temporal.status.invalid_species=状态：时间等位基因对该品种无效
+gui.capnsbeeaddon.temporal.status.inactive=状态：来源未激活；无法运行时间扫描
+gui.capnsbeeaddon.temporal.status.active=状态：来源可运行时间扫描
+gui.capnsbeeaddon.temporal.legend.territory=时间扫描范围
+gui.capnsbeeaddon.temporal.legend.qualified=符合选定来源下一次未抑制扫描的条件
+gui.capnsbeeaddon.temporal.legend.excluded=被当前目标规则排除
+gui.capnsbeeaddon.temporal.tiles.qualified=符合条件的方块实体：%s；显示 %s；省略 %s
+gui.capnsbeeaddon.temporal.tiles.excluded=被排除的方块实体：%s；显示 %s；省略 %s
+gui.capnsbeeaddon.temporal.random.qualified=符合条件的随机刻方块：%s；显示 %s；省略 %s
+gui.capnsbeeaddon.temporal.random.excluded=被排除的随机刻方块：%s；显示 %s；省略 %s
+gui.capnsbeeaddon.temporal.chunks=已加载的范围区块：%s / %s；未加载未检查：%s
+gui.capnsbeeaddon.temporal.inspected=快照已检查的方块实体条目：%s；方块位置：%s
+gui.capnsbeeaddon.temporal.global=当前全局注册的符合条件的方块实体：%s / %s（来源所有权未知）
+gui.capnsbeeaddon.temporal.source_registered=来源位置已全局注册；其下一次扫描可被抑制
+
+item.capnsbeeaddon.territory_restrictor.name=活动范围限制器升级
+
+item.capnsbeeaddon.temporal_focus_apiary.name=时间升级：蜂箱聚焦
+item.capnsbeeaddon.temporal_focus_apiary.detail.1=* 时间蜜蜂仅加速
+item.capnsbeeaddon.temporal_focus_apiary.detail.2=* 工业蜂箱
+
+item.capnsbeeaddon.temporal_focus_growth.name=时间升级：生长聚焦
+item.capnsbeeaddon.temporal_focus_growth.detail.1=* 时间蜜蜂仅加速
+item.capnsbeeaddon.temporal_focus_growth.detail.2=* 响应随机刻的方块
+
+item.capnsbeeaddon.temporal_focus_tileentity.name=时间升级：方块实体聚焦
+item.capnsbeeaddon.temporal_focus_tileentity.detail.1=* 时间蜜蜂仅加速执行游戏刻逻辑的方块实体
+item.capnsbeeaddon.temporal_focus_tileentity.detail.2=* 忽略响应随机刻的方块
+
+item.capnsbeeaddon.product_nullifier.name=产物无效化升级
+item.capnsbeeaddon.product_nullifier.detail.1=* 不生成蜜蜂产物
+item.capnsbeeaddon.product_nullifier.detail.2=* 蜜蜂效果与生命周期正常执行
+
+#maybe?
+#item.capnsbeeaddon.temporal_focus_apiary.detail.1=* 时间加速：仅工业蜂箱
+#item.capnsbeeaddon.temporal_focus_apiary.detail.2=* 其他机器和方块不受影响
