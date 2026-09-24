@@ -19,10 +19,8 @@ gui.capnsbeeaddon.temporal.status.active=State: Source capable of running Tempor
 gui.capnsbeeaddon.temporal.legend.territory=Temporal scan territory
 gui.capnsbeeaddon.temporal.legend.qualified=Eligible for selected source's next unsuppressed scan
 gui.capnsbeeaddon.temporal.legend.excluded=Excluded by current targeting rules
-gui.capnsbeeaddon.temporal.tiles.qualified=TileEntities qualified: %s; shown %s; omitted %s
-gui.capnsbeeaddon.temporal.tiles.excluded=TileEntities excluded: %s; shown %s; omitted %s
-gui.capnsbeeaddon.temporal.random.qualified=Random-tick blocks qualified: %s; shown %s; omitted %s
-gui.capnsbeeaddon.temporal.random.excluded=Random-tick blocks excluded: %s; shown %s; omitted %s
+gui.capnsbeeaddon.temporal.tiles=TE: qualified %s (%s shown), excluded %s (%s shown)
+gui.capnsbeeaddon.temporal.random=Random tick: qualified %s (%s shown), excluded %s (%s shown)
 gui.capnsbeeaddon.temporal.chunks=Loaded territory chunks: %s / %s; unloaded not inspected: %s
 gui.capnsbeeaddon.temporal.inspected=Snapshot inspected TE entries: %s; block positions: %s
 gui.capnsbeeaddon.temporal.global=Qualified TileEntities registered globally now: %s / %s (source ownership unknown)
@@ -49,4 +47,3 @@ item.capnsbeeaddon.product_nullifier.detail.2=* Bee effects and lifecycle contin
 #maybe?
 #item.capnsbeeaddon.temporal_focus_apiary.detail.1=* Temporal acceleration: Industrial Apiaries only
 #item.capnsbeeaddon.temporal_focus_apiary.detail.2=* Other machines and blocks unaffected
-

@@ -1,6 +1,6 @@
 0.1.1
 - Add Energy usage to all upgrades
-- 
+- Some clean up in advanced overlay
 
 0.1.0
  

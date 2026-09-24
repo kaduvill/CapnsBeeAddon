@@ -555,10 +555,12 @@ public final class CareerTerritoryOverlay {
         }
 
         if (current.getStatus() == TemporalTerritorySnapshot.Status.ACTIVE) {
-            addCount(lines, "gui.capnsbeeaddon.temporal.tiles.qualified", current.getQualifiedTileCount(), current.getQualifiedTiles().length);
-            addCount(lines, "gui.capnsbeeaddon.temporal.tiles.excluded", current.getExcludedTileCount(), current.getExcludedTiles().length);
-            addCount(lines, "gui.capnsbeeaddon.temporal.random.qualified", current.getQualifiedRandomCount(), current.getQualifiedRandomBlocks().length);
-            addCount(lines, "gui.capnsbeeaddon.temporal.random.excluded", current.getExcludedRandomCount(), current.getExcludedRandomBlocks().length);
+            lines.add(new HudLine(I18n.format("gui.capnsbeeaddon.temporal.tiles",
+                    current.getQualifiedTileCount(), current.getQualifiedTiles().length,
+                    current.getExcludedTileCount(), current.getExcludedTiles().length), 0));
+            lines.add(new HudLine(I18n.format("gui.capnsbeeaddon.temporal.random",
+                    current.getQualifiedRandomCount(), current.getQualifiedRandomBlocks().length,
+                    current.getExcludedRandomCount(), current.getExcludedRandomBlocks().length), 0));
             lines.add(new HudLine(I18n.format("gui.capnsbeeaddon.temporal.chunks", current.getLoadedChunks(), current.getTotalChunks(), current.getTotalChunks() - current.getLoadedChunks()), 0));
             lines.add(new HudLine(I18n.format("gui.capnsbeeaddon.temporal.inspected", current.getInspectedTileEntries(), current.getInspectedBlockPositions()), 0));
             lines.add(new HudLine(I18n.format("gui.capnsbeeaddon.temporal.global", current.getGloballyRegisteredQualifiedTiles(), current.getQualifiedTileCount()), 0));
@@ -567,10 +569,6 @@ public final class CareerTerritoryOverlay {
             }
         }
         return lines.toArray(new HudLine[0]);
-    }
-
-    private static void addCount(List<HudLine> lines, String key, long total, int rendered) {
-        lines.add(new HudLine(I18n.format(key, total, rendered, Math.max(0L, total - rendered)), 0));
     }
 
     private static String modeKey(TemporalFocusMode focusMode) {
