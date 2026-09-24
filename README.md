@@ -14,16 +14,19 @@ Temporal Focus upgrades change what a Career Bees Temporal effect targets. Only 
 
     * Accelerates tickable Gendustry Industrial Apiaries only.
     * Skips unrelated TileEntities and random-ticking blocks.
+    * Energy use: `×1.10`
 
 * **Temporal TileEntity Focus Upgrade**
 
     * Accelerates tickable TileEntities only.
     * Skips all random-ticking block work.
+    * Energy use: `×1.10`
 
 * **Temporal Growth Focus Upgrade**
 
     * Accelerates random-ticking blocks only.
     * Skips TileEntity targeting.
+    * Energy use: `×1.10`
 
 Focused scans operate on loaded chunks only and reuse Career Bees' existing target scheduler. They do not load or generate chunks.
 
@@ -40,8 +43,8 @@ Each installed upgrade applies multiplicatively:
 ### Product Nullifier Upgrade
 
 Prevents Forestry's normal bee-product stacks from being generated in an Industrial Apiary.
-
-Bee effects and the normal queen lifecycle continue to run. The upgrade does not add a filter, GUI, inventory, or packet system.
+Bee effects and the normal queen lifecycle continue to run
+* Energy use: `×1.10`
 
 ### Career Bee territory overlay
 
