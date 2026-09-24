@@ -27,7 +27,8 @@ public final class ItemTemporalApiaryFocusUpgrade
     private static final String LABEL_MAX_INSTALLED = "gendustry.label.maxinstall";
     private static final String DETAIL_1 = "item.capnsbeeaddon.temporal_focus_apiary.detail.1";
     private static final String DETAIL_2 = "item.capnsbeeaddon.temporal_focus_apiary.detail.2";
-
+    private static final float ENERGY_MULTIPLIER = 1.10F;
+    private static final String LABEL_ENERGY = "gendustry.label.mod.energy";
     public ItemTemporalApiaryFocusUpgrade() {
         setRegistryName(
                 CapnsBeeAddon.MODID,
@@ -52,12 +53,10 @@ public final class ItemTemporalApiaryFocusUpgrade
     @Override
     public List<String> getDisplayDetails(ItemStack stack) {
         return Arrays.asList(
-                I18n.translateToLocal(
-                        LABEL_MAX_INSTALLED
-                ) + " " + getMaxNumber(stack),
-
+                I18n.translateToLocal(LABEL_MAX_INSTALLED) + " " + getMaxNumber(stack),
                 I18n.translateToLocal(DETAIL_1),
-                I18n.translateToLocal(DETAIL_2)
+                I18n.translateToLocal(DETAIL_2),
+                I18n.translateToLocal(LABEL_ENERGY) + " +" + Math.round((ENERGY_MULTIPLIER - 1.0F) * 100.0F) + "%"
         );
     }
 
@@ -67,10 +66,8 @@ public final class ItemTemporalApiaryFocusUpgrade
     public int getMaxNumber(ItemStack stack) {return MAX_INSTALLED;}
 
     @Override
-    public void applyModifiers(
-            ApiaryModifiers modifiers,
-            ItemStack stack
-    ) {// Target filtering is behavior, not a numeric housing modifier.
+    public void applyModifiers(ApiaryModifiers modifiers, ItemStack stack) {
+        modifiers.energy *= ENERGY_MULTIPLIER;
     }
 
     @Override
