@@ -18,7 +18,7 @@ public final class ItemTerritoryRestrictor
         extends Item
         implements IApiaryUpgrade {
 
-    public static final float TERRITORY_MULTIPLIER_PER_UPGRADE = 0.70F;
+    public static final float TERRITORY_MULTIPLIER_PER_UPGRADE = 0.73F; // Workaround for bug in forestry spiral flower scan. 0.73 makes carreer bee:Average territory always find neighboring flower with 6x restrictor upgrades
     public static final int MAX_INSTALLED = 6;
     public static final float ENERGY_MULTIPLIER_PER_UPGRADE = 1.05F; //+5% energy consumption per installed upgrade.
     private static final long STACKING_ID = 0x4341504E42454502L;
