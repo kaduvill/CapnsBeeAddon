@@ -98,6 +98,9 @@ dependencies {
     }
 
     implementation rfg.deobf('curse.maven:forestry-59751:7398359')       // 5.8.2.427
+    //compileOnly rfg.deobf('curse.maven:forestry-59751:7398359')       // 5.8.2.427
+
+
     implementation rfg.deobf('curse.maven:bdlib-70496:4675629')          // 1.14.4.1
     implementation rfg.deobf('curse.maven:gendustry-70492:2516215')      // 1.6.5.8
     implementation rfg.deobf('curse.maven:career-bees-281791:2534481')   // 0.4.0
