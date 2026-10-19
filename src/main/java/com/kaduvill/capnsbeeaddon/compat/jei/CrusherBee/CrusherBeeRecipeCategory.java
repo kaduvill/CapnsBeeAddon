@@ -5,6 +5,7 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocus;
 import mezz.jei.api.recipe.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -71,6 +72,11 @@ public final class CrusherBeeRecipeCategory implements IRecipeCategory<CrusherBe
     public void setRecipe(IRecipeLayout layout, CrusherBeeRecipeWrapper wrapper, IIngredients ingredients) {
         layout.getItemStacks().init(0, true, INPUT_X, SLOT_Y);
         layout.getItemStacks().init(1, false, OUTPUT_X, SLOT_Y);
+        IFocus<?> focus = layout.getFocus();
+        if (focus != null && focus.getMode() == IFocus.Mode.OUTPUT) {
+            // Keep quantity alternatives cycling when the output dust is the focus.
+            layout.getItemStacks().setOverrideDisplayFocus(null);
+        }
         layout.getItemStacks().set(ingredients);
         if (!pedestal.isEmpty()) {
             // A native JEI display gives this catalyst normal item tooltips/navigation.
