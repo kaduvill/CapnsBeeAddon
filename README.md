@@ -6,6 +6,17 @@ It adds Industrial Apiary upgrades, accurate Career Bee territory visualization,
 
 ## Features
 
+### Ore Crusher Bee JEI recipes
+
+Adds a standard ore-to-dust recipe category when JEI or HEI is installed.
+Recipes use Career Bees' own conversion lookup, including its choice of dust
+when several mods register the same material. Equivalent inputs share a recipe
+only when they produce the same output.
+
+Each ore produces 2, 3 or 4 dust with equal probability, averaging 3. The page
+shows the quantity range and uses the Ore Crusher Queen and Flower Pedestal as
+catalysts. Place the input on a Flower Pedestal inside the bee's territory.
+
 ### Temporal Focus upgrades
 
 Temporal Focus upgrades change what a Career Bees Temporal effect targets. Only one Temporal Focus can be installed at a time.
@@ -72,3 +83,4 @@ Capn's Bee Addon is developed against these exact Minecraft 1.12.2 dependencies:
 * Career Bees 0.4.0, internally reporting version 1.0
 * MixinBooter 10.7
 * Mixin 0.8.7
+* JEI 4.16.1.301 API (optional client integration; also compatible with HEI)

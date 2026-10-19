@@ -58,6 +58,11 @@ repositories {
     mavenCentral()
 
     maven {
+        name = 'JEI Maven'
+        url = uri('https://maven.blamejared.com')
+    }
+
+    maven {
         name = 'Curse Maven'
         url = uri('https://cursemaven.com')
     }
@@ -104,6 +109,9 @@ dependencies {
     implementation rfg.deobf('curse.maven:bdlib-70496:4675629')          // 1.14.4.1
     implementation rfg.deobf('curse.maven:gendustry-70492:2516215')      // 1.6.5.8
     implementation rfg.deobf('curse.maven:career-bees-281791:2534481')   // 0.4.0
+
+    // HEI
+    compileOnly rfg.deobf('mezz.jei:jei_1.12.2:4.16.1.301:api')
 }
 
 processResources {

@@ -15,6 +15,7 @@ bin/
 run/
 runs/
 mods/
+logs/
 # Local dependency jars
 libs/*.jar
 
