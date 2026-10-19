@@ -14,7 +14,7 @@ bin/
 # Run directories
 run/
 runs/
-
+mods/
 # Local dependency jars
 libs/*.jar
 
