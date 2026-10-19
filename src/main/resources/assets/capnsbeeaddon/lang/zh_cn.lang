@@ -46,3 +46,4 @@ item.capnsbeeaddon.product_nullifier.detail.2=* 蜜蜂效果与生命周期正�
 
 jei.capnsbeeaddon.crusher.title=矿石粉碎蜜蜂
 jei.capnsbeeaddon.crusher.yield=产出 %s-%s
+jei.capnsbeeaddon.crusher.interval=基础速率：%s 刻

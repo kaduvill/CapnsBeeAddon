@@ -46,3 +46,4 @@ item.capnsbeeaddon.product_nullifier.detail.2=* Bee effects and lifecycle contin
 
 jei.capnsbeeaddon.crusher.title=Ore Crusher Bee
 jei.capnsbeeaddon.crusher.yield=Output %s-%s
+jei.capnsbeeaddon.crusher.interval=Base rate: %s ticks
