@@ -2,6 +2,7 @@
 - Add config
 - Add JEI pages for Career Bees
   - Ore Crusher Bee
+  - Honey-Smelter Bee
 - Territory Restrictors now reduce territory by 27% per upgrade (previously 30%), fixing missed neighboring flowers when six restrictors are installed due to a bug in Forestry Flower spiral-scan (Forestry 5.8.2.427)
 
 0.1.1

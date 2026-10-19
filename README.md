@@ -11,6 +11,7 @@ It adds Industrial Apiary upgrades, accurate Career Bee territory visualization,
 Adds JEI pages for Career Bees. These can be deactivated in config (default=true)
 Currently implemented:
 - Crusher Bee
+- Honey-Smelter Bee
 
 ### Temporal Focus upgrades
 

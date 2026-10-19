@@ -19,6 +19,7 @@ public final class CapnsBeeAddonConfig {
     public final boolean tileApiaryEmptyCoverTick;
     public final boolean registerJeiPages;
     public final boolean crusherBee;
+    public final boolean honeySmelterBee;
 
     private CapnsBeeAddonConfig(File file) {
         // Preserve the category names, including the capitalization of JEI.
@@ -45,12 +46,14 @@ public final class CapnsBeeAddonConfig {
                 "Master switch for all JEI/HEI pages added by this addon.");
         crusherBee = readBoolean(config, JEI, "CrusherBee",
                 "Register the Ore Crusher Bee category, recipes and catalysts. Requires RegisterJeiPages.");
+        honeySmelterBee = readBoolean(config, JEI, "HoneySmelterBee",
+                "Register the Honey-Smelter Bee category, recipe and catalysts. Requires RegisterJeiPages.");
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(OPTIMIZATIONS, new ArrayList<>(Arrays.asList(
                 "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
-        config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList("RegisterJeiPages", "CrusherBee")));
+        config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList("RegisterJeiPages", "CrusherBee", "HoneySmelterBee")));
         if (config.hasChanged()) {
             config.save();
         }
@@ -63,6 +66,10 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isCrusherBeeJeiEnabled() {
         return registerJeiPages && crusherBee;
+    }
+
+    public boolean isHoneySmelterBeeJeiEnabled() {
+        return registerJeiPages && honeySmelterBee;
     }
 
     private static boolean readBoolean(Configuration config, String category,

@@ -86,7 +86,7 @@ public final class CrusherBeeRecipeCategory implements IRecipeCategory<CrusherBe
         if (mouseX >= ARROW_X && mouseX < ARROW_X + arrow.getWidth()
                 && mouseY >= SLOT_Y && mouseY < SLOT_Y + arrow.getHeight()) {
             return Collections.singletonList(
-                    I18n.format("jei.capnsbeeaddon.crusher.interval", BASE_PROCESSING_TICKS));
+                    I18n.format("jei.capnsbeeaddon.base_rate", BASE_PROCESSING_TICKS));
         }
         return Collections.emptyList();
     }
