@@ -1,6 +1,7 @@
 package com.kaduvill.capnsbeeaddon.compat.jei;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
+import com.kaduvill.capnsbeeaddon.config.CapnsBeeAddonConfig;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeWrapper;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipes;
@@ -24,6 +25,9 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
+        if (!CapnsBeeAddonConfig.get().isCrusherBeeJeiEnabled()) {
+            return;
+        }
         try {
             queen = BeeManager.beeRoot.getMemberStack(CareerBeeSpecies.ORE_CRUSHER.get(), EnumBeeType.QUEEN);
         } catch (RuntimeException | LinkageError failure) {
@@ -34,6 +38,9 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
 
     @Override
     public void register(IModRegistry registry) {
+        if (!CapnsBeeAddonConfig.get().isCrusherBeeJeiEnabled()) {
+            return;
+        }
         // JEI registration runs after normal mod initialization and recipe scripts.
         List<CrusherBeeRecipeWrapper> recipes = new ArrayList<>();
         for (CrusherBeeRecipes.Recipe recipe : CrusherBeeRecipes.read()) {

@@ -2,6 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.kaduvill.capnsbeeaddon.mixin",
+  "plugin": "com.kaduvill.capnsbeeaddon.mixin.CapnsBeeAddonMixinLoader",
   "compatibilityLevel": "JAVA_8",
   "refmap": "capnsbeeaddon.refmap.json",
   "mixins": [
