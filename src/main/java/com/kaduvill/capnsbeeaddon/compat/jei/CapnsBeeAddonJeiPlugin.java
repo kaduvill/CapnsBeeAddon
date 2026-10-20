@@ -11,6 +11,7 @@ import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeCate
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeWrapper;
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipes;
+import com.kaduvill.capnsbeeaddon.compat.jei.HusbandryBee.HusbandryBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.LumberBee.LumberBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.PriestBee.PriestBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.RepairBee.RepairBeeRecipe;
@@ -56,6 +57,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack graduateQueen = ItemStack.EMPTY;
     private ItemStack phdQueen = ItemStack.EMPTY;
     private ItemStack priestQueen = ItemStack.EMPTY;
+    private ItemStack husbandryQueen = ItemStack.EMPTY;
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -126,6 +128,13 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     PriestBeeRecipe.UID, "jei.capnsbeeaddon.priest.title", PriestBeeRecipe.BASE_TICKS,
                     "jei.capnsbeeaddon.base_rate", null, priestQueen, getPedestal()));
         }
+        if (config.isHusbandryBeeJeiEnabled()) {
+            husbandryQueen = getQueen(CareerBeeSpecies.HUSBANDRYIST, "Husbandry");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    HusbandryBeeRecipe.UID, "jei.capnsbeeaddon.husbandry.title", HusbandryBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.husbandry.limit",
+                    husbandryQueen, ItemStack.EMPTY, false));
+        }
     }
 
     private void registerEquipmentCategory(IRecipeCategoryRegistration registry,
@@ -163,6 +172,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isRepairBeeJeiEnabled()) registerRepair(registry);
         if (config.isRetrainingBeeJeiEnabled()) registerRetraining(registry);
         if (config.isPriestBeeJeiEnabled()) registerPriest(registry);
+        if (config.isHusbandryBeeJeiEnabled()) registerHusbandry(registry);
     }
 
     private void registerCrusher(IModRegistry registry) {
@@ -333,6 +343,17 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered Graduate/PHD Bee retraining JEI overview page");
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Graduate/PHD Bee retraining JEI overview page", failure);
+        }
+    }
+
+    private void registerHusbandry(IModRegistry registry) {
+        try {
+            registry.addRecipes(Collections.singletonList(new HusbandryBeeRecipe(
+                    registry.getJeiHelpers().getGuiHelper())), HusbandryBeeRecipe.UID);
+            registerCatalysts(registry, HusbandryBeeRecipe.UID, husbandryQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered Husbandry Bee JEI information page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Husbandry Bee JEI information page", failure);
         }
     }
 

@@ -26,6 +26,7 @@ public final class BeeEffectRecipeCategory implements IRecipeCategory<BeeEffectR
     @Nullable
     private final String intervalNoteKey;
     private final int baseTicks;
+    private final boolean drawSlots;
     private final IDrawable background;
     private final IDrawable slot;
     private final IDrawableStatic arrowBackground;
@@ -35,10 +36,17 @@ public final class BeeEffectRecipeCategory implements IRecipeCategory<BeeEffectR
 
     public BeeEffectRecipeCategory(IGuiHelper helper, String uid, String titleKey, int baseTicks,
                                    String baseRateKey, @Nullable String intervalNoteKey, ItemStack queen, ItemStack setup) {
+        this(helper, uid, titleKey, baseTicks, baseRateKey, intervalNoteKey, queen, setup, true);
+    }
+
+    public BeeEffectRecipeCategory(IGuiHelper helper, String uid, String titleKey, int baseTicks,
+                                   String baseRateKey, @Nullable String intervalNoteKey, ItemStack queen, ItemStack setup,
+                                   boolean drawSlots) {
         this.uid = uid;
         this.titleKey = titleKey;
         this.baseRateKey = baseRateKey;
         this.baseTicks = baseTicks;
+        this.drawSlots = drawSlots;
         this.intervalNoteKey = intervalNoteKey;
         this.setup = setup.copy();
         background = helper.createBlankDrawable(160, 50);
@@ -67,8 +75,10 @@ public final class BeeEffectRecipeCategory implements IRecipeCategory<BeeEffectR
 
     @Override
     public void drawExtras(Minecraft minecraft) {
-        slot.draw(minecraft, 18, 8);
-        slot.draw(minecraft, 124, 8);
+        if (drawSlots) {
+            slot.draw(minecraft, 18, 8);
+            slot.draw(minecraft, 124, 8);
+        }
         arrowBackground.draw(minecraft, 68, 8);
         arrow.draw(minecraft, 68, 8);
     }

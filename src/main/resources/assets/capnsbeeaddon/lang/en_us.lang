@@ -95,3 +95,9 @@ jei.capnsbeeaddon.priest.title=Priest Bee
 jei.capnsbeeaddon.priest.any_equipment=Any enchantable equipment
 jei.capnsbeeaddon.priest.random_enchantments=Random enchantments
 jei.capnsbeeaddon.priest.bookshelves=Bookshelves boost power
+
+jei.capnsbeeaddon.husbandry.title=Husbandry Bee
+jei.capnsbeeaddon.husbandry.input=Parents are not consumed
+jei.capnsbeeaddon.husbandry.baby=Baby
+jei.capnsbeeaddon.husbandry.limit=Pauses with 17+ eligible adults in territory
+jei.capnsbeeaddon.husbandry.any_animal=Any breedable animal

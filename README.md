@@ -23,6 +23,7 @@ Currently implemented:
 - Repair Bee
 - Graduate / PHD Bees (retraining)
 - Priest Bee
+- Husbandry Bee
 
 ### Temporal Focus upgrades
 
