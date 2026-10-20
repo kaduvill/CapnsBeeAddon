@@ -110,7 +110,7 @@ public final class CrusherBeeRecipeCategory implements IRecipeCategory<CrusherBe
         }
         layout.getItemStacks().addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
             if (input || slotIndex != 1) return;
-            tooltip.add(I18n.format("jei.capnsbeeaddon.crusher.yield",
+            tooltip.add(I18n.format("jei.capnsbeeaddon.output_range",
                     CrusherBeeRecipes.MIN_OUTPUT, CrusherBeeRecipes.MAX_OUTPUT));
         });
     }

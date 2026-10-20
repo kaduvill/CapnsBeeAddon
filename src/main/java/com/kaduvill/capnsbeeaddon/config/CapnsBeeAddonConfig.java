@@ -20,6 +20,8 @@ public final class CapnsBeeAddonConfig {
     public final boolean registerJeiPages;
     public final boolean crusherBee;
     public final boolean honeySmelterBee;
+    public final boolean chefBee;
+    public final boolean lumberBee;
 
     private CapnsBeeAddonConfig(File file) {
         // Preserve the category names, including the capitalization of JEI.
@@ -48,12 +50,17 @@ public final class CapnsBeeAddonConfig {
                 "Register the Ore Crusher Bee category, recipes and catalysts. Requires RegisterJeiPages.");
         honeySmelterBee = readBoolean(config, JEI, "HoneySmelterBee",
                 "Register the Honey-Smelter Bee category, recipe and catalysts. Requires RegisterJeiPages.");
+        chefBee = readBoolean(config, JEI, "ChefBee",
+                "Register Chef Bee honey-glazing recipes. Requires RegisterJeiPages.");
+        lumberBee = readBoolean(config, JEI, "LumberBee",
+                "Register Lumber Bee bark recipes and tree requirements. Requires RegisterJeiPages.");
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(OPTIMIZATIONS, new ArrayList<>(Arrays.asList(
                 "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
-        config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList("RegisterJeiPages", "CrusherBee", "HoneySmelterBee")));
+        config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList(
+                "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee")));
         if (config.hasChanged()) {
             config.save();
         }
@@ -70,6 +77,14 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isHoneySmelterBeeJeiEnabled() {
         return registerJeiPages && honeySmelterBee;
+    }
+
+    public boolean isChefBeeJeiEnabled() {
+        return registerJeiPages && chefBee;
+    }
+
+    public boolean isLumberBeeJeiEnabled() {
+        return registerJeiPages && lumberBee;
     }
 
     private static boolean readBoolean(Configuration config, String category,
