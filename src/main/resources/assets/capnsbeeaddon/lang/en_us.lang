@@ -47,6 +47,10 @@ item.capnsbeeaddon.product_nullifier.name=Product Nullifier Upgrade
 item.capnsbeeaddon.product_nullifier.detail.1=* Normal bee products are not generated
 item.capnsbeeaddon.product_nullifier.detail.2=* Bee effects and lifecycle continue
 
+tooltip.capnsbeeaddon.bee_gun.description=Shoots bee effects
+tooltip.capnsbeeaddon.bee_gun.select_chamber=Sneak + Scroll: Select chamber
+tooltip.capnsbeeaddon.bee_gun.open_chambers=Sneak + Right-click: Open bee chambers
+
 
 ## JEI
 jei.capnsbeeaddon.base_rate=Base rate: %s ticks
