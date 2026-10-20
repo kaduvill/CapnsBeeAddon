@@ -2,6 +2,8 @@ package com.kaduvill.capnsbeeaddon.compat.jei;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
 import com.kaduvill.capnsbeeaddon.config.CapnsBeeAddonConfig;
+import com.kaduvill.capnsbeeaddon.compat.jei.AssassinBee.AssassinBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.AssassinBee.AssassinBeeRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.ChefBee.ChefBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeWrapper;
@@ -46,6 +48,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack sharpeningQueen = ItemStack.EMPTY;
     private ItemStack smelterQueen = ItemStack.EMPTY;
     private ItemStack taxcollectorQueen = ItemStack.EMPTY;
+    private ItemStack assassinQueen = ItemStack.EMPTY;
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -91,6 +94,12 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     TaxcollectorBeeRecipe.UID, "jei.capnsbeeaddon.taxcollector.title", TaxcollectorBeeRecipe.BASE_TICKS,
                     "jei.capnsbeeaddon.base_rate", null, taxcollectorQueen, ItemStack.EMPTY));
         }
+        if (config.isAssassinBeeJeiEnabled()) {
+            assassinQueen = getQueen(CareerBeeSpecies.ASSASSIN, "Assassin");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    AssassinBeeRecipe.UID, "jei.capnsbeeaddon.assassin.title", AssassinBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", null, assassinQueen, ItemStack.EMPTY));
+        }
     }
 
     private void registerEquipmentCategory(IRecipeCategoryRegistration registry,
@@ -124,6 +133,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isSharpeningBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.SHARPENING, sharpeningQueen);
         if (config.isSmelterBeeJeiEnabled()) registerSmelter(registry);
         if (config.isTaxcollectorBeeJeiEnabled()) registerTaxcollector(registry);
+        if (config.isAssassinBeeJeiEnabled()) registerAssassin(registry);
     }
 
     private void registerCrusher(IModRegistry registry) {
@@ -229,6 +239,20 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered Taxcollector Bee JEI information page");
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Taxcollector Bee JEI information page", failure);
+        }
+    }
+
+    private void registerAssassin(IModRegistry registry) {
+        try {
+            AssassinBeeRecipe recipe = AssassinBeeRecipe.read(registry.getJeiHelpers().getGuiHelper(),
+                    registry.getJeiHelpers().getStackHelper());
+            List<ItemStack> catalysts = registerCatalysts(registry, AssassinBeeRecipe.UID, assassinQueen, false);
+            // One stable overview wrapper also provides navigation from every princess and drone.
+            registry.addRecipeRegistryPlugin(new AssassinBeeRecipeRegistryPlugin(recipe,
+                    registry.getJeiHelpers().getStackHelper(), catalysts));
+            CapnsBeeAddon.LOGGER.info("Registered Assassin Bee JEI information page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Assassin Bee JEI information page", failure);
         }
     }
 

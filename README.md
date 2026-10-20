@@ -19,6 +19,7 @@ Currently implemented:
 - Sharpening Bee
 - Smelter Bee
 - Taxcollector Bee
+- Assassin Bee
 
 ### Temporal Focus upgrades
 

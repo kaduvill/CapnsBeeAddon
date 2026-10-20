@@ -74,3 +74,9 @@ jei.capnsbeeaddon.taxcollector.title=Taxcollector Bee
 jei.capnsbeeaddon.taxcollector.scope=Any hostile mob
 jei.capnsbeeaddon.taxcollector.input=Nearby hostile mob; not consumed
 jei.capnsbeeaddon.taxcollector.output=Random mob loot
+
+jei.capnsbeeaddon.assassin.title=Assassin Bee
+jei.capnsbeeaddon.assassin.scope=Kills nearby queens
+jei.capnsbeeaddon.assassin.any_species=Any species
+jei.capnsbeeaddon.assassin.princess=Pristine stock guarantees a princess
+jei.capnsbeeaddon.assassin.drones=Drone count depends on fertility
