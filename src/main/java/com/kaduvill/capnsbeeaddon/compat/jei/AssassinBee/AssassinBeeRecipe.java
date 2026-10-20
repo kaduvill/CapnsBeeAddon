@@ -14,7 +14,6 @@ import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
-import mezz.jei.api.recipe.IStackHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -36,10 +35,9 @@ public final class AssassinBeeRecipe implements BeeEffectRecipe {
     private final ItemStack drone;
     private final IAlleleBeeSpecies assassinSpecies;
     private final IDrawable slot;
-    private final IStackHelper stackHelper;
 
     private AssassinBeeRecipe(ItemStack input, ItemStack princess, ItemStack drone,
-                              IAlleleBeeSpecies assassinSpecies, IDrawable slot, IStackHelper stackHelper) {
+                              IAlleleBeeSpecies assassinSpecies, IDrawable slot) {
         if (input.isEmpty() || princess.isEmpty() || drone.isEmpty()) {
             throw new IllegalArgumentException("Missing Forest bee examples");
         }
@@ -48,10 +46,9 @@ public final class AssassinBeeRecipe implements BeeEffectRecipe {
         this.drone = drone.copy();
         this.assassinSpecies = Objects.requireNonNull(assassinSpecies, "Assassin species");
         this.slot = slot;
-        this.stackHelper = stackHelper;
     }
 
-    public static AssassinBeeRecipe read(IGuiHelper helper, IStackHelper stackHelper) {
+    public static AssassinBeeRecipe read(IGuiHelper helper) {
         IBee forest = BeeDefinition.FOREST.getIndividual();
         IBee queen = (IBee) forest.copy();
         // A normal queen includes her mate. Do not simulate offspring or touch a world.
@@ -59,7 +56,7 @@ public final class AssassinBeeRecipe implements BeeEffectRecipe {
         return new AssassinBeeRecipe(BeeManager.beeRoot.getMemberStack(queen, EnumBeeType.QUEEN),
                 BeeManager.beeRoot.getMemberStack(forest, EnumBeeType.PRINCESS),
                 BeeManager.beeRoot.getMemberStack(forest, EnumBeeType.DRONE),
-                CareerBeeSpecies.ASSASSIN.get(), helper.getSlotDrawable(), stackHelper);
+                CareerBeeSpecies.ASSASSIN.get(), helper.getSlotDrawable());
     }
 
     @Override
@@ -75,17 +72,6 @@ public final class AssassinBeeRecipe implements BeeEffectRecipe {
             return bee != null && bee.getGenome().getPrimary() != assassinSpecies;
         } catch (RuntimeException | LinkageError failure) {
             return false;
-        }
-    }
-
-    /** Only the displayed offspring examples are indexed as outputs. */
-    public ItemStack sourceOf(ItemStack stack) {
-        if (stack.isEmpty()) return ItemStack.EMPTY;
-        try {
-            return stackHelper.isEquivalent(princess, stack) || stackHelper.isEquivalent(drone, stack)
-                    ? getInput() : ItemStack.EMPTY;
-        } catch (RuntimeException | LinkageError failure) {
-            return ItemStack.EMPTY;
         }
     }
 
@@ -119,7 +105,7 @@ public final class AssassinBeeRecipe implements BeeEffectRecipe {
                         ? "jei.capnsbeeaddon.assassin.princess" : "jei.capnsbeeaddon.assassin.drones"));
             }
             if (slotIndex == 0 || slotIndex == 1 || slotIndex == 3) {
-                tooltip.add(TextFormatting.RED + I18n.format("jei.capnsbeeaddon.assassin.any_species"));
+                tooltip.add(TextFormatting.RED + I18n.format("jei.capnsbeeaddon.any_species"));
             }
         });
     }

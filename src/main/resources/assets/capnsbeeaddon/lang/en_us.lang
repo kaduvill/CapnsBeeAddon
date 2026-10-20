@@ -58,6 +58,7 @@ jei.capnsbeeaddon.base_rate_per_application=Base rate per application: %s ticks
 jei.capnsbeeaddon.output_range=Output %s-%s
 jei.capnsbeeaddon.operations=Operations: %s
 jei.capnsbeeaddon.processing_chance=20%% chance per attempt
+jei.capnsbeeaddon.any_species=Any species
 
 jei.capnsbeeaddon.crusher.title=Ore Crusher Bee
 
@@ -81,9 +82,11 @@ jei.capnsbeeaddon.taxcollector.output=Random mob loot
 
 jei.capnsbeeaddon.assassin.title=Assassin Bee
 jei.capnsbeeaddon.assassin.scope=Kills nearby queens
-jei.capnsbeeaddon.assassin.any_species=Any species
 jei.capnsbeeaddon.assassin.princess=Pristine stock guarantees a princess
 jei.capnsbeeaddon.assassin.drones=Drone count depends on fertility
 
 jei.capnsbeeaddon.repair.title=Repair Bee
 jei.capnsbeeaddon.repair.per_operation=1 durability per operation
+
+jei.capnsbeeaddon.retraining.title=Retraining
+jei.capnsbeeaddon.retraining.description=Restores effect gene

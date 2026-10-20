@@ -21,6 +21,7 @@ Currently implemented:
 - Taxcollector Bee
 - Assassin Bee
 - Repair Bee
+- Graduate / PHD Bees (retraining)
 
 ### Temporal Focus upgrades
 

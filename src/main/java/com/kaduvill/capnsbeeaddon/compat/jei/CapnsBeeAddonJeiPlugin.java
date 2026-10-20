@@ -3,7 +3,6 @@ package com.kaduvill.capnsbeeaddon.compat.jei;
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
 import com.kaduvill.capnsbeeaddon.config.CapnsBeeAddonConfig;
 import com.kaduvill.capnsbeeaddon.compat.jei.AssassinBee.AssassinBeeRecipe;
-import com.kaduvill.capnsbeeaddon.compat.jei.AssassinBee.AssassinBeeRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.ChefBee.ChefBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeWrapper;
@@ -14,11 +13,13 @@ import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeWrap
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.LumberBee.LumberBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.RepairBee.RepairBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.RetrainingBee.RetrainingBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.TaxcollectorBee.TaxcollectorBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeRegistryPlugin;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeOverviewRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.EquipmentBeeRecipes;
 import com.rwtema.careerbees.bees.CareerBeeEntry;
 import com.rwtema.careerbees.bees.CareerBeeSpecies;
@@ -51,6 +52,8 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack taxcollectorQueen = ItemStack.EMPTY;
     private ItemStack assassinQueen = ItemStack.EMPTY;
     private ItemStack repairQueen = ItemStack.EMPTY;
+    private ItemStack graduateQueen = ItemStack.EMPTY;
+    private ItemStack phdQueen = ItemStack.EMPTY;
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -108,6 +111,13 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     RepairBeeRecipe.UID, "jei.capnsbeeaddon.repair.title", RepairBeeRecipe.BASE_TICKS,
                     "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.processing_chance", repairQueen, getPedestal()));
         }
+        if (config.isRetrainingBeeJeiEnabled()) {
+            graduateQueen = getQueen(CareerBeeSpecies.VOCATIONAL, "Graduate");
+            phdQueen = getQueen(CareerBeeSpecies.PHD, "PHD");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    RetrainingBeeRecipe.UID, "jei.capnsbeeaddon.retraining.title", RetrainingBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", null, graduateQueen, getPedestal()));
+        }
     }
 
     private void registerEquipmentCategory(IRecipeCategoryRegistration registry,
@@ -143,6 +153,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isTaxcollectorBeeJeiEnabled()) registerTaxcollector(registry);
         if (config.isAssassinBeeJeiEnabled()) registerAssassin(registry);
         if (config.isRepairBeeJeiEnabled()) registerRepair(registry);
+        if (config.isRetrainingBeeJeiEnabled()) registerRetraining(registry);
     }
 
     private void registerCrusher(IModRegistry registry) {
@@ -253,12 +264,12 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
 
     private void registerAssassin(IModRegistry registry) {
         try {
-            AssassinBeeRecipe recipe = AssassinBeeRecipe.read(registry.getJeiHelpers().getGuiHelper(),
-                    registry.getJeiHelpers().getStackHelper());
+            AssassinBeeRecipe recipe = AssassinBeeRecipe.read(registry.getJeiHelpers().getGuiHelper());
             List<ItemStack> catalysts = registerCatalysts(registry, AssassinBeeRecipe.UID, assassinQueen, false);
             // One stable overview wrapper also provides navigation from every princess and drone.
-            registry.addRecipeRegistryPlugin(new AssassinBeeRecipeRegistryPlugin(recipe,
-                    registry.getJeiHelpers().getStackHelper(), catalysts));
+            registry.addRecipeRegistryPlugin(new BeeOverviewRecipeRegistryPlugin(AssassinBeeRecipe.UID, recipe,
+                    registry.getJeiHelpers().getStackHelper(), catalysts,
+                    recipe::acceptsInput, BeeOverviewRecipeRegistryPlugin::isDroneOrPrincess));
             CapnsBeeAddon.LOGGER.info("Registered Assassin Bee JEI information page");
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Assassin Bee JEI information page", failure);
@@ -275,6 +286,30 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             }
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Repair Bee JEI overview page", failure);
+        }
+    }
+
+    private void registerRetraining(IModRegistry registry) {
+        try {
+            RetrainingBeeRecipe recipe = RetrainingBeeRecipe.read(
+                    registry.getIngredientRegistry().getIngredientRenderer(VanillaTypes.ITEM));
+            List<ItemStack> catalysts = registerCatalysts(registry, RetrainingBeeRecipe.UID, graduateQueen, false);
+            if (!phdQueen.isEmpty()) {
+                registry.addRecipeCatalyst(phdQueen, RetrainingBeeRecipe.UID);
+                catalysts.add(phdQueen);
+            }
+            ItemStack pedestal = getPedestal();
+            if (!pedestal.isEmpty()) {
+                registry.addRecipeCatalyst(pedestal, RetrainingBeeRecipe.UID);
+                catalysts.add(pedestal);
+            }
+            registry.addRecipeRegistryPlugin(new BeeOverviewRecipeRegistryPlugin(RetrainingBeeRecipe.UID, recipe,
+                    registry.getJeiHelpers().getStackHelper(), catalysts,
+                    BeeOverviewRecipeRegistryPlugin::isDroneOrPrincess,
+                    BeeOverviewRecipeRegistryPlugin::isDroneOrPrincess));
+            CapnsBeeAddon.LOGGER.info("Registered Graduate/PHD Bee retraining JEI overview page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Graduate/PHD Bee retraining JEI overview page", failure);
         }
     }
 
