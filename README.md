@@ -22,6 +22,7 @@ Currently implemented:
 - Assassin Bee
 - Repair Bee
 - Graduate / PHD Bees (retraining)
+- Priest Bee
 
 ### Temporal Focus upgrades
 

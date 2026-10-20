@@ -12,6 +12,7 @@ import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeRegi
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeWrapper;
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.LumberBee.LumberBeeRecipes;
+import com.kaduvill.capnsbeeaddon.compat.jei.PriestBee.PriestBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.RepairBee.RepairBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.RetrainingBee.RetrainingBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipeRegistryPlugin;
@@ -54,6 +55,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack repairQueen = ItemStack.EMPTY;
     private ItemStack graduateQueen = ItemStack.EMPTY;
     private ItemStack phdQueen = ItemStack.EMPTY;
+    private ItemStack priestQueen = ItemStack.EMPTY;
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -118,6 +120,12 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     RetrainingBeeRecipe.UID, "jei.capnsbeeaddon.retraining.title", RetrainingBeeRecipe.BASE_TICKS,
                     "jei.capnsbeeaddon.base_rate", null, graduateQueen, getPedestal()));
         }
+        if (config.isPriestBeeJeiEnabled()) {
+            priestQueen = getQueen(CareerBeeSpecies.PRIEST, "Priest");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    PriestBeeRecipe.UID, "jei.capnsbeeaddon.priest.title", PriestBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", null, priestQueen, getPedestal()));
+        }
     }
 
     private void registerEquipmentCategory(IRecipeCategoryRegistration registry,
@@ -154,6 +162,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isAssassinBeeJeiEnabled()) registerAssassin(registry);
         if (config.isRepairBeeJeiEnabled()) registerRepair(registry);
         if (config.isRetrainingBeeJeiEnabled()) registerRetraining(registry);
+        if (config.isPriestBeeJeiEnabled()) registerPriest(registry);
     }
 
     private void registerCrusher(IModRegistry registry) {
@@ -286,6 +295,20 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             }
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Repair Bee JEI overview page", failure);
+        }
+    }
+
+    private void registerPriest(IModRegistry registry) {
+        try {
+            PriestBeeRecipe recipe = new PriestBeeRecipe(
+                    registry.getIngredientRegistry().getIngredientRenderer(VanillaTypes.ITEM));
+            if (!recipe.getInput().isEmpty()) {
+                registry.addRecipes(Collections.singletonList(recipe), PriestBeeRecipe.UID);
+                registerCatalysts(registry, PriestBeeRecipe.UID, priestQueen);
+                CapnsBeeAddon.LOGGER.info("Registered Priest Bee JEI overview page");
+            }
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Priest Bee JEI overview page", failure);
         }
     }
 

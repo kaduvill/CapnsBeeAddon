@@ -90,3 +90,8 @@ jei.capnsbeeaddon.repair.per_operation=1 durability per operation
 
 jei.capnsbeeaddon.retraining.title=Retraining
 jei.capnsbeeaddon.retraining.description=Restores effect gene
+
+jei.capnsbeeaddon.priest.title=Priest Bee
+jei.capnsbeeaddon.priest.any_equipment=Any enchantable equipment
+jei.capnsbeeaddon.priest.random_enchantments=Random enchantments
+jei.capnsbeeaddon.priest.bookshelves=Bookshelves boost power
