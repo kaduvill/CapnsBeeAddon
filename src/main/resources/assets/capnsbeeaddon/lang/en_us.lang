@@ -101,3 +101,9 @@ jei.capnsbeeaddon.husbandry.input=Parents are not consumed
 jei.capnsbeeaddon.husbandry.baby=Baby
 jei.capnsbeeaddon.husbandry.limit=Pauses with 17+ eligible adults in territory
 jei.capnsbeeaddon.husbandry.any_animal=Any breedable animal
+
+jei.capnsbeeaddon.butcher.title=Butcher Bee
+jei.capnsbeeaddon.butcher.input=Leaves 2 adults of each type alive
+jei.capnsbeeaddon.butcher.output=Random animal loot
+jei.capnsbeeaddon.butcher.scope=Kills surplus adults
+jei.capnsbeeaddon.butcher.any_animal=Any adult animal

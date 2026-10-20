@@ -3,6 +3,7 @@ package com.kaduvill.capnsbeeaddon.compat.jei;
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
 import com.kaduvill.capnsbeeaddon.config.CapnsBeeAddonConfig;
 import com.kaduvill.capnsbeeaddon.compat.jei.AssassinBee.AssassinBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.ButcherBee.ButcherBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.ChefBee.ChefBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeWrapper;
@@ -58,6 +59,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack phdQueen = ItemStack.EMPTY;
     private ItemStack priestQueen = ItemStack.EMPTY;
     private ItemStack husbandryQueen = ItemStack.EMPTY;
+    private ItemStack butcherQueen = ItemStack.EMPTY;
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -135,6 +137,12 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.husbandry.limit",
                     husbandryQueen, ItemStack.EMPTY, false));
         }
+        if (config.isButcherBeeJeiEnabled()) {
+            butcherQueen = getQueen(CareerBeeSpecies.BUTCHER, "Butcher");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    ButcherBeeRecipe.UID, "jei.capnsbeeaddon.butcher.title", ButcherBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", null, butcherQueen, ItemStack.EMPTY, false));
+        }
     }
 
     private void registerEquipmentCategory(IRecipeCategoryRegistration registry,
@@ -173,6 +181,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isRetrainingBeeJeiEnabled()) registerRetraining(registry);
         if (config.isPriestBeeJeiEnabled()) registerPriest(registry);
         if (config.isHusbandryBeeJeiEnabled()) registerHusbandry(registry);
+        if (config.isButcherBeeJeiEnabled()) registerButcher(registry);
     }
 
     private void registerCrusher(IModRegistry registry) {
@@ -354,6 +363,18 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered Husbandry Bee JEI information page");
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Husbandry Bee JEI information page", failure);
+        }
+    }
+
+    private void registerButcher(IModRegistry registry) {
+        try {
+            registry.addRecipes(Collections.singletonList(new ButcherBeeRecipe(
+                    registry.getJeiHelpers().getGuiHelper(),
+                    registry.getIngredientRegistry().getIngredientRenderer(VanillaTypes.ITEM))), ButcherBeeRecipe.UID);
+            registerCatalysts(registry, ButcherBeeRecipe.UID, butcherQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered Butcher Bee JEI overview page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Butcher Bee JEI overview page", failure);
         }
     }
 

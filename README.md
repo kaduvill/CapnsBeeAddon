@@ -24,6 +24,7 @@ Currently implemented:
 - Graduate / PHD Bees (retraining)
 - Priest Bee
 - Husbandry Bee
+- Butcher Bee
 
 ### Temporal Focus upgrades
 
