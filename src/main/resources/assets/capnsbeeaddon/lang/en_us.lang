@@ -80,3 +80,6 @@ jei.capnsbeeaddon.assassin.scope=Kills nearby queens
 jei.capnsbeeaddon.assassin.any_species=Any species
 jei.capnsbeeaddon.assassin.princess=Pristine stock guarantees a princess
 jei.capnsbeeaddon.assassin.drones=Drone count depends on fertility
+
+jei.capnsbeeaddon.repair.title=Repair Bee
+jei.capnsbeeaddon.repair.per_operation=1 durability per operation

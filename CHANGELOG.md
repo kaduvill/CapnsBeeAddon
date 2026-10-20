@@ -10,6 +10,7 @@
   - Smelter Bee (furnace recipes)
   - Taxcollector Bee
   - Assassin Bee
+  - Repair Bee
 - Territory Restrictors now reduce territory by 27% per upgrade (previously 30%), fixing missed neighboring flowers when six restrictors are installed due to a bug in Forestry Flower spiral-scan (Forestry 5.8.2.427)
 
 0.1.1

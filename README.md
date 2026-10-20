@@ -20,6 +20,7 @@ Currently implemented:
 - Smelter Bee
 - Taxcollector Bee
 - Assassin Bee
+- Repair Bee
 
 ### Temporal Focus upgrades
 

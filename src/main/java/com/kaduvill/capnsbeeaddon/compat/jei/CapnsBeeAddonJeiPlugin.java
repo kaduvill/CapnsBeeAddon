@@ -13,6 +13,7 @@ import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeRegi
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeWrapper;
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.LumberBee.LumberBeeRecipes;
+import com.kaduvill.capnsbeeaddon.compat.jei.RepairBee.RepairBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.TaxcollectorBee.TaxcollectorBeeRecipe;
@@ -49,6 +50,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack smelterQueen = ItemStack.EMPTY;
     private ItemStack taxcollectorQueen = ItemStack.EMPTY;
     private ItemStack assassinQueen = ItemStack.EMPTY;
+    private ItemStack repairQueen = ItemStack.EMPTY;
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -100,6 +102,12 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     AssassinBeeRecipe.UID, "jei.capnsbeeaddon.assassin.title", AssassinBeeRecipe.BASE_TICKS,
                     "jei.capnsbeeaddon.base_rate", null, assassinQueen, ItemStack.EMPTY));
         }
+        if (config.isRepairBeeJeiEnabled()) {
+            repairQueen = getQueen(CareerBeeSpecies.REPAIR, "Repair");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    RepairBeeRecipe.UID, "jei.capnsbeeaddon.repair.title", RepairBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.processing_chance", repairQueen, getPedestal()));
+        }
     }
 
     private void registerEquipmentCategory(IRecipeCategoryRegistration registry,
@@ -134,6 +142,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isSmelterBeeJeiEnabled()) registerSmelter(registry);
         if (config.isTaxcollectorBeeJeiEnabled()) registerTaxcollector(registry);
         if (config.isAssassinBeeJeiEnabled()) registerAssassin(registry);
+        if (config.isRepairBeeJeiEnabled()) registerRepair(registry);
     }
 
     private void registerCrusher(IModRegistry registry) {
@@ -253,6 +262,19 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered Assassin Bee JEI information page");
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Assassin Bee JEI information page", failure);
+        }
+    }
+
+    private void registerRepair(IModRegistry registry) {
+        try {
+            RepairBeeRecipe recipe = new RepairBeeRecipe();
+            if (!recipe.getInput().isEmpty()) {
+                registry.addRecipes(Collections.singletonList(recipe), RepairBeeRecipe.UID);
+                registerCatalysts(registry, RepairBeeRecipe.UID, repairQueen);
+                CapnsBeeAddon.LOGGER.info("Registered Repair Bee JEI overview page");
+            }
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Repair Bee JEI overview page", failure);
         }
     }
 

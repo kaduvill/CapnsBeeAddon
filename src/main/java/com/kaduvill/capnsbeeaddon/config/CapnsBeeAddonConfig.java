@@ -27,6 +27,7 @@ public final class CapnsBeeAddonConfig {
     public final boolean smelterBee;
     public final boolean taxcollectorBee;
     public final boolean assassinBee;
+    public final boolean repairBee;
 
     private CapnsBeeAddonConfig(File file) {
         // Preserve the category names, including the capitalization of JEI.
@@ -69,6 +70,8 @@ public final class CapnsBeeAddonConfig {
                 "Register the Taxcollector Bee information page. Requires RegisterJeiPages.");
         assassinBee = readBoolean(config, JEI, "AssassinBee",
                 "Register the Assassin Bee information page. Requires RegisterJeiPages.");
+        repairBee = readBoolean(config, JEI, "RepairBee",
+                "Register the Repair Bee vanilla repair overview page. Requires RegisterJeiPages.");
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(OPTIMIZATIONS, new ArrayList<>(Arrays.asList(
@@ -76,7 +79,7 @@ public final class CapnsBeeAddonConfig {
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
         config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList(
                 "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee",
-                "ArmorerBee", "SharpeningBee", "SmelterBee", "TaxcollectorBee", "AssassinBee")));
+                "ArmorerBee", "SharpeningBee", "SmelterBee", "TaxcollectorBee", "AssassinBee", "RepairBee")));
         if (config.hasChanged()) {
             config.save();
         }
@@ -121,6 +124,10 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isAssassinBeeJeiEnabled() {
         return registerJeiPages && assassinBee;
+    }
+
+    public boolean isRepairBeeJeiEnabled() {
+        return registerJeiPages && repairBee;
     }
 
     private static boolean readBoolean(Configuration config, String category,
