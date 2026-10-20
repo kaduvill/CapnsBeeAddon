@@ -13,6 +13,7 @@ import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.LumberBee.LumberBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeRegistryPlugin;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.EquipmentBeeRecipes;
 import com.rwtema.careerbees.bees.CareerBeeEntry;
 import com.rwtema.careerbees.bees.CareerBeeSpecies;
 import com.rwtema.careerbees.items.ItemIngredients;
@@ -37,6 +38,8 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack honeySmelterQueen = ItemStack.EMPTY;
     private ItemStack chefQueen = ItemStack.EMPTY;
     private ItemStack lumberQueen = ItemStack.EMPTY;
+    private ItemStack armorerQueen = ItemStack.EMPTY;
+    private ItemStack sharpeningQueen = ItemStack.EMPTY;
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -62,6 +65,21 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     LumberBeeRecipes.UID, "jei.capnsbeeaddon.lumber.title", 200,
                     "jei.capnsbeeaddon.base_rate", null, lumberQueen, ItemStack.EMPTY));
         }
+        if (config.isArmorerBeeJeiEnabled()) {
+            armorerQueen = getQueen(CareerBeeSpecies.ARMORER, "Armorer");
+            registerEquipmentCategory(registry, EquipmentBeeRecipes.ARMORER, armorerQueen);
+        }
+        if (config.isSharpeningBeeJeiEnabled()) {
+            sharpeningQueen = getQueen(CareerBeeSpecies.SHARPENER, "Sharpening");
+            registerEquipmentCategory(registry, EquipmentBeeRecipes.SHARPENING, sharpeningQueen);
+        }
+    }
+
+    private void registerEquipmentCategory(IRecipeCategoryRegistration registry,
+                                           EquipmentBeeRecipes effect, ItemStack queen) {
+        registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                effect.getUid(), effect.getTitleKey(), effect.getBaseTicks(),
+                "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.processing_chance", queen, getPedestal()));
     }
 
     private static ItemStack getQueen(CareerBeeEntry bee, String name) {
@@ -84,6 +102,8 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         }
         if (config.isChefBeeJeiEnabled()) registerChef(registry);
         if (config.isLumberBeeJeiEnabled()) registerLumber(registry);
+        if (config.isArmorerBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.ARMORER, armorerQueen);
+        if (config.isSharpeningBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.SHARPENING, sharpeningQueen);
     }
 
     private void registerCrusher(IModRegistry registry) {
@@ -142,6 +162,21 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered {} Lumber Bee JEI recipes", recipes.size());
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Lumber Bee JEI recipes", failure);
+        }
+    }
+
+    private void registerEquipment(IModRegistry registry, EquipmentBeeRecipes effect, ItemStack queen) {
+        try {
+            List<EquipmentBeeRecipes.Recipe> recipes = effect.read(
+                    registry.getIngredientRegistry().getAllIngredients(VanillaTypes.ITEM));
+            if (!recipes.isEmpty()) {
+                List<ItemStack> catalysts = registerCatalysts(registry, effect.getUid(), queen);
+                registry.addRecipeRegistryPlugin(new BeeEffectRecipeRegistryPlugin(effect.getUid(), recipes,
+                        registry.getJeiHelpers().getStackHelper(), catalysts, effect::sourceOf, effect::withoutBonus));
+            }
+            CapnsBeeAddon.LOGGER.info("Registered {} {} JEI recipes", recipes.size(), effect.getUid());
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register {} JEI recipes", effect.getUid(), failure);
         }
     }
 

@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/** The existing two-slot bee layout, shared by the Chef and Lumber pages. */
+/** Shared two-slot bee layout with optional pedestal and arrow details. */
 public final class BeeEffectRecipeCategory implements IRecipeCategory<BeeEffectRecipe> {
     private final String uid;
     private final String titleKey;

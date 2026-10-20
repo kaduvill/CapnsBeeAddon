@@ -22,6 +22,8 @@ public final class CapnsBeeAddonConfig {
     public final boolean honeySmelterBee;
     public final boolean chefBee;
     public final boolean lumberBee;
+    public final boolean armorerBee;
+    public final boolean sharpeningBee;
 
     private CapnsBeeAddonConfig(File file) {
         // Preserve the category names, including the capitalization of JEI.
@@ -54,13 +56,18 @@ public final class CapnsBeeAddonConfig {
                 "Register Chef Bee honey-glazing recipes. Requires RegisterJeiPages.");
         lumberBee = readBoolean(config, JEI, "LumberBee",
                 "Register Lumber Bee bark recipes and tree requirements. Requires RegisterJeiPages.");
+        armorerBee = readBoolean(config, JEI, "ArmorerBee",
+                "Register Armorer Bee equipment improvement recipes. Requires RegisterJeiPages.");
+        sharpeningBee = readBoolean(config, JEI, "SharpeningBee",
+                "Register Sharpening Bee equipment improvement recipes. Requires RegisterJeiPages.");
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(OPTIMIZATIONS, new ArrayList<>(Arrays.asList(
                 "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
         config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList(
-                "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee")));
+                "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee",
+                "ArmorerBee", "SharpeningBee")));
         if (config.hasChanged()) {
             config.save();
         }
@@ -85,6 +92,14 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isLumberBeeJeiEnabled() {
         return registerJeiPages && lumberBee;
+    }
+
+    public boolean isArmorerBeeJeiEnabled() {
+        return registerJeiPages && armorerBee;
+    }
+
+    public boolean isSharpeningBeeJeiEnabled() {
+        return registerJeiPages && sharpeningBee;
     }
 
     private static boolean readBoolean(Configuration config, String category,

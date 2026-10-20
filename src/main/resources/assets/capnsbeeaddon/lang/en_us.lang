@@ -52,6 +52,8 @@ item.capnsbeeaddon.product_nullifier.detail.2=* Bee effects and lifecycle contin
 jei.capnsbeeaddon.base_rate=Base rate: %s ticks
 jei.capnsbeeaddon.base_rate_per_application=Base rate per application: %s ticks
 jei.capnsbeeaddon.output_range=Output %s-%s
+jei.capnsbeeaddon.operations=Operations: %s
+jei.capnsbeeaddon.processing_chance=20%% chance per attempt
 
 jei.capnsbeeaddon.crusher.title=Ore Crusher Bee
 
@@ -63,3 +65,6 @@ jei.capnsbeeaddon.chef.applications=Applications: %s
 
 jei.capnsbeeaddon.lumber.title=Lumber Bee
 jei.capnsbeeaddon.lumber.input=Nearby tree; not consumed
+
+jei.capnsbeeaddon.armorer.title=Armorer Bee
+jei.capnsbeeaddon.sharpening.title=Sharpening Bee

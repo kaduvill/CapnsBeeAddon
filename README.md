@@ -14,6 +14,8 @@ Currently implemented:
 - Honey-Smelter Bee
 - Chef Bee
 - Lumber Bee
+- Armorer Bee
+- Sharpening Bee
 
 ### Temporal Focus upgrades
 
