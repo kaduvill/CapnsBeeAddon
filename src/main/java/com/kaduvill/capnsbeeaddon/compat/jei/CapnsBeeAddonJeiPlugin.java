@@ -11,6 +11,8 @@ import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeRegi
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeWrapper;
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.LumberBee.LumberBeeRecipes;
+import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipeRegistryPlugin;
+import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.EquipmentBeeRecipes;
@@ -40,6 +42,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack lumberQueen = ItemStack.EMPTY;
     private ItemStack armorerQueen = ItemStack.EMPTY;
     private ItemStack sharpeningQueen = ItemStack.EMPTY;
+    private ItemStack smelterQueen = ItemStack.EMPTY;
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -73,6 +76,12 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             sharpeningQueen = getQueen(CareerBeeSpecies.SHARPENER, "Sharpening");
             registerEquipmentCategory(registry, EquipmentBeeRecipes.SHARPENING, sharpeningQueen);
         }
+        if (config.isSmelterBeeJeiEnabled()) {
+            smelterQueen = getQueen(CareerBeeSpecies.SMELTER, "Smelter");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    SmelterBeeRecipes.UID, "jei.capnsbeeaddon.smelter.title", 20,
+                    "jei.capnsbeeaddon.base_rate", null, smelterQueen, getPedestal()));
+        }
     }
 
     private void registerEquipmentCategory(IRecipeCategoryRegistration registry,
@@ -104,6 +113,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isLumberBeeJeiEnabled()) registerLumber(registry);
         if (config.isArmorerBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.ARMORER, armorerQueen);
         if (config.isSharpeningBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.SHARPENING, sharpeningQueen);
+        if (config.isSmelterBeeJeiEnabled()) registerSmelter(registry);
     }
 
     private void registerCrusher(IModRegistry registry) {
@@ -177,6 +187,21 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered {} {} JEI recipes", recipes.size(), effect.getUid());
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register {} JEI recipes", effect.getUid(), failure);
+        }
+    }
+
+    private void registerSmelter(IModRegistry registry) {
+        try {
+            SmelterBeeRecipes recipes = SmelterBeeRecipes.read(registry.getJeiHelpers().getStackHelper());
+            if (!recipes.getRecipes().isEmpty()) {
+                List<ItemStack> catalysts = registerCatalysts(registry, SmelterBeeRecipes.UID, smelterQueen);
+                // Sole provider: input matching follows the furnace, while outputs can have many source recipes.
+                registry.addRecipeRegistryPlugin(new SmelterBeeRecipeRegistryPlugin(recipes,
+                        registry.getJeiHelpers().getStackHelper(), catalysts));
+            }
+            CapnsBeeAddon.LOGGER.info("Registered {} Smelter Bee JEI recipes", recipes.getRecipes().size());
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Smelter Bee JEI recipes", failure);
         }
     }
 
