@@ -13,6 +13,7 @@ import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.LumberBee.LumberBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipes;
+import com.kaduvill.capnsbeeaddon.compat.jei.TaxcollectorBee.TaxcollectorBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.EquipmentBeeRecipes;
@@ -31,6 +32,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @JEIPlugin
@@ -43,6 +45,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack armorerQueen = ItemStack.EMPTY;
     private ItemStack sharpeningQueen = ItemStack.EMPTY;
     private ItemStack smelterQueen = ItemStack.EMPTY;
+    private ItemStack taxcollectorQueen = ItemStack.EMPTY;
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -82,6 +85,12 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     SmelterBeeRecipes.UID, "jei.capnsbeeaddon.smelter.title", 20,
                     "jei.capnsbeeaddon.base_rate", null, smelterQueen, getPedestal()));
         }
+        if (config.isTaxcollectorBeeJeiEnabled()) {
+            taxcollectorQueen = getQueen(CareerBeeSpecies.TAXCOLLECTOR, "Taxcollector");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    TaxcollectorBeeRecipe.UID, "jei.capnsbeeaddon.taxcollector.title", TaxcollectorBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", null, taxcollectorQueen, ItemStack.EMPTY));
+        }
     }
 
     private void registerEquipmentCategory(IRecipeCategoryRegistration registry,
@@ -114,6 +123,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isArmorerBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.ARMORER, armorerQueen);
         if (config.isSharpeningBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.SHARPENING, sharpeningQueen);
         if (config.isSmelterBeeJeiEnabled()) registerSmelter(registry);
+        if (config.isTaxcollectorBeeJeiEnabled()) registerTaxcollector(registry);
     }
 
     private void registerCrusher(IModRegistry registry) {
@@ -208,6 +218,18 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private static ItemStack getPedestal() {
         Item item = Item.getByNameOrId("careerbees:flower_pedastal");
         return item == null ? ItemStack.EMPTY : new ItemStack(item);
+    }
+
+    private void registerTaxcollector(IModRegistry registry) {
+        try {
+            registry.addRecipes(Collections.singletonList(new TaxcollectorBeeRecipe(
+                    registry.getJeiHelpers().getGuiHelper(),
+                    registry.getIngredientRegistry().getIngredientRenderer(VanillaTypes.ITEM))), TaxcollectorBeeRecipe.UID);
+            registerCatalysts(registry, TaxcollectorBeeRecipe.UID, taxcollectorQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered Taxcollector Bee JEI information page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Taxcollector Bee JEI information page", failure);
+        }
     }
 
     private static List<ItemStack> registerCatalysts(IModRegistry registry, String uid, ItemStack queen) {
