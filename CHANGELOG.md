@@ -1,7 +1,8 @@
 0.2.0
 - Add config
 - Fixed Miner, Fortune Miner and Silky Miner used in Bee-Bee gun could break bedrock (hardness -1)
-- Fixed Assassin Bee disappearing and crashing when used in bee housing. Bee-Bee Gun behavior is unchanged.
+- Fixed Assassin Bee disappearing and crashing when used in bee housing. Bee-Bee Gun behavior is unchanged
+- Fixed Energy Bee overflow causing negative energy transfers
 - Add JEI pages for Career Bees
   - Ore Crusher Bee
   - Honey-Smelter Bee

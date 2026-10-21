@@ -36,6 +36,8 @@ public final class CapnsBeeAddonMixinLoader implements ILateMixinLoader, IMixinC
                 return config.minerBeeGunUnbreakableBlockFix;
             case MIXIN_PACKAGE + "careerbees.EffectAssassinMixin":
                 return config.assassinBeeAutomationFix;
+            case MIXIN_PACKAGE + "careerbees.EffectPowerOverflowMixin":
+                return config.energyBeeOverflowFix;
             case MIXIN_PACKAGE + "forestry.BeeCanWorkEnvironmentFastPathMixin":
                 return config.beeCanWorkEnvironmentFastPath;
             case MIXIN_PACKAGE + "forestry.QueenCanWorkCacheMixin":
