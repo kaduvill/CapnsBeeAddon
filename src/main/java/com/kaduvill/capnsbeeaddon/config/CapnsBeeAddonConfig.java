@@ -10,9 +10,11 @@ import java.util.Arrays;
 /** Startup settings shared by mixin selection and optional integrations. */
 public final class CapnsBeeAddonConfig {
 
+    private static final String BUGFIXES = "Bugfixes";
     private static final String OPTIMIZATIONS = "Optimizations";
     private static final String JEI = "JEI";
 
+    public final boolean minerBeeGunUnbreakableBlockFix;
     public final boolean beeCanWorkEnvironmentFastPath;
     public final boolean queenCanWorkCache;
     public final boolean tileApiaryRedstoneLookup;
@@ -37,11 +39,16 @@ public final class CapnsBeeAddonConfig {
         // Preserve the category names, including the capitalization of JEI.
         Configuration config = new Configuration(file, true);
         config.setCategoryComment("general", "Reserved for general settings.");
+        config.setCategoryComment(BUGFIXES, "Optional bug fixes. Requires a full game/server restart.");
+        config.setCategoryRequiresMcRestart(BUGFIXES, true);
         config.setCategoryComment(OPTIMIZATIONS, "Optional performance patches. Requires a full game/server restart.");
         config.setCategoryRequiresMcRestart(OPTIMIZATIONS, true);
         config.setCategoryComment(JEI, "Optional addon JEI/HEI pages. Requires a full client restart.");
         config.setCategoryRequiresMcRestart(JEI, true);
 
+        minerBeeGunUnbreakableBlockFix = readBoolean(config, BUGFIXES,
+                "MinerBeeGunUnbreakableBlockFix",
+                "Prevent Miner, Fortunate Miner and Silky Miner Bees fired from the Bee Gun from mining blocks with negative hardness (such as bedrock). Does not change apiary mining.");
         beeCanWorkEnvironmentFastPath = readBoolean(config, OPTIMIZATIONS,
                 "BeeCanWorkEnvironmentFastPath",
                 "Skip irrelevant rain, light and sky queries for Industrial Apiaries.");
@@ -86,6 +93,8 @@ public final class CapnsBeeAddonConfig {
                 "Register the Butcher Bee animal loot overview page. Requires RegisterJeiPages.");
 
         // Forge appends unknown properties, so these lists must be mutable.
+        config.setCategoryPropertyOrder(BUGFIXES, new ArrayList<>(Arrays.asList(
+                "MinerBeeGunUnbreakableBlockFix")));
         config.setCategoryPropertyOrder(OPTIMIZATIONS, new ArrayList<>(Arrays.asList(
                 "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));

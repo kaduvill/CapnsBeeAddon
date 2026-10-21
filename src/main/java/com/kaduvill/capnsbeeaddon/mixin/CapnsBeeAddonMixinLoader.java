@@ -32,6 +32,8 @@ public final class CapnsBeeAddonMixinLoader implements ILateMixinLoader, IMixinC
         CapnsBeeAddonConfig config = CapnsBeeAddonConfig.get();
         // Match names without loading mixin classes or their target mods.
         switch (mixinClassName) {
+            case MIXIN_PACKAGE + "careerbees.EffectDiggingMixin":
+                return config.minerBeeGunUnbreakableBlockFix;
             case MIXIN_PACKAGE + "forestry.BeeCanWorkEnvironmentFastPathMixin":
                 return config.beeCanWorkEnvironmentFastPath;
             case MIXIN_PACKAGE + "forestry.QueenCanWorkCacheMixin":

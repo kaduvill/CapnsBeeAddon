@@ -6,6 +6,12 @@ It adds Industrial Apiary upgrades, accurate Career Bee territory visualization,
 
 ## Features
 
+### Bug fixes
+
+Miner, Fortunate Miner, and Silky Miner Bees fired from the Bee Gun respect negative block hardness, preventing them from mining unbreakable blocks such as bedrock. Apiary mining is unchanged.
+
+Enabled by default through `Bugfixes.MinerBeeGunUnbreakableBlockFix` in `config/capnsbeeaddon.cfg`. Changing this setting requires a full game/server restart.
+
 ### Career Bees JEI
 
 Adds JEI pages for Career Bees. These can be deactivated in config (default=true)

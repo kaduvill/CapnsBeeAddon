@@ -1,5 +1,6 @@
 0.2.0
 - Add config
+- Fixed Miner, Fortune Miner and Silky Miner used in Bee-Bee gun could break bedrock (hardness -1)
 - Add JEI pages for Career Bees
   - Ore Crusher Bee
   - Honey-Smelter Bee
