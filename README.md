@@ -11,6 +11,7 @@ It adds Industrial Apiary upgrades, accurate Career Bee territory visualization,
 - Miner, Fortunate Miner, and Silky Miner Bees fired from the Bee Gun respect negative block hardness, preventing them from mining unbreakable blocks such as bedrock. Apiary mining is unchanged.
 - Assassin Bee crash fix. Automation safely targets other living, different-species queens in Forestry/Gendustry housings, using loaded chunks only. Bee Gun behavior is unchanged.
 - Prevents Energy Bee overflow from causing negative energy transfers.
+- Fixes Energy Bee compatibility with receivers requiring sided energy input.
 
 ### Career Bees JEI
 

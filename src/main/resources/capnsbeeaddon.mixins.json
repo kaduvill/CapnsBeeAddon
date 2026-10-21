@@ -11,6 +11,7 @@
     "careerbees.EffectDiggingMixin",
     "careerbees.EffectAssassinMixin",
     "careerbees.EffectPowerOverflowMixin",
+    "careerbees.EffectPowerSidedEnergyMixin",
     "forestry.BeekeepingLogicProductNullifierMixin",
     "forestry.BeeCanWorkEnvironmentFastPathMixin",
     "forestry.QueenCanWorkCacheMixin",

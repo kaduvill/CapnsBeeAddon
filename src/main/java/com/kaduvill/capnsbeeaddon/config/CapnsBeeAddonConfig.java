@@ -17,6 +17,7 @@ public final class CapnsBeeAddonConfig {
     public final boolean minerBeeGunUnbreakableBlockFix;
     public final boolean assassinBeeAutomationFix;
     public final boolean energyBeeOverflowFix;
+    public final boolean energyBeeSidedEnergyFix;
     public final boolean beeCanWorkEnvironmentFastPath;
     public final boolean queenCanWorkCache;
     public final boolean tileApiaryRedstoneLookup;
@@ -57,6 +58,9 @@ public final class CapnsBeeAddonConfig {
         energyBeeOverflowFix = readBoolean(config, BUGFIXES,
                 "EnergyBeeOverflowFix",
                 "Cap excessive Energy Bee output at 2,147,483,647 RF to prevent negative transfers.");
+        energyBeeSidedEnergyFix = readBoolean(config, BUGFIXES,
+                "EnergyBeeSidedEnergyFix",
+                "Use the touching or hit face when the null-side energy handler is missing or cannot receive.");
         beeCanWorkEnvironmentFastPath = readBoolean(config, OPTIMIZATIONS,
                 "BeeCanWorkEnvironmentFastPath",
                 "Skip irrelevant rain, light and sky queries for Industrial Apiaries.");
@@ -102,7 +106,8 @@ public final class CapnsBeeAddonConfig {
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(BUGFIXES, new ArrayList<>(Arrays.asList(
-                "MinerBeeGunUnbreakableBlockFix", "AssassinBeeAutomationFix", "EnergyBeeOverflowFix")));
+                "MinerBeeGunUnbreakableBlockFix", "AssassinBeeAutomationFix", "EnergyBeeOverflowFix",
+                "EnergyBeeSidedEnergyFix")));
         config.setCategoryPropertyOrder(OPTIMIZATIONS, new ArrayList<>(Arrays.asList(
                 "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
