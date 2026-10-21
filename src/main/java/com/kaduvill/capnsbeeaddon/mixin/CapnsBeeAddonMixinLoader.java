@@ -40,6 +40,8 @@ public final class CapnsBeeAddonMixinLoader implements ILateMixinLoader, IMixinC
                 return config.energyBeeOverflowFix;
             case MIXIN_PACKAGE + "careerbees.EffectPowerSidedEnergyMixin":
                 return config.energyBeeSidedEnergyFix;
+            case MIXIN_PACKAGE + "careerbees.EffectBuisnessTradeGenerationMixin":
+                return config.businessBeeTradeGenerationFix;
             case MIXIN_PACKAGE + "forestry.BeeCanWorkEnvironmentFastPathMixin":
                 return config.beeCanWorkEnvironmentFastPath;
             case MIXIN_PACKAGE + "forestry.QueenCanWorkCacheMixin":

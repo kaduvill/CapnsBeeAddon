@@ -12,6 +12,7 @@
     "careerbees.EffectAssassinMixin",
     "careerbees.EffectPowerOverflowMixin",
     "careerbees.EffectPowerSidedEnergyMixin",
+    "careerbees.EffectBuisnessTradeGenerationMixin",
     "forestry.BeekeepingLogicProductNullifierMixin",
     "forestry.BeeCanWorkEnvironmentFastPathMixin",
     "forestry.QueenCanWorkCacheMixin",

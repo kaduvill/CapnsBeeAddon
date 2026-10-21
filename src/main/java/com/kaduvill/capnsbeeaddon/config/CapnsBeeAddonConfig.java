@@ -18,6 +18,7 @@ public final class CapnsBeeAddonConfig {
     public final boolean assassinBeeAutomationFix;
     public final boolean energyBeeOverflowFix;
     public final boolean energyBeeSidedEnergyFix;
+    public final boolean businessBeeTradeGenerationFix;
     public final boolean beeCanWorkEnvironmentFastPath;
     public final boolean queenCanWorkCache;
     public final boolean tileApiaryRedstoneLookup;
@@ -61,6 +62,9 @@ public final class CapnsBeeAddonConfig {
         energyBeeSidedEnergyFix = readBoolean(config, BUGFIXES,
                 "EnergyBeeSidedEnergyFix",
                 "Use the touching or hit face when the null-side energy handler is missing or cannot receive.");
+        businessBeeTradeGenerationFix = readBoolean(config, OPTIMIZATIONS,
+                "BusinessBeeTradeGenerationFix",
+                "Skip vanilla treasure-map trade generation for Business and Junk Seller Bees, and skip Junk Seller trade generation without extractable emeralds in adjacent inventories.");
         beeCanWorkEnvironmentFastPath = readBoolean(config, OPTIMIZATIONS,
                 "BeeCanWorkEnvironmentFastPath",
                 "Skip irrelevant rain, light and sky queries for Industrial Apiaries.");
@@ -109,7 +113,7 @@ public final class CapnsBeeAddonConfig {
                 "MinerBeeGunUnbreakableBlockFix", "AssassinBeeAutomationFix", "EnergyBeeOverflowFix",
                 "EnergyBeeSidedEnergyFix")));
         config.setCategoryPropertyOrder(OPTIMIZATIONS, new ArrayList<>(Arrays.asList(
-                "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
+                "BusinessBeeTradeGenerationFix", "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
         config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList(
                 "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee",

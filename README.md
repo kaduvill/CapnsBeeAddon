@@ -82,6 +82,7 @@ Uses Territory modifiers, refreshes once per second, and requires no chunk scann
 
 ### Performance improvements
 
+* Skips vanilla treasure-map generation for Business/Junk Seller Bees and skips Junk Seller trades without extractable emeralds.
 * Reuses Forestry's Industrial Apiary `canWork` result during repeated updates in the same world tick.
 * Skips Gendustry's indirect-redstone lookup when the selected apiary redstone mode does not use it.
 * Skips BDLib's six-sided cover traversal after an apiary has been conclusively verified to have no covers.
