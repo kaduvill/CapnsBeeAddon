@@ -9,6 +9,7 @@
     "careerbees.EffectAccelerationMixin",
     "careerbees.EffectAccelerationAccessor",
     "careerbees.EffectDiggingMixin",
+    "careerbees.EffectAssassinMixin",
     "forestry.BeekeepingLogicProductNullifierMixin",
     "forestry.BeeCanWorkEnvironmentFastPathMixin",
     "forestry.QueenCanWorkCacheMixin",

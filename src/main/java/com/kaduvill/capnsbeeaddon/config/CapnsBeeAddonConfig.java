@@ -15,6 +15,7 @@ public final class CapnsBeeAddonConfig {
     private static final String JEI = "JEI";
 
     public final boolean minerBeeGunUnbreakableBlockFix;
+    public final boolean assassinBeeAutomationFix;
     public final boolean beeCanWorkEnvironmentFastPath;
     public final boolean queenCanWorkCache;
     public final boolean tileApiaryRedstoneLookup;
@@ -49,6 +50,9 @@ public final class CapnsBeeAddonConfig {
         minerBeeGunUnbreakableBlockFix = readBoolean(config, BUGFIXES,
                 "MinerBeeGunUnbreakableBlockFix",
                 "Prevent Miner, Fortunate Miner and Silky Miner Bees fired from the Bee Gun from mining blocks with negative hardness (such as bedrock). Does not change apiary mining.");
+        assassinBeeAutomationFix = readBoolean(config, BUGFIXES,
+                "AssassinBeeAutomationFix",
+                "Fix Assassin Bee disappearing and crashing when used in bee housing. Does not change the Bee Gun. Disabling restores original Career Bees behavior, including its known bugs.");
         beeCanWorkEnvironmentFastPath = readBoolean(config, OPTIMIZATIONS,
                 "BeeCanWorkEnvironmentFastPath",
                 "Skip irrelevant rain, light and sky queries for Industrial Apiaries.");
@@ -94,7 +98,7 @@ public final class CapnsBeeAddonConfig {
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(BUGFIXES, new ArrayList<>(Arrays.asList(
-                "MinerBeeGunUnbreakableBlockFix")));
+                "MinerBeeGunUnbreakableBlockFix", "AssassinBeeAutomationFix")));
         config.setCategoryPropertyOrder(OPTIMIZATIONS, new ArrayList<>(Arrays.asList(
                 "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
