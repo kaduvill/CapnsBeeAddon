@@ -51,6 +51,19 @@ tooltip.capnsbeeaddon.bee_gun.description=Shoots bee effects
 tooltip.capnsbeeaddon.bee_gun.select_chamber=Sneak + Scroll: Select chamber
 tooltip.capnsbeeaddon.bee_gun.open_chambers=Sneak + Right-click: Open bee chambers
 
+tooltip.capnsbeeaddon.alveary_frame.description=Adds one frame slot to an Alveary
+tooltip.capnsbeeaddon.mutation_frame.description=Mutation chance ×10
+tooltip.capnsbeeaddon.mutation_frame.genetic_decay=Genetic decay ×3
+tooltip.capnsbeeaddon.poison_frame.description=Queen lifespan ×0.1
+tooltip.capnsbeeaddon.poison_frame.genetic_decay=Genetic decay ×2
+tooltip.capnsbeeaddon.poison_frame.warning=Poisons nearby mobs and players
+tooltip.capnsbeeaddon.pheremone_frame.description=Occasionally produces pheromones
+tooltip.capnsbeeaddon.settings_frame.description=Right-click to configure Career Bee effects
+tooltip.capnsbeeaddon.settings_frame.apiary_only=For Apiaries only
+tooltip.capnsbeeaddon.flower_pedestal.description=Holds items for Career Bees
+tooltip.capnsbeeaddon.bee_armor.description=Provides Apiarist protection
+tooltip.capnsbeeaddon.triquetra.description=Right-click compatible blocks to cycle their color
+
 
 ## JEI
 jei.capnsbeeaddon.base_rate=Base rate: %s ticks

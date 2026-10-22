@@ -13,6 +13,10 @@ It adds Industrial Apiary upgrades, accurate Career Bee territory visualization,
 - Prevents Energy Bee overflow from causing negative energy transfers.
 - Fixes Energy Bee compatibility with receivers requiring sided energy input.
 
+### Item tooltips
+
+Adds concise tooltips for Career Bees frames, the Alveary Frame Holder, Flower Pedestal, Bee Armor and Triquetra, plus Bee-Bee Gun controls.
+
 ### Career Bees JEI
 
 Adds JEI pages for Career Bees. These can be deactivated in config (default=true)
