@@ -1,5 +1,6 @@
 package com.kaduvill.capnsbeeaddon.mixin.careerbees;
 
+import com.kaduvill.capnsbeeaddon.compat.careerbees.TradingBeeTradeExclusions;
 import com.rwtema.careerbees.effects.EffectBuisness;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Items;
@@ -21,7 +22,7 @@ public abstract class EffectBuisnessTradeGenerationMixin {
     private ArrayList<EntityVillager.ITradeList> capnsbeeaddon$filteredTrades;
 
     @Inject(method = "getTrades()Ljava/util/ArrayList;", at = @At("RETURN"), require = 1)
-    private void capnsbeeaddon$skipTreasureMaps(
+    private void capnsbeeaddon$skipExcludedTrades(
             CallbackInfoReturnable<ArrayList<EntityVillager.ITradeList>> cir) {
         if ((Object) this != EffectBuisness.INSTANCE && (Object) this != EffectBuisness.JUNK) {
             return;
@@ -29,9 +30,8 @@ public abstract class EffectBuisnessTradeGenerationMixin {
         ArrayList<EntityVillager.ITradeList> trades = cir.getReturnValue();
         if (trades != capnsbeeaddon$filteredTrades) {
             // This is Career Bees' own cached copy, not the villager registry's list.
-            // The package-private vanilla class is matched exactly to preserve modded generators.
-            trades.removeIf(trade -> trade != null && trade.getClass().getName().equals(
-                    "net.minecraft.entity.passive.EntityVillager$TreasureMapForEmeralds"));
+            // Exact generator names preserve subclasses and avoid optional-mod class loading.
+            trades.removeIf(TradingBeeTradeExclusions::isExcluded);
             capnsbeeaddon$filteredTrades = trades;
         }
     }

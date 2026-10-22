@@ -1,6 +1,7 @@
 package com.kaduvill.capnsbeeaddon.compat.jei.TradingBee;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
+import com.kaduvill.capnsbeeaddon.compat.careerbees.TradingBeeTradeExclusions;
 import com.rwtema.careerbees.effects.EffectBuisness;
 import forestry.api.apiculture.EnumBeeType;
 import forestry.apiculture.items.ItemBeeGE;
@@ -34,7 +35,6 @@ import java.util.Set;
 /** Reads the bees' generator pool once, without a world, live inventory or world RNG. */
 public final class TradingBeeRecipes {
     private static final int SAMPLES = 150;
-    private static final String TREASURE_MAP = "net.minecraft.entity.passive.EntityVillager$TreasureMapForEmeralds";
 
     private TradingBeeRecipes() { }
 
@@ -64,7 +64,7 @@ public final class TradingBeeRecipes {
         for (EntityVillager.ITradeList generator : generators) {
             if (generator == null || !seen.add(generator)) continue;
             // Never run structure searches or create map data just to discover an ineligible offer.
-            if (generator.getClass().getName().equals(TREASURE_MAP)
+            if (TradingBeeTradeExclusions.isExcluded(generator)
                     || generator.getClass() == EntityVillager.ListEnchantedBookForEmeralds.class) continue;
             try {
                 if (!readStandard(generator, offers)) sample(generator, offers);

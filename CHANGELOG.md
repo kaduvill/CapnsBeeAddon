@@ -5,8 +5,11 @@
 - Fixed Assassin Bee disappearing and crashing when used in bee housing. Bee-Bee Gun behavior is unchanged
 - Fixed Energy Bee overflow causing negative energy transfers
 - Fixed Energy Bee compatibility with receivers requiring sided energy input
-- Skips vanilla treasure-map generation for Business/Junk Seller Bees
-- Skips Junk Seller trade lookups without extractable emeralds
+- Skips trade generation for Business/Junk Seller Bees (these trades was always rejected later in Career Bees code path):
+  - Junk Seller trade generation without extractable emeralds in adjacent inventory
+  - Vanilla treasure-map
+  - Immersive Engineering ore-vein map/revolver-part (Immersive Engineering is optional)
+  - Forestry pollen/saplings
 - Add JEI pages for Career Bees
   - Ore Crusher Bee
   - Honey-Smelter Bee

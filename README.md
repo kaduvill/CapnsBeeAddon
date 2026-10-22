@@ -94,12 +94,17 @@ Uses Territory modifiers, refreshes once per second, and requires no chunk scann
 
 ### Performance improvements
 
-* Skips vanilla treasure-map generation for Business/Junk Seller Bees and skips Junk Seller trades without extractable emeralds.
+
 * Reuses Forestry's Industrial Apiary `canWork` result during repeated updates in the same world tick.
 * Skips Gendustry's indirect-redstone lookup when the selected apiary redstone mode does not use it.
 * Skips BDLib's six-sided cover traversal after an apiary has been conclusively verified to have no covers.
   * Invalidates the empty-cover fast path whenever covers change and falls back to BDLib's original behavior for covered or unexpected states.
 * Uses loaded-chunk TileEntity maps for focused TileEntity scans instead of scanning every block position.
+* Skips trade generation for Business/Junk Seller Bees (these trades was always rejected later in Career Bees code path):
+  * Junk Seller trade generation without extractable emeralds in adjacent inventory
+  * Vanilla treasure-map
+  * Immersive Engineering ore-vein map/revolver-part (Immersive Engineering is optional)
+  * Forestry pollen/saplings
 
 
 ## Development versions

@@ -75,7 +75,7 @@ public final class CapnsBeeAddonConfig {
                 "Use the touching or hit face when the null-side energy handler is missing or cannot receive.");
         businessBeeTradeGenerationFix = readBoolean(config, OPTIMIZATIONS,
                 "BusinessBeeTradeGenerationFix",
-                "Skip vanilla treasure-map trade generation for Business and Junk Seller Bees, and skip Junk Seller trade generation without extractable emeralds in adjacent inventories.");
+                "Skip vanilla treasure-map and Immersive Engineering ore-vein map/revolver-part trade generation for Business and Junk Seller Bees, and skip Junk Seller trade generation without extractable emeralds in adjacent inventories. Immersive Engineering is optional.");
         beeCanWorkEnvironmentFastPath = readBoolean(config, OPTIMIZATIONS,
                 "BeeCanWorkEnvironmentFastPath",
                 "Skip irrelevant rain, light and sky queries for Industrial Apiaries.");
