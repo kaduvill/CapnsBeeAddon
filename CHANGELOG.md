@@ -1,6 +1,7 @@
 0.2.0
 - Add config
 - Fixed Miner, Fortune Miner and Silky Miner used in Bee-Bee gun could break bedrock (hardness -1)
+- Fixed Honey-Smelter Bee-Bee Gun deleting stacked ingots. Convert one ingot per action and preserve the remainder
 - Fixed Assassin Bee disappearing and crashing when used in bee housing. Bee-Bee Gun behavior is unchanged
 - Fixed Energy Bee overflow causing negative energy transfers
 - Fixed Energy Bee compatibility with receivers requiring sided energy input

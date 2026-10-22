@@ -9,6 +9,7 @@
     "careerbees.EffectAccelerationMixin",
     "careerbees.EffectAccelerationAccessor",
     "careerbees.EffectDiggingMixin",
+    "careerbees.EntityBeeSwarmHoneySmelterMixin",
     "careerbees.EffectAssassinMixin",
     "careerbees.EffectPowerOverflowMixin",
     "careerbees.EffectPowerSidedEnergyMixin",

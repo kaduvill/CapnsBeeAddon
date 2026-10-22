@@ -9,9 +9,10 @@ It adds Industrial Apiary upgrades, accurate Career Bee territory visualization,
 ### Bug fixes
 
 - Miner, Fortunate Miner, and Silky Miner Bees fired from the Bee Gun respect negative block hardness, preventing them from mining unbreakable blocks such as bedrock. Apiary mining is unchanged.
+- Honey-Smelter Bees fired from the Bee Gun converts 1 ingot, and preserves the rest. Apiary processing are unchanged.
 - Assassin Bee crash fix. Automation safely targets other living, different-species queens in Forestry/Gendustry housings, using loaded chunks only. Bee Gun behavior is unchanged.
 - Prevents Energy Bee overflow from causing negative energy transfers.
-- Fixes Energy Bee compatibility with receivers requiring sided energy input.
+- Energy Bee compatibility with receivers requiring sided energy input.
 
 ### Item tooltips
 

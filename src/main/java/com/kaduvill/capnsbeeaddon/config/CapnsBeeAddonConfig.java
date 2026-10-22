@@ -15,6 +15,7 @@ public final class CapnsBeeAddonConfig {
     private static final String JEI = "JEI";
 
     public final boolean minerBeeGunUnbreakableBlockFix;
+    public final boolean honeySmelterBeeGunStackFix;
     public final boolean assassinBeeAutomationFix;
     public final boolean energyBeeOverflowFix;
     public final boolean energyBeeSidedEnergyFix;
@@ -60,6 +61,9 @@ public final class CapnsBeeAddonConfig {
         minerBeeGunUnbreakableBlockFix = readBoolean(config, BUGFIXES,
                 "MinerBeeGunUnbreakableBlockFix",
                 "Prevent Miner, Fortunate Miner and Silky Miner Bees fired from the Bee Gun from mining blocks with negative hardness (such as bedrock). Does not change apiary mining.");
+        honeySmelterBeeGunStackFix = readBoolean(config, BUGFIXES,
+                "HoneySmelterBeeGunStackFix",
+                "Convert one iron ingot per Honey-Smelter Bee Gun action while preserving the remaining dropped stack. Does not change apiary processing. Disabling restores original Career Bees behavior, including voiding.");
         assassinBeeAutomationFix = readBoolean(config, BUGFIXES,
                 "AssassinBeeAutomationFix",
                 "Fix Assassin Bee disappearing and crashing when used in bee housing. Does not change the Bee Gun. Disabling restores original Career Bees behavior, including its known bugs.");
@@ -131,7 +135,7 @@ public final class CapnsBeeAddonConfig {
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(BUGFIXES, new ArrayList<>(Arrays.asList(
-                "MinerBeeGunUnbreakableBlockFix", "AssassinBeeAutomationFix", "EnergyBeeOverflowFix",
+                "MinerBeeGunUnbreakableBlockFix", "HoneySmelterBeeGunStackFix", "AssassinBeeAutomationFix", "EnergyBeeOverflowFix",
                 "EnergyBeeSidedEnergyFix")));
         config.setCategoryPropertyOrder(OPTIMIZATIONS, new ArrayList<>(Arrays.asList(
                 "BusinessBeeTradeGenerationFix", "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
