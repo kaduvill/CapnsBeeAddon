@@ -93,6 +93,12 @@ jei.capnsbeeaddon.taxcollector.scope=Any hostile mob
 jei.capnsbeeaddon.taxcollector.input=Nearby hostile mob; not consumed
 jei.capnsbeeaddon.taxcollector.output=Random mob loot
 
+jei.capnsbeeaddon.thief.title=Thief Bee
+jei.capnsbeeaddon.thief.description=Steals up to 1 item
+jei.capnsbeeaddon.thief.scope=Does not steal from mobs or machines
+jei.capnsbeeaddon.thief.protection=Apiarist protection prevents stealing
+jei.capnsbeeaddon.thief.item=Random inventory slot, including armor and offhand
+
 jei.capnsbeeaddon.assassin.title=Assassin Bee
 jei.capnsbeeaddon.assassin.scope=Kills nearby queens
 jei.capnsbeeaddon.assassin.princess=Pristine stock guarantees a princess
@@ -160,3 +166,12 @@ jei.capnsbeeaddon.plague.undead_immunity=Vanilla undead are immune to Poison
 jei.capnsbeeaddon.plague.curing.effect=Cures zombie villagers
 jei.capnsbeeaddon.plague.curing.target=Zombie villager
 jei.capnsbeeaddon.plague.curing.timer=Curing takes up to 100 seconds
+
+jei.capnsbeeaddon.electrician.title=Electrician Bee
+jei.capnsbeeaddon.electrician.chance=10%% chance per attempt
+jei.capnsbeeaddon.electrician.damage=Lightning damage
+jei.capnsbeeaddon.electrician.amount=Deals 0.05 hearts per hit
+jei.capnsbeeaddon.electrician.pig=Transforms pigs
+jei.capnsbeeaddon.electrician.villager=Transforms villagers
+jei.capnsbeeaddon.electrician.creeper=Charges creepers
+jei.capnsbeeaddon.electrician.charged=Charged Creeper

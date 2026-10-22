@@ -30,6 +30,7 @@ Currently implemented:
 - Sharpening Bee
 - Smelter Bee
 - Taxcollector Bee
+- Thief Bee
 - Assassin Bee
 - Repair Bee
 - Graduate / PHD Bees (retraining)
@@ -41,6 +42,7 @@ Currently implemented:
 - Clockwork Bee
 - Doctor Bee (healing and regeneration)
 - Plague Bee (cleansing and zombie-villager curing)
+- Electrician Bee (lightning damage and mob conversions)
 
 ### Temporal Focus upgrades (Gendustry)
 

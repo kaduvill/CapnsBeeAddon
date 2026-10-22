@@ -32,6 +32,7 @@ public final class CapnsBeeAddonConfig {
     public final boolean sharpeningBee;
     public final boolean smelterBee;
     public final boolean taxcollectorBee;
+    public final boolean thiefBee;
     public final boolean assassinBee;
     public final boolean repairBee;
     public final boolean retrainingBee;
@@ -43,6 +44,7 @@ public final class CapnsBeeAddonConfig {
     public final boolean clockworkBee;
     public final boolean doctorBee;
     public final boolean plagueBee;
+    public final boolean electricianBee;
 
     private CapnsBeeAddonConfig(File file) {
         // Preserve the category names, including the capitalization of JEI.
@@ -100,6 +102,8 @@ public final class CapnsBeeAddonConfig {
                 "Register Smelter Bee furnace recipes. Requires RegisterJeiPages.");
         taxcollectorBee = readBoolean(config, JEI, "TaxcollectorBee",
                 "Register the Taxcollector Bee information page. Requires RegisterJeiPages.");
+        thiefBee = readBoolean(config, JEI, "ThiefBee",
+                "Register the Thief Bee player-inventory stealing overview. Requires RegisterJeiPages.");
         assassinBee = readBoolean(config, JEI, "AssassinBee",
                 "Register the Assassin Bee information page. Requires RegisterJeiPages.");
         repairBee = readBoolean(config, JEI, "RepairBee",
@@ -122,6 +126,8 @@ public final class CapnsBeeAddonConfig {
                 "Register the Doctor Bee healing overview. Requires RegisterJeiPages.");
         plagueBee = readBoolean(config, JEI, "PlagueBee",
                 "Register the Plague Bee cleansing and zombie-villager curing overviews. Requires RegisterJeiPages.");
+        electricianBee = readBoolean(config, JEI, "ElectricianBee",
+                "Register Electrician Bee damage and mob conversion pages. Requires RegisterJeiPages.");
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(BUGFIXES, new ArrayList<>(Arrays.asList(
@@ -132,9 +138,9 @@ public final class CapnsBeeAddonConfig {
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
         config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList(
                 "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee",
-                "ArmorerBee", "SharpeningBee", "SmelterBee", "TaxcollectorBee", "AssassinBee", "RepairBee",
+                "ArmorerBee", "SharpeningBee", "SmelterBee", "TaxcollectorBee", "ThiefBee", "AssassinBee", "RepairBee",
                 "RetrainingBee", "PriestBee", "HusbandryBee", "ButcherBee", "BusinessBee", "JunkSellerBee",
-                "ClockworkBee", "DoctorBee", "PlagueBee")));
+                "ClockworkBee", "DoctorBee", "PlagueBee", "ElectricianBee")));
         if (config.hasChanged()) {
             config.save();
         }
@@ -175,6 +181,10 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isTaxcollectorBeeJeiEnabled() {
         return registerJeiPages && taxcollectorBee;
+    }
+
+    public boolean isThiefBeeJeiEnabled() {
+        return registerJeiPages && thiefBee;
     }
 
     public boolean isAssassinBeeJeiEnabled() {
@@ -219,6 +229,10 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isPlagueBeeJeiEnabled() {
         return registerJeiPages && plagueBee;
+    }
+
+    public boolean isElectricianBeeJeiEnabled() {
+        return registerJeiPages && electricianBee;
     }
 
     private static boolean readBoolean(Configuration config, String category,
