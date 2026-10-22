@@ -138,6 +138,7 @@ jei.capnsbeeaddon.junk_seller.pool_hint=Randomly chooses purchases
 jei.capnsbeeaddon.trading.page=Page %s / %s
 jei.capnsbeeaddon.trading.amounts_vary=Amounts may vary
 jei.capnsbeeaddon.trading.random_enchants=May have random enchants
+jei.capnsbeeaddon.trading.fake_copy=Fake cardboard copy
 jei.capnsbeeaddon.trading.rate_modifiers=Scales with speed and production
 jei.capnsbeeaddon.trading.adjacent=Payment: adjacent inventories
 

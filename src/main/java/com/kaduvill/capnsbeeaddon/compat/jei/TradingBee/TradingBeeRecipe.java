@@ -14,6 +14,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.items.ItemHandlerHelper;
 
@@ -26,6 +27,7 @@ import java.util.List;
 public final class TradingBeeRecipe implements BeeEffectRecipe {
     private static final int HIDDEN_POSITION = -10000;
     private static final int BUTTON_WIDTH = 18;
+    private static final ResourceLocation FAKE_COPY = new ResourceLocation("extrautils2", "fakecopy");
     private static final IIngredientRenderer<ItemStack> HIDDEN_RENDERER = (minecraft, x, y, stack) -> { };
     private final Mode mode;
     private final List<Entry> entries;
@@ -87,7 +89,12 @@ public final class TradingBeeRecipe implements BeeEffectRecipe {
         int first = page * layout.pageSize;
         for (int i = 0; i < entries.size(); i++) initSlot(i, i >= first && i < first + layout.pageSize ? i - first : -1);
         items.addTooltipCallback((slot, input, ingredient, tooltip) -> {
-            if (slot > 0 && slot <= entries.size()) addTradeTooltip(entries.get(slot - 1), tooltip);
+            if (slot > 0 && slot <= entries.size()) {
+                addTradeTooltip(entries.get(slot - 1), tooltip);
+                if (mode == Mode.JUNK_SELLER && !ingredient.isEmpty()
+                        && FAKE_COPY.equals(ingredient.getItem().getRegistryName()))
+                    tooltip.add(TextFormatting.RED + I18n.format("jei.capnsbeeaddon.trading.fake_copy"));
+            }
         });
     }
 
