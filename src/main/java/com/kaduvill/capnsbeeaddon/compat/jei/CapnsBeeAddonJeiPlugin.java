@@ -30,6 +30,8 @@ import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeOverviewRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.EquipmentBeeRecipes;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.MedicalBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.MedicalBeeRecipe.Page;
 import com.rwtema.careerbees.bees.CareerBeeEntry;
 import com.rwtema.careerbees.bees.CareerBeeSpecies;
 import com.rwtema.careerbees.items.ItemIngredients;
@@ -69,6 +71,8 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack businessQueen = ItemStack.EMPTY;
     private ItemStack junkSellerQueen = ItemStack.EMPTY;
     private ItemStack clockworkQueen = ItemStack.EMPTY;
+    private ItemStack doctorQueen = ItemStack.EMPTY;
+    private ItemStack plagueQueen = ItemStack.EMPTY;
     private ClockworkBeeRecipe clockworkRecipe;
     private TradingBeeRecipes.Snapshot tradingRecipes;
 
@@ -165,6 +169,20 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                 CapnsBeeAddon.LOGGER.warn("Cannot display Clockwork Bee JEI page: Clockwork Engine is unavailable");
             }
         }
+        if (config.isDoctorBeeJeiEnabled()) {
+            doctorQueen = getQueen(CareerBeeSpecies.DOCTOR, "Doctor");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    MedicalBeeRecipe.DOCTOR_UID, "jei.capnsbeeaddon.doctor.title", MedicalBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate_per_application", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    doctorQueen, ItemStack.EMPTY, false));
+        }
+        if (config.isPlagueBeeJeiEnabled()) {
+            plagueQueen = getQueen(CareerBeeSpecies.PLAGUE_DOCTOR, "Plague");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    MedicalBeeRecipe.PLAGUE_UID, "jei.capnsbeeaddon.plague.title", MedicalBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate_per_application", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    plagueQueen, ItemStack.EMPTY, false));
+        }
         if (config.isBusinessBeeJeiEnabled() || config.isJunkSellerBeeJeiEnabled()) {
             try {
                 tradingRecipes = TradingBeeRecipes.read();
@@ -226,6 +244,8 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             registerCatalysts(registry, ClockworkBeeRecipe.UID, clockworkQueen, false);
             CapnsBeeAddon.LOGGER.info("Registered Clockwork Bee JEI overview page");
         }
+        if (config.isDoctorBeeJeiEnabled()) registerMedical(registry, false);
+        if (config.isPlagueBeeJeiEnabled()) registerMedical(registry, true);
         if (tradingRecipes != null) {
             if (config.isBusinessBeeJeiEnabled()) registerTrading(registry, Mode.BUSINESS, businessQueen);
             if (config.isJunkSellerBeeJeiEnabled()) registerTrading(registry, Mode.JUNK_SELLER, junkSellerQueen);
@@ -423,6 +443,21 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered Butcher Bee JEI overview page");
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Butcher Bee JEI overview page", failure);
+        }
+    }
+
+    private void registerMedical(IModRegistry registry, boolean plague) {
+        String uid = plague ? MedicalBeeRecipe.PLAGUE_UID : MedicalBeeRecipe.DOCTOR_UID;
+        try {
+            List<MedicalBeeRecipe> recipes = new ArrayList<>(plague ? 2 : 1);
+            recipes.add(new MedicalBeeRecipe(registry.getJeiHelpers().getGuiHelper(),
+                    plague ? Page.PLAGUE : Page.DOCTOR));
+            if (plague) recipes.add(new MedicalBeeRecipe(registry.getJeiHelpers().getGuiHelper(), Page.CURING));
+            registry.addRecipes(recipes, uid);
+            registerCatalysts(registry, uid, plague ? plagueQueen : doctorQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered {} {} JEI overview entries", recipes.size(), uid);
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register {} JEI overview", uid, failure);
         }
     }
 

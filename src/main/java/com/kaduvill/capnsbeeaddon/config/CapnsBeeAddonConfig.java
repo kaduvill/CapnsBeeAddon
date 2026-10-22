@@ -41,6 +41,8 @@ public final class CapnsBeeAddonConfig {
     public final boolean businessBee;
     public final boolean junkSellerBee;
     public final boolean clockworkBee;
+    public final boolean doctorBee;
+    public final boolean plagueBee;
 
     private CapnsBeeAddonConfig(File file) {
         // Preserve the category names, including the capitalization of JEI.
@@ -116,6 +118,10 @@ public final class CapnsBeeAddonConfig {
                 "Register the Junk Seller Bee villager trade overview. Requires RegisterJeiPages.");
         clockworkBee = readBoolean(config, JEI, "ClockworkBee",
                 "Register the Clockwork Bee engine-winding overview. Requires RegisterJeiPages.");
+        doctorBee = readBoolean(config, JEI, "DoctorBee",
+                "Register the Doctor Bee healing overview. Requires RegisterJeiPages.");
+        plagueBee = readBoolean(config, JEI, "PlagueBee",
+                "Register the Plague Bee cleansing and zombie-villager curing overviews. Requires RegisterJeiPages.");
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(BUGFIXES, new ArrayList<>(Arrays.asList(
@@ -128,7 +134,7 @@ public final class CapnsBeeAddonConfig {
                 "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee",
                 "ArmorerBee", "SharpeningBee", "SmelterBee", "TaxcollectorBee", "AssassinBee", "RepairBee",
                 "RetrainingBee", "PriestBee", "HusbandryBee", "ButcherBee", "BusinessBee", "JunkSellerBee",
-                "ClockworkBee")));
+                "ClockworkBee", "DoctorBee", "PlagueBee")));
         if (config.hasChanged()) {
             config.save();
         }
@@ -205,6 +211,14 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isClockworkBeeJeiEnabled() {
         return registerJeiPages && clockworkBee;
+    }
+
+    public boolean isDoctorBeeJeiEnabled() {
+        return registerJeiPages && doctorBee;
+    }
+
+    public boolean isPlagueBeeJeiEnabled() {
+        return registerJeiPages && plagueBee;
     }
 
     private static boolean readBoolean(Configuration config, String category,

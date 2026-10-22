@@ -137,4 +137,26 @@ jei.capnsbeeaddon.trading.adjacent=Payment: adjacent inventories
 
 jei.capnsbeeaddon.clockwork.title=Clockwork Bee
 jei.capnsbeeaddon.clockwork.description=Winds up Clockwork Engines
-jei.capnsbeeaddon.clockwork.engine=Engine in bee territory; not consumed
+jei.capnsbeeaddon.clockwork.engine=Not consumed
+
+jei.capnsbeeaddon.medical.target=Living entities
+jei.capnsbeeaddon.medical.players=Players
+jei.capnsbeeaddon.medical.hostile_mobs=Hostile mobs
+jei.capnsbeeaddon.medical.animals=Animals
+
+jei.capnsbeeaddon.doctor.title=Doctor Bee
+jei.capnsbeeaddon.doctor.description=Heals entities
+jei.capnsbeeaddon.doctor.effect=Applies Regeneration I (0:04)
+jei.capnsbeeaddon.doctor.healing=Also instantly heals 0.25 hearts
+
+jei.capnsbeeaddon.plague.title=Plague Bee
+jei.capnsbeeaddon.plague.effect=Clears potion effects
+jei.capnsbeeaddon.plague.healing=Also instantly heals 0.05 hearts
+jei.capnsbeeaddon.plague.cleansing=Removes milk-curable potion effects
+jei.capnsbeeaddon.plague.beneficial=Includes beneficial effects
+jei.capnsbeeaddon.plague.scope=Non-undead entities only
+jei.capnsbeeaddon.plague.undead=Undead: attempts Poison I (0:04)
+jei.capnsbeeaddon.plague.undead_immunity=Vanilla undead are immune to Poison
+jei.capnsbeeaddon.plague.curing.effect=Cures zombie villagers
+jei.capnsbeeaddon.plague.curing.target=Zombie villager
+jei.capnsbeeaddon.plague.curing.timer=Curing takes up to 100 seconds

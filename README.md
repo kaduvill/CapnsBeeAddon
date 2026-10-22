@@ -39,6 +39,8 @@ Currently implemented:
 - Business Bee (all sellable items)
 - Junk Seller Bee (all purchasable goods)
 - Clockwork Bee
+- Doctor Bee (healing and regeneration)
+- Plague Bee (cleansing and zombie-villager curing)
 
 ### Temporal Focus upgrades (Gendustry)
 
