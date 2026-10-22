@@ -5,6 +5,8 @@ import com.kaduvill.capnsbeeaddon.config.CapnsBeeAddonConfig;
 import com.kaduvill.capnsbeeaddon.compat.jei.AssassinBee.AssassinBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.ButcherBee.ButcherBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.ChefBee.ChefBeeRecipes;
+import com.kaduvill.capnsbeeaddon.compat.jei.ClockworkBee.ClockworkBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.ClockworkBee.ClockworkBeeRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeWrapper;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipes;
@@ -66,6 +68,8 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack butcherQueen = ItemStack.EMPTY;
     private ItemStack businessQueen = ItemStack.EMPTY;
     private ItemStack junkSellerQueen = ItemStack.EMPTY;
+    private ItemStack clockworkQueen = ItemStack.EMPTY;
+    private ClockworkBeeRecipe clockworkRecipe;
     private TradingBeeRecipes.Snapshot tradingRecipes;
 
     @Override
@@ -150,6 +154,17 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     ButcherBeeRecipe.UID, "jei.capnsbeeaddon.butcher.title", ButcherBeeRecipe.BASE_TICKS,
                     "jei.capnsbeeaddon.base_rate", null, butcherQueen, ItemStack.EMPTY, false));
         }
+        if (config.isClockworkBeeJeiEnabled()) {
+            Item engine = Item.getByNameOrId("forestry:engine_clockwork");
+            if (engine != null) {
+                clockworkQueen = getQueen(CareerBeeSpecies.CLOCKWORK, "Clockwork");
+                clockworkRecipe = new ClockworkBeeRecipe(new ItemStack(engine));
+                registry.addRecipeCategories(new ClockworkBeeRecipeCategory(
+                        registry.getJeiHelpers().getGuiHelper(), clockworkQueen));
+            } else {
+                CapnsBeeAddon.LOGGER.warn("Cannot display Clockwork Bee JEI page: Clockwork Engine is unavailable");
+            }
+        }
         if (config.isBusinessBeeJeiEnabled() || config.isJunkSellerBeeJeiEnabled()) {
             try {
                 tradingRecipes = TradingBeeRecipes.read();
@@ -206,6 +221,11 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isPriestBeeJeiEnabled()) registerPriest(registry);
         if (config.isHusbandryBeeJeiEnabled()) registerHusbandry(registry);
         if (config.isButcherBeeJeiEnabled()) registerButcher(registry);
+        if (config.isClockworkBeeJeiEnabled() && clockworkRecipe != null) {
+            registry.addRecipes(Collections.singletonList(clockworkRecipe), ClockworkBeeRecipe.UID);
+            registerCatalysts(registry, ClockworkBeeRecipe.UID, clockworkQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered Clockwork Bee JEI overview page");
+        }
         if (tradingRecipes != null) {
             if (config.isBusinessBeeJeiEnabled()) registerTrading(registry, Mode.BUSINESS, businessQueen);
             if (config.isJunkSellerBeeJeiEnabled()) registerTrading(registry, Mode.JUNK_SELLER, junkSellerQueen);

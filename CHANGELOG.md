@@ -23,6 +23,7 @@
   - Butcher Bee (animal loot)
   - Business Bee
   - Junk Seller Bee
+  - Clockwork Bee
 - Territory Restrictors now reduce territory by 27% per upgrade (previously 30%), fixing missed neighboring flowers when six restrictors are installed due to a bug in Forestry Flower spiral-scan (Forestry 5.8.2.427)
 - Added tooltips for Bee-Bee Gun, Career Bees frames, Alveary Frame Holder, Flower Pedestal, Bee Armor and Triquetra
 

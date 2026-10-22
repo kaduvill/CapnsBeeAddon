@@ -38,6 +38,7 @@ Currently implemented:
 - Butcher Bee
 - Business Bee (all sellable items)
 - Junk Seller Bee (all purchasable goods)
+- Clockwork Bee
 
 ### Temporal Focus upgrades (Gendustry)
 
