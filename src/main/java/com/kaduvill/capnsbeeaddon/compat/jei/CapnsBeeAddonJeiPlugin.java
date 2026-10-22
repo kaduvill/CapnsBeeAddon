@@ -20,6 +20,10 @@ import com.kaduvill.capnsbeeaddon.compat.jei.RetrainingBee.RetrainingBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.TaxcollectorBee.TaxcollectorBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.TradingBee.TradingBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.TradingBee.TradingBeeRecipeCategory;
+import com.kaduvill.capnsbeeaddon.compat.jei.TradingBee.TradingBeeRecipes;
+import com.kaduvill.capnsbeeaddon.compat.jei.TradingBee.TradingBeeRecipes.Mode;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeOverviewRecipeRegistryPlugin;
@@ -60,6 +64,9 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack priestQueen = ItemStack.EMPTY;
     private ItemStack husbandryQueen = ItemStack.EMPTY;
     private ItemStack butcherQueen = ItemStack.EMPTY;
+    private ItemStack businessQueen = ItemStack.EMPTY;
+    private ItemStack junkSellerQueen = ItemStack.EMPTY;
+    private TradingBeeRecipes.Snapshot tradingRecipes;
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
@@ -143,6 +150,23 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     ButcherBeeRecipe.UID, "jei.capnsbeeaddon.butcher.title", ButcherBeeRecipe.BASE_TICKS,
                     "jei.capnsbeeaddon.base_rate", null, butcherQueen, ItemStack.EMPTY, false));
         }
+        if (config.isBusinessBeeJeiEnabled() || config.isJunkSellerBeeJeiEnabled()) {
+            try {
+                tradingRecipes = TradingBeeRecipes.read();
+                if (config.isBusinessBeeJeiEnabled()) {
+                    businessQueen = getQueen(CareerBeeSpecies.BUISNESS, "Business");
+                    registry.addRecipeCategories(new TradingBeeRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                            Mode.BUSINESS, businessQueen, tradingRecipes.get(Mode.BUSINESS).size()));
+                }
+                if (config.isJunkSellerBeeJeiEnabled()) {
+                    junkSellerQueen = getQueen(CareerBeeSpecies.JUNK, "Junk Seller");
+                    registry.addRecipeCategories(new TradingBeeRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                            Mode.JUNK_SELLER, junkSellerQueen, tradingRecipes.get(Mode.JUNK_SELLER).size()));
+                }
+            } catch (RuntimeException | LinkageError failure) {
+                CapnsBeeAddon.LOGGER.warn("Cannot register trading bee JEI categories", failure);
+            }
+        }
     }
 
     private void registerEquipmentCategory(IRecipeCategoryRegistration registry,
@@ -182,6 +206,10 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isPriestBeeJeiEnabled()) registerPriest(registry);
         if (config.isHusbandryBeeJeiEnabled()) registerHusbandry(registry);
         if (config.isButcherBeeJeiEnabled()) registerButcher(registry);
+        if (tradingRecipes != null) {
+            if (config.isBusinessBeeJeiEnabled()) registerTrading(registry, Mode.BUSINESS, businessQueen);
+            if (config.isJunkSellerBeeJeiEnabled()) registerTrading(registry, Mode.JUNK_SELLER, junkSellerQueen);
+        }
     }
 
     private void registerCrusher(IModRegistry registry) {
@@ -375,6 +403,19 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered Butcher Bee JEI overview page");
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Butcher Bee JEI overview page", failure);
+        }
+    }
+
+    private void registerTrading(IModRegistry registry, Mode mode, ItemStack queen) {
+        try {
+            TradingBeeRecipe recipe = new TradingBeeRecipe(mode, tradingRecipes.get(mode));
+            List<ItemStack> catalysts = registerCatalysts(registry, mode.uid, queen, false);
+            registry.addRecipeRegistryPlugin(new BeeOverviewRecipeRegistryPlugin(mode.uid, recipe,
+                    registry.getJeiHelpers().getStackHelper(), catalysts, recipe::acceptsInput, recipe::acceptsOutput));
+            CapnsBeeAddon.LOGGER.info("Registered {} trading bee JEI grid entries for {}",
+                    tradingRecipes.get(mode).size(), mode.uid);
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register {} JEI overview", mode.uid, failure);
         }
     }
 

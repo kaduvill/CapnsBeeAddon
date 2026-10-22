@@ -107,3 +107,17 @@ jei.capnsbeeaddon.butcher.input=Leaves 2 adults of each type alive
 jei.capnsbeeaddon.butcher.output=Random animal loot
 jei.capnsbeeaddon.butcher.scope=Kills surplus adults
 jei.capnsbeeaddon.butcher.any_animal=Any adult animal
+
+jei.capnsbeeaddon.business.title=Business Bee
+jei.capnsbeeaddon.business.attempts=Attempts per activation: 1
+jei.capnsbeeaddon.business.pool=Items to sell
+jei.capnsbeeaddon.business.pool_hint=Randomly chooses trades
+jei.capnsbeeaddon.junk_seller.title=Junk Seller Bee
+jei.capnsbeeaddon.junk_seller.attempts=Attempts per activation: 2-11
+jei.capnsbeeaddon.junk_seller.pool=Possible purchases
+jei.capnsbeeaddon.junk_seller.pool_hint=Randomly chooses purchases
+jei.capnsbeeaddon.trading.page=Page %s / %s
+jei.capnsbeeaddon.trading.amounts_vary=Amounts may vary
+jei.capnsbeeaddon.trading.random_enchants=May have random enchants
+jei.capnsbeeaddon.trading.rate_modifiers=Scales with speed and production
+jei.capnsbeeaddon.trading.adjacent=Payment: adjacent inventories

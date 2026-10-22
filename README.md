@@ -32,8 +32,10 @@ Currently implemented:
 - Priest Bee
 - Husbandry Bee
 - Butcher Bee
+- Business Bee (all sellable items)
+- Junk Seller Bee (all purchasable goods)
 
-### Temporal Focus upgrades
+### Temporal Focus upgrades (Gendustry)
 
 Temporal Focus upgrades change what a Career Bees Temporal effect targets. Only one Temporal Focus can be installed at a time.
 
@@ -86,7 +88,7 @@ Uses Territory modifiers, refreshes once per second, and requires no chunk scann
 * Reuses Forestry's Industrial Apiary `canWork` result during repeated updates in the same world tick.
 * Skips Gendustry's indirect-redstone lookup when the selected apiary redstone mode does not use it.
 * Skips BDLib's six-sided cover traversal after an apiary has been conclusively verified to have no covers.
-* Invalidates the empty-cover fast path whenever covers change and falls back to BDLib's original behavior for covered or unexpected states.
+  * Invalidates the empty-cover fast path whenever covers change and falls back to BDLib's original behavior for covered or unexpected states.
 * Uses loaded-chunk TileEntity maps for focused TileEntity scans instead of scanning every block position.
 
 

@@ -38,6 +38,8 @@ public final class CapnsBeeAddonConfig {
     public final boolean priestBee;
     public final boolean husbandryBee;
     public final boolean butcherBee;
+    public final boolean businessBee;
+    public final boolean junkSellerBee;
 
     private CapnsBeeAddonConfig(File file) {
         // Preserve the category names, including the capitalization of JEI.
@@ -107,6 +109,10 @@ public final class CapnsBeeAddonConfig {
                 "Register the Husbandry Bee animal breeding overview page. Requires RegisterJeiPages.");
         butcherBee = readBoolean(config, JEI, "ButcherBee",
                 "Register the Butcher Bee animal loot overview page. Requires RegisterJeiPages.");
+        businessBee = readBoolean(config, JEI, "BusinessBee",
+                "Register the Business Bee villager trade overview. Requires RegisterJeiPages.");
+        junkSellerBee = readBoolean(config, JEI, "JunkSellerBee",
+                "Register the Junk Seller Bee villager trade overview. Requires RegisterJeiPages.");
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(BUGFIXES, new ArrayList<>(Arrays.asList(
@@ -118,7 +124,7 @@ public final class CapnsBeeAddonConfig {
         config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList(
                 "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee",
                 "ArmorerBee", "SharpeningBee", "SmelterBee", "TaxcollectorBee", "AssassinBee", "RepairBee",
-                "RetrainingBee", "PriestBee", "HusbandryBee", "ButcherBee")));
+                "RetrainingBee", "PriestBee", "HusbandryBee", "ButcherBee", "BusinessBee", "JunkSellerBee")));
         if (config.hasChanged()) {
             config.save();
         }
@@ -183,6 +189,14 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isButcherBeeJeiEnabled() {
         return registerJeiPages && butcherBee;
+    }
+
+    public boolean isBusinessBeeJeiEnabled() {
+        return registerJeiPages && businessBee;
+    }
+
+    public boolean isJunkSellerBeeJeiEnabled() {
+        return registerJeiPages && junkSellerBee;
     }
 
     private static boolean readBoolean(Configuration config, String category,
