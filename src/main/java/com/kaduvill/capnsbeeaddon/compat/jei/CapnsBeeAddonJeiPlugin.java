@@ -4,6 +4,8 @@ import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
 import com.kaduvill.capnsbeeaddon.config.CapnsBeeAddonConfig;
 import com.kaduvill.capnsbeeaddon.compat.jei.ArtisticBee.ArtisticBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.AssassinBee.AssassinBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.AttachedBee.AttachedBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.AttachedBee.AttachedBeeRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.ButcherBee.ButcherBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.ChefBee.ChefBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.ClockworkBee.ClockworkBeeRecipe;
@@ -94,6 +96,8 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack artisticQueen = ItemStack.EMPTY;
     private ItemStack ncaQueen = ItemStack.EMPTY;
     private ClockworkBeeRecipe clockworkRecipe;
+    private AttachedBeeRecipe yenteRecipe;
+    private AttachedBeeRecipe studentRecipe;
     private TradingBeeRecipes.Snapshot tradingRecipes;
 
     @Override
@@ -267,6 +271,12 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.processing_chance",
                     ncaQueen, ItemStack.EMPTY, false));
         }
+        if (config.isYenteBeeJeiEnabled()) {
+            yenteRecipe = registerAttachedBeeCategory(registry, AttachedBeeRecipe.Kind.YENTE);
+        }
+        if (config.isStudentBeeJeiEnabled()) {
+            studentRecipe = registerAttachedBeeCategory(registry, AttachedBeeRecipe.Kind.STUDENT);
+        }
         if (config.isBusinessBeeJeiEnabled() || config.isJunkSellerBeeJeiEnabled()) {
             try {
                 tradingRecipes = TradingBeeRecipes.read();
@@ -283,6 +293,22 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             } catch (RuntimeException | LinkageError failure) {
                 CapnsBeeAddon.LOGGER.warn("Cannot register trading bee JEI categories", failure);
             }
+        }
+    }
+
+    private AttachedBeeRecipe registerAttachedBeeCategory(IRecipeCategoryRegistration registry, AttachedBeeRecipe.Kind kind) {
+        try {
+            Item apiary = Item.getByNameOrId("forestry:apiary");
+            if (apiary == null) throw new IllegalStateException("Forestry Apiary is unavailable");
+            Item industrialApiary = Item.getByNameOrId("gendustry:industrial_apiary");
+            AttachedBeeRecipe recipe = new AttachedBeeRecipe(kind);
+            registry.addRecipeCategories(new AttachedBeeRecipeCategory(
+                    registry.getJeiHelpers().getGuiHelper(), recipe, new ItemStack(apiary),
+                    industrialApiary == null ? ItemStack.EMPTY : new ItemStack(industrialApiary)));
+            return recipe;
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot display {} attachment JEI page", kind, failure);
+            return null;
         }
     }
 
@@ -339,6 +365,8 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isTemporalBeeJeiEnabled()) registerTemporal(registry);
         if (config.isArtisticBeeJeiEnabled()) registerArtistic(registry);
         if (config.isNCABeeJeiEnabled()) registerNCA(registry);
+        if (config.isYenteBeeJeiEnabled() && yenteRecipe != null) registerAttachedBee(registry, yenteRecipe);
+        if (config.isStudentBeeJeiEnabled() && studentRecipe != null) registerAttachedBee(registry, studentRecipe);
         if (tradingRecipes != null) {
             if (config.isBusinessBeeJeiEnabled()) registerTrading(registry, Mode.BUSINESS, businessQueen);
             if (config.isJunkSellerBeeJeiEnabled()) registerTrading(registry, Mode.JUNK_SELLER, junkSellerQueen);
@@ -652,6 +680,18 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered N.C.A. Bee JEI overview page");
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register N.C.A. Bee JEI overview page", failure);
+        }
+    }
+
+    private void registerAttachedBee(IModRegistry registry, AttachedBeeRecipe recipe) {
+        try {
+            String uid = recipe.getKind().uid;
+            List<ItemStack> catalysts = registerCatalysts(registry, uid, recipe.getInput(), false);
+            registry.addRecipeRegistryPlugin(new BeeOverviewRecipeRegistryPlugin(uid, recipe,
+                    registry.getJeiHelpers().getStackHelper(), catalysts, recipe::acceptsInput, stack -> false));
+            CapnsBeeAddon.LOGGER.info("Registered {} attachment JEI overview page", recipe.getKind());
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register {} attachment JEI overview page", recipe.getKind(), failure);
         }
     }
 

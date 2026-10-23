@@ -210,6 +210,20 @@ jei.capnsbeeaddon.nca.wither=Wither I (0:50)
 jei.capnsbeeaddon.nca.explosion=Base explosion strength: 5
 jei.capnsbeeaddon.nca.loot=No normal death loot
 
+jei.capnsbeeaddon.attached.attach=Sneak + Right-click an apiary to attach it
+jei.capnsbeeaddon.attached.princess=Requires a princess
+jei.capnsbeeaddon.attached.drone=Requires a drone
+
+jei.capnsbeeaddon.yente.title=Yente Bee
+jei.capnsbeeaddon.yente.description=Automates breeding
+
+jei.capnsbeeaddon.student.title=Student Bee
+jei.capnsbeeaddon.student.description=Warns of housing problems
+jei.capnsbeeaddon.student.flowers=Missing flowers
+jei.capnsbeeaddon.student.queen=No queen
+jei.capnsbeeaddon.student.drone=No drone
+jei.capnsbeeaddon.student.space=No room for products
+
 
 ## The One Probe integration (optional)
 top.capnsbeeaddon.yente=Yente attached

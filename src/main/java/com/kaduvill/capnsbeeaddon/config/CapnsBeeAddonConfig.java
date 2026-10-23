@@ -57,6 +57,8 @@ public final class CapnsBeeAddonConfig {
     public final boolean temporalBee;
     public final boolean artisticBee;
     public final boolean ncaBee;
+    public final boolean yenteBee;
+    public final boolean studentBee;
 
     private CapnsBeeAddonConfig(File file) {
         // Preserve the category names, including the capitalization of JEI and TOP.
@@ -164,6 +166,10 @@ public final class CapnsBeeAddonConfig {
                 "Register the Artistic Bee wall decoration overview page. Requires RegisterJeiPages.");
         ncaBee = readBoolean(config, JEI, "NCABee",
                 "Register the N.C.A. Bee Creeper spawning overview page. Requires RegisterJeiPages.");
+        yenteBee = readBoolean(config, JEI, "YenteBee",
+                "Register the Yente Bee overview page. Requires RegisterJeiPages.");
+        studentBee = readBoolean(config, JEI, "StudentBee",
+                "Register the Student Bee overview page. Requires RegisterJeiPages.");
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(TOP, new ArrayList<>(Arrays.asList("TopIntegration", "YenteBee", "StudentBee")));
@@ -177,7 +183,8 @@ public final class CapnsBeeAddonConfig {
                 "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee", "MinerBees",
                 "ArmorerBee", "SharpeningBee", "SmelterBee", "TaxcollectorBee", "ThiefBee", "AssassinBee", "RepairBee",
                 "RetrainingBee", "PriestBee", "HusbandryBee", "ButcherBee", "BusinessBee", "JunkSellerBee",
-                "ClockworkBee", "DoctorBee", "PlagueBee", "ElectricianBee", "DevilBee", "CollectingBee", "EnergyBee", "TemporalBee", "ArtisticBee", "NCABee")));
+                "ClockworkBee", "DoctorBee", "PlagueBee", "ElectricianBee", "DevilBee", "CollectingBee", "EnergyBee", "TemporalBee", "ArtisticBee", "NCABee",
+                "YenteBee", "StudentBee")));
         if (config.hasChanged()) {
             config.save();
         }
@@ -302,6 +309,14 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isNCABeeJeiEnabled() {
         return registerJeiPages && ncaBee;
+    }
+
+    public boolean isYenteBeeJeiEnabled() {
+        return registerJeiPages && yenteBee;
+    }
+
+    public boolean isStudentBeeJeiEnabled() {
+        return registerJeiPages && studentBee;
     }
 
     private static boolean readBoolean(Configuration config, String category,

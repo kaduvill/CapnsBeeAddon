@@ -57,6 +57,8 @@ Currently implemented:
 - Temporal Bee
 - Artistic Bee
 - N.C.A.
+- Yente Bee
+- Student Bee
 
 ### Temporal Focus upgrades (Gendustry)
 
