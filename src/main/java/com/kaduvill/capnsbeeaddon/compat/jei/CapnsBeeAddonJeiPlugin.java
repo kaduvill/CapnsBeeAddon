@@ -7,6 +7,7 @@ import com.kaduvill.capnsbeeaddon.compat.jei.ButcherBee.ButcherBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.ChefBee.ChefBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.ClockworkBee.ClockworkBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.ClockworkBee.ClockworkBeeRecipeCategory;
+import com.kaduvill.capnsbeeaddon.compat.jei.CollectingBee.CollectingBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeWrapper;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipes;
@@ -79,6 +80,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack plagueQueen = ItemStack.EMPTY;
     private ItemStack electricianQueen = ItemStack.EMPTY;
     private ItemStack devilQueen = ItemStack.EMPTY;
+    private ItemStack collectingQueen = ItemStack.EMPTY;
     private ClockworkBeeRecipe clockworkRecipe;
     private TradingBeeRecipes.Snapshot tradingRecipes;
 
@@ -209,6 +211,13 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.devil.chance",
                     devilQueen, ItemStack.EMPTY, false));
         }
+        if (config.isCollectingBeeJeiEnabled()) {
+            collectingQueen = getQueen(CareerBeeSpecies.WOMBLING, "Collecting");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    CollectingBeeRecipe.UID, "jei.capnsbeeaddon.collecting.title", CollectingBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    collectingQueen, ItemStack.EMPTY, false));
+        }
         if (config.isBusinessBeeJeiEnabled() || config.isJunkSellerBeeJeiEnabled()) {
             try {
                 tradingRecipes = TradingBeeRecipes.read();
@@ -275,6 +284,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isPlagueBeeJeiEnabled()) registerMedical(registry, true);
         if (config.isElectricianBeeJeiEnabled()) registerElectrician(registry);
         if (config.isDevilBeeJeiEnabled()) registerDevil(registry);
+        if (config.isCollectingBeeJeiEnabled()) registerCollecting(registry);
         if (tradingRecipes != null) {
             if (config.isBusinessBeeJeiEnabled()) registerTrading(registry, Mode.BUSINESS, businessQueen);
             if (config.isJunkSellerBeeJeiEnabled()) registerTrading(registry, Mode.JUNK_SELLER, junkSellerQueen);
@@ -523,6 +533,16 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered Devil Bee JEI overview page");
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Devil Bee JEI overview page", failure);
+        }
+    }
+
+    private void registerCollecting(IModRegistry registry) {
+        try {
+            registry.addRecipes(Collections.singletonList(new CollectingBeeRecipe()), CollectingBeeRecipe.UID);
+            registerCatalysts(registry, CollectingBeeRecipe.UID, collectingQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered Collecting Bee JEI overview page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Collecting Bee JEI overview page", failure);
         }
     }
 

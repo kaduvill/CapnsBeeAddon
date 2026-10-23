@@ -180,3 +180,6 @@ jei.capnsbeeaddon.electrician.charged=Charged Creeper
 jei.capnsbeeaddon.devil.title=Devil Bee
 jei.capnsbeeaddon.devil.description=Starts nearby fires
 jei.capnsbeeaddon.devil.chance=1%% chance per attempt
+
+jei.capnsbeeaddon.collecting.title=Collecting Bee
+jei.capnsbeeaddon.collecting.description=Collects dropped items
