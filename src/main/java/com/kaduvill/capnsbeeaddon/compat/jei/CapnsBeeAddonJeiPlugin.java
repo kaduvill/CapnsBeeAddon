@@ -48,6 +48,7 @@ import com.rwtema.careerbees.bees.CareerBeeSpecies;
 import com.rwtema.careerbees.items.ItemIngredients;
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.EnumBeeType;
+import forestry.api.apiculture.IBee;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
@@ -552,10 +553,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             RetrainingBeeRecipe recipe = RetrainingBeeRecipe.read(
                     registry.getIngredientRegistry().getIngredientRenderer(VanillaTypes.ITEM));
             List<ItemStack> catalysts = registerCatalysts(registry, RetrainingBeeRecipe.UID, graduateQueen, false);
-            if (!phdQueen.isEmpty()) {
-                registry.addRecipeCatalyst(phdQueen, RetrainingBeeRecipe.UID);
-                catalysts.add(phdQueen);
-            }
+            catalysts.addAll(registerCatalysts(registry, RetrainingBeeRecipe.UID, phdQueen, false));
             ItemStack pedestal = getPedestal();
             if (!pedestal.isEmpty()) {
                 registry.addRecipeCatalyst(pedestal, RetrainingBeeRecipe.UID);
@@ -708,13 +706,29 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         }
     }
 
-    private static List<ItemStack> registerCatalysts(IModRegistry registry, String uid, ItemStack queen) {
-        return registerCatalysts(registry, uid, queen, true);
+    private static List<ItemStack> registerCatalysts(IModRegistry registry, String uid, ItemStack bee) {
+        return registerCatalysts(registry, uid, bee, true);
     }
 
-    private static List<ItemStack> registerCatalysts(IModRegistry registry, String uid, ItemStack queen, boolean needsPedestal) {
-        List<ItemStack> catalysts = new ArrayList<>(2);
-        if (!queen.isEmpty()) catalysts.add(queen);
+    private static List<ItemStack> registerCatalysts(IModRegistry registry, String uid, ItemStack bee, boolean needsPedestal) {
+        List<ItemStack> catalysts = new ArrayList<>(4);
+        if (!bee.isEmpty()) {
+            catalysts.add(bee);
+            try {
+                IBee source = BeeManager.beeRoot.getMember(bee);
+                if (source != null) {
+                    EnumBeeType originalType = BeeManager.beeRoot.getType(bee);
+                    // Registration-only discovery aliases; the page keeps its original bee and ingredients.
+                    for (EnumBeeType type : new EnumBeeType[] {EnumBeeType.QUEEN, EnumBeeType.PRINCESS, EnumBeeType.DRONE}) {
+                        if (type == originalType) continue;
+                        ItemStack catalyst = BeeManager.beeRoot.getMemberStack(source.getGenome().getPrimary(), type);
+                        if (!catalyst.isEmpty()) catalysts.add(catalyst);
+                    }
+                }
+            } catch (RuntimeException | LinkageError failure) {
+                CapnsBeeAddon.LOGGER.warn("Cannot expand bee JEI catalysts for {}", uid, failure);
+            }
+        }
         ItemStack pedestal = needsPedestal ? getPedestal() : ItemStack.EMPTY;
         if (!pedestal.isEmpty()) catalysts.add(pedestal);
         for (ItemStack catalyst : catalysts) registry.addRecipeCatalyst(catalyst, uid);
