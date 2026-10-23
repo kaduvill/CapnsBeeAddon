@@ -27,6 +27,7 @@ Currently implemented:
 - Honey-Smelter Bee
 - Chef Bee
 - Lumber Bee
+- Miner / Fortunate Miner / Silky Miner Bees
 - Armorer Bee
 - Sharpening Bee
 - Smelter Bee

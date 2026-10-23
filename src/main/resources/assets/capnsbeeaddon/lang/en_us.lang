@@ -85,6 +85,12 @@ jei.capnsbeeaddon.chef.applications=Applications: %s
 jei.capnsbeeaddon.lumber.title=Lumber Bee
 jei.capnsbeeaddon.lumber.input=Nearby tree; not consumed
 
+jei.capnsbeeaddon.miner.title=Miner Bees
+jei.capnsbeeaddon.miner.description=Mines ores
+jei.capnsbeeaddon.miner.fortune=Mines ores with Fortune II
+jei.capnsbeeaddon.miner.silky=Mines ores with Silk Touch I
+jei.capnsbeeaddon.miner.rate_modifiers=Affected by speed and production modifiers
+
 jei.capnsbeeaddon.armorer.title=Armorer Bee
 jei.capnsbeeaddon.sharpening.title=Sharpening Bee
 jei.capnsbeeaddon.smelter.title=Smelter Bee

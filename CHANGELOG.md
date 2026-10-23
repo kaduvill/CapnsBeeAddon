@@ -15,6 +15,7 @@
   - Honey-Smelter Bee
   - Chef Bee (honey glazing)
   - Lumber Bee (tree bark)
+  - Miner / Fortunate Miner / Silky Miner Bees
   - Armorer Bee (armor)
   - Sharpening Bee (attack damage)
   - Smelter Bee (furnace recipes)

@@ -29,6 +29,7 @@ public final class CapnsBeeAddonConfig {
     public final boolean honeySmelterBee;
     public final boolean chefBee;
     public final boolean lumberBee;
+    public final boolean minerBees;
     public final boolean armorerBee;
     public final boolean sharpeningBee;
     public final boolean smelterBee;
@@ -104,6 +105,8 @@ public final class CapnsBeeAddonConfig {
                 "Register Chef Bee honey-glazing recipes. Requires RegisterJeiPages.");
         lumberBee = readBoolean(config, JEI, "LumberBee",
                 "Register Lumber Bee bark recipes and tree requirements. Requires RegisterJeiPages.");
+        minerBees = readBoolean(config, JEI, "MinerBees",
+                "Register Miner, Fortunate Miner and Silky Miner Bee overview pages and catalysts. Requires RegisterJeiPages.");
         armorerBee = readBoolean(config, JEI, "ArmorerBee",
                 "Register Armorer Bee equipment improvement recipes. Requires RegisterJeiPages.");
         sharpeningBee = readBoolean(config, JEI, "SharpeningBee",
@@ -159,7 +162,7 @@ public final class CapnsBeeAddonConfig {
                 "BusinessBeeTradeGenerationFix", "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
         config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList(
-                "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee",
+                "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee", "MinerBees",
                 "ArmorerBee", "SharpeningBee", "SmelterBee", "TaxcollectorBee", "ThiefBee", "AssassinBee", "RepairBee",
                 "RetrainingBee", "PriestBee", "HusbandryBee", "ButcherBee", "BusinessBee", "JunkSellerBee",
                 "ClockworkBee", "DoctorBee", "PlagueBee", "ElectricianBee", "DevilBee", "CollectingBee", "EnergyBee", "TemporalBee", "ArtisticBee", "NCABee")));
@@ -187,6 +190,10 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isLumberBeeJeiEnabled() {
         return registerJeiPages && lumberBee;
+    }
+
+    public boolean isMinerBeesJeiEnabled() {
+        return registerJeiPages && minerBees;
     }
 
     public boolean isArmorerBeeJeiEnabled() {

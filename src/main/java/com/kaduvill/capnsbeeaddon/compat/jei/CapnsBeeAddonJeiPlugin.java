@@ -21,6 +21,7 @@ import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeWrap
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.HusbandryBee.HusbandryBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.LumberBee.LumberBeeRecipes;
+import com.kaduvill.capnsbeeaddon.compat.jei.MinerBee.MinerBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.NCABee.NCABeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.PriestBee.PriestBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.RepairBee.RepairBeeRecipe;
@@ -65,6 +66,9 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack honeySmelterQueen = ItemStack.EMPTY;
     private ItemStack chefQueen = ItemStack.EMPTY;
     private ItemStack lumberQueen = ItemStack.EMPTY;
+    private ItemStack minerQueen = ItemStack.EMPTY;
+    private ItemStack fortunateMinerQueen = ItemStack.EMPTY;
+    private ItemStack silkyMinerQueen = ItemStack.EMPTY;
     private ItemStack armorerQueen = ItemStack.EMPTY;
     private ItemStack sharpeningQueen = ItemStack.EMPTY;
     private ItemStack smelterQueen = ItemStack.EMPTY;
@@ -115,6 +119,15 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     LumberBeeRecipes.UID, "jei.capnsbeeaddon.lumber.title", 200,
                     "jei.capnsbeeaddon.base_rate", null, lumberQueen, ItemStack.EMPTY));
+        }
+        if (config.isMinerBeesJeiEnabled()) {
+            minerQueen = getQueen(CareerBeeSpecies.DIGGING_BASE, "Miner");
+            fortunateMinerQueen = getQueen(CareerBeeSpecies.DIGGING_FORTUNE, "Fortunate Miner");
+            silkyMinerQueen = getQueen(CareerBeeSpecies.DIGGING_SILKY, "Silky Miner");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    MinerBeeRecipe.UID, "jei.capnsbeeaddon.miner.title", MinerBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.miner.rate_modifiers",
+                    minerQueen, ItemStack.EMPTY, false));
         }
         if (config.isArmorerBeeJeiEnabled()) {
             armorerQueen = getQueen(CareerBeeSpecies.ARMORER, "Armorer");
@@ -300,6 +313,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         }
         if (config.isChefBeeJeiEnabled()) registerChef(registry);
         if (config.isLumberBeeJeiEnabled()) registerLumber(registry);
+        if (config.isMinerBeesJeiEnabled()) registerMiners(registry);
         if (config.isArmorerBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.ARMORER, armorerQueen);
         if (config.isSharpeningBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.SHARPENING, sharpeningQueen);
         if (config.isSmelterBeeJeiEnabled()) registerSmelter(registry);
@@ -387,6 +401,22 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered {} Lumber Bee JEI recipes", recipes.size());
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Lumber Bee JEI recipes", failure);
+        }
+    }
+
+    private void registerMiners(IModRegistry registry) {
+        try {
+            List<MinerBeeRecipe> recipes = new ArrayList<>(3);
+            for (MinerBeeRecipe.Page page : MinerBeeRecipe.Page.values()) {
+                recipes.add(new MinerBeeRecipe(page));
+            }
+            registry.addRecipes(recipes, MinerBeeRecipe.UID);
+            registerCatalysts(registry, MinerBeeRecipe.UID, minerQueen, false);
+            registerCatalysts(registry, MinerBeeRecipe.UID, fortunateMinerQueen, false);
+            registerCatalysts(registry, MinerBeeRecipe.UID, silkyMinerQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered 3 Miner Bees JEI overview entries");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Miner Bees JEI overview entries", failure);
         }
     }
 
