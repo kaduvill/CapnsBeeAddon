@@ -67,6 +67,7 @@ tooltip.capnsbeeaddon.triquetra.description=Right-click compatible blocks to cyc
 
 ## JEI
 jei.capnsbeeaddon.base_rate=Base rate: %s ticks
+jei.capnsbeeaddon.base_rate_single=Base rate: %s tick
 jei.capnsbeeaddon.base_rate_per_application=Base rate per application: %s ticks
 jei.capnsbeeaddon.output_range=Output %s-%s
 jei.capnsbeeaddon.operations=Operations: %s
@@ -183,3 +184,7 @@ jei.capnsbeeaddon.devil.chance=1%% chance per attempt
 
 jei.capnsbeeaddon.collecting.title=Collecting Bee
 jei.capnsbeeaddon.collecting.description=Collects dropped items
+
+jei.capnsbeeaddon.energy.title=Energy Bee
+jei.capnsbeeaddon.energy.description=Powers adjacent blocks
+jei.capnsbeeaddon.energy.base_rate=Base rate: %s RF/t

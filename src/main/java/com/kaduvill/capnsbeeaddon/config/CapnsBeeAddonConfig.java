@@ -48,6 +48,7 @@ public final class CapnsBeeAddonConfig {
     public final boolean electricianBee;
     public final boolean devilBee;
     public final boolean collectingBee;
+    public final boolean energyBee;
 
     private CapnsBeeAddonConfig(File file) {
         // Preserve the category names, including the capitalization of JEI.
@@ -138,6 +139,8 @@ public final class CapnsBeeAddonConfig {
                 "Register the Devil Bee fire overview page. Requires RegisterJeiPages.");
         collectingBee = readBoolean(config, JEI, "CollectingBee",
                 "Register the Collecting Bee dropped-item collection overview page. Requires RegisterJeiPages.");
+        energyBee = readBoolean(config, JEI, "EnergyBee",
+                "Register the Energy Bee power generation overview page. Requires RegisterJeiPages.");
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(BUGFIXES, new ArrayList<>(Arrays.asList(
@@ -150,7 +153,7 @@ public final class CapnsBeeAddonConfig {
                 "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee",
                 "ArmorerBee", "SharpeningBee", "SmelterBee", "TaxcollectorBee", "ThiefBee", "AssassinBee", "RepairBee",
                 "RetrainingBee", "PriestBee", "HusbandryBee", "ButcherBee", "BusinessBee", "JunkSellerBee",
-                "ClockworkBee", "DoctorBee", "PlagueBee", "ElectricianBee", "DevilBee", "CollectingBee")));
+                "ClockworkBee", "DoctorBee", "PlagueBee", "ElectricianBee", "DevilBee", "CollectingBee", "EnergyBee")));
         if (config.hasChanged()) {
             config.save();
         }
@@ -251,6 +254,10 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isCollectingBeeJeiEnabled() {
         return registerJeiPages && collectingBee;
+    }
+
+    public boolean isEnergyBeeJeiEnabled() {
+        return registerJeiPages && energyBee;
     }
 
     private static boolean readBoolean(Configuration config, String category,

@@ -55,7 +55,7 @@ public final class ClockworkBeeRecipeCategory implements IRecipeCategory<Clockwo
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         if (mouseX >= 68 && mouseX < 68 + arrow.getWidth()
                 && mouseY >= 8 && mouseY < 8 + arrow.getHeight()) {
-            return Collections.singletonList(I18n.format("jei.capnsbeeaddon.base_rate", BASE_TICKS));
+            return Collections.singletonList(I18n.format("jei.capnsbeeaddon.base_rate_single", BASE_TICKS));
         }
         return Collections.emptyList();
     }

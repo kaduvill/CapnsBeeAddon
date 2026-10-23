@@ -53,8 +53,9 @@ public final class BeeEffectRecipeCategory implements IRecipeCategory<BeeEffectR
         slot = helper.getSlotDrawable();
         ResourceLocation texture = new ResourceLocation("jei", "textures/gui/gui_vanilla.png");
         arrowBackground = helper.createDrawable(texture, 24, 132, 24, 17);
+        // Keep fast effects readable; the tooltip still reports their actual base interval.
         arrow = helper.drawableBuilder(texture, 82, 128, 24, 17)
-                .buildAnimated(baseTicks, IDrawableAnimated.StartDirection.LEFT, false);
+                .buildAnimated(Math.max(20, baseTicks), IDrawableAnimated.StartDirection.LEFT, false);
         icon = queen.isEmpty() ? null : helper.createDrawableIngredient(queen);
     }
 

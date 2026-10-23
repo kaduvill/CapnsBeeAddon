@@ -46,6 +46,7 @@ Currently implemented:
 - Electrician Bee (lightning damage and mob conversions)
 - Devil Bee (nearby fires)
 - Collecting Bee
+- Energy Bee
 
 ### Temporal Focus upgrades (Gendustry)
 

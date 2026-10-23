@@ -13,6 +13,7 @@ import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeWrapper;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.DevilBee.DevilBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.ElectricianBee.ElectricianBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.EnergyBee.EnergyBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeWrapper;
@@ -81,6 +82,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack electricianQueen = ItemStack.EMPTY;
     private ItemStack devilQueen = ItemStack.EMPTY;
     private ItemStack collectingQueen = ItemStack.EMPTY;
+    private ItemStack energyQueen = ItemStack.EMPTY;
     private ClockworkBeeRecipe clockworkRecipe;
     private TradingBeeRecipes.Snapshot tradingRecipes;
 
@@ -218,6 +220,13 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.trading.rate_modifiers",
                     collectingQueen, ItemStack.EMPTY, false));
         }
+        if (config.isEnergyBeeJeiEnabled()) {
+            energyQueen = getQueen(CareerBeeSpecies.ENERGY, "Energy");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    EnergyBeeRecipe.UID, "jei.capnsbeeaddon.energy.title", EnergyBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate_single", null,
+                    energyQueen, ItemStack.EMPTY, false));
+        }
         if (config.isBusinessBeeJeiEnabled() || config.isJunkSellerBeeJeiEnabled()) {
             try {
                 tradingRecipes = TradingBeeRecipes.read();
@@ -285,6 +294,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isElectricianBeeJeiEnabled()) registerElectrician(registry);
         if (config.isDevilBeeJeiEnabled()) registerDevil(registry);
         if (config.isCollectingBeeJeiEnabled()) registerCollecting(registry);
+        if (config.isEnergyBeeJeiEnabled()) registerEnergy(registry);
         if (tradingRecipes != null) {
             if (config.isBusinessBeeJeiEnabled()) registerTrading(registry, Mode.BUSINESS, businessQueen);
             if (config.isJunkSellerBeeJeiEnabled()) registerTrading(registry, Mode.JUNK_SELLER, junkSellerQueen);
@@ -544,6 +554,13 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Collecting Bee JEI overview page", failure);
         }
+    }
+
+    private void registerEnergy(IModRegistry registry) {
+        registry.addRecipes(Collections.singletonList(new EnergyBeeRecipe(registry.getJeiHelpers().getGuiHelper())),
+                EnergyBeeRecipe.UID);
+        registerCatalysts(registry, EnergyBeeRecipe.UID, energyQueen, false);
+        CapnsBeeAddon.LOGGER.info("Registered Energy Bee JEI overview page");
     }
 
     private void registerTrading(IModRegistry registry, Mode mode, ItemStack queen) {
