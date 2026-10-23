@@ -37,6 +37,7 @@ public final class CapnsBeeAddonConfig {
     public final boolean armorerBee;
     public final boolean sharpeningBee;
     public final boolean smelterBee;
+    public final boolean policeBee;
     public final boolean taxcollectorBee;
     public final boolean thiefBee;
     public final boolean assassinBee;
@@ -52,9 +53,11 @@ public final class CapnsBeeAddonConfig {
     public final boolean plagueBee;
     public final boolean electricianBee;
     public final boolean devilBee;
+    public final boolean madScientistBee;
     public final boolean collectingBee;
     public final boolean energyBee;
     public final boolean temporalBee;
+    public final boolean direBee;
     public final boolean artisticBee;
     public final boolean ncaBee;
     public final boolean yenteBee;
@@ -126,6 +129,8 @@ public final class CapnsBeeAddonConfig {
                 "Register Sharpening Bee equipment improvement recipes. Requires RegisterJeiPages.");
         smelterBee = readBoolean(config, JEI, "SmelterBee",
                 "Register Smelter Bee furnace recipes. Requires RegisterJeiPages.");
+        policeBee = readBoolean(config, JEI, "PoliceBee",
+                "Register the Police Bee hostile mob loot and incident report overview page. Requires RegisterJeiPages.");
         taxcollectorBee = readBoolean(config, JEI, "TaxcollectorBee",
                 "Register the Taxcollector Bee information page. Requires RegisterJeiPages.");
         thiefBee = readBoolean(config, JEI, "ThiefBee",
@@ -156,12 +161,16 @@ public final class CapnsBeeAddonConfig {
                 "Register Electrician Bee damage and mob conversion pages. Requires RegisterJeiPages.");
         devilBee = readBoolean(config, JEI, "DevilBee",
                 "Register the Devil Bee fire overview page. Requires RegisterJeiPages.");
+        madScientistBee = readBoolean(config, JEI, "MadScientistBee",
+                "Register the Mad Scientist Bee explosion overview page. Requires RegisterJeiPages.");
         collectingBee = readBoolean(config, JEI, "CollectingBee",
                 "Register the Collecting Bee dropped-item collection overview page. Requires RegisterJeiPages.");
         energyBee = readBoolean(config, JEI, "EnergyBee",
                 "Register the Energy Bee power generation overview page. Requires RegisterJeiPages.");
         temporalBee = readBoolean(config, JEI, "TemporalBee",
                 "Register the Temporal Bee block acceleration overview page. Requires RegisterJeiPages.");
+        direBee = readBoolean(config, JEI, "DireBee",
+                "Register the Dire Bee house-building overview and placed block outputs. Requires RegisterJeiPages.");
         artisticBee = readBoolean(config, JEI, "ArtisticBee",
                 "Register the Artistic Bee wall decoration overview page. Requires RegisterJeiPages.");
         ncaBee = readBoolean(config, JEI, "NCABee",
@@ -181,9 +190,9 @@ public final class CapnsBeeAddonConfig {
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
         config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList(
                 "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee", "MinerBees",
-                "ArmorerBee", "SharpeningBee", "SmelterBee", "TaxcollectorBee", "ThiefBee", "AssassinBee", "RepairBee",
+                "ArmorerBee", "SharpeningBee", "SmelterBee", "PoliceBee", "TaxcollectorBee", "ThiefBee", "AssassinBee", "RepairBee",
                 "RetrainingBee", "PriestBee", "HusbandryBee", "ButcherBee", "BusinessBee", "JunkSellerBee",
-                "ClockworkBee", "DoctorBee", "PlagueBee", "ElectricianBee", "DevilBee", "CollectingBee", "EnergyBee", "TemporalBee", "ArtisticBee", "NCABee",
+                "ClockworkBee", "DoctorBee", "PlagueBee", "ElectricianBee", "DevilBee", "MadScientistBee", "CollectingBee", "EnergyBee", "TemporalBee", "DireBee", "ArtisticBee", "NCABee",
                 "YenteBee", "StudentBee")));
         if (config.hasChanged()) {
             config.save();
@@ -229,6 +238,10 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isSmelterBeeJeiEnabled() {
         return registerJeiPages && smelterBee;
+    }
+
+    public boolean isPoliceBeeJeiEnabled() {
+        return registerJeiPages && policeBee;
     }
 
     public boolean isTaxcollectorBeeJeiEnabled() {
@@ -291,6 +304,10 @@ public final class CapnsBeeAddonConfig {
         return registerJeiPages && devilBee;
     }
 
+    public boolean isMadScientistBeeJeiEnabled() {
+        return registerJeiPages && madScientistBee;
+    }
+
     public boolean isCollectingBeeJeiEnabled() {
         return registerJeiPages && collectingBee;
     }
@@ -301,6 +318,10 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isTemporalBeeJeiEnabled() {
         return registerJeiPages && temporalBee;
+    }
+
+    public boolean isDireBeeJeiEnabled() {
+        return registerJeiPages && direBee;
     }
 
     public boolean isArtisticBeeJeiEnabled() {

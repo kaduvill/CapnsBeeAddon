@@ -20,6 +20,7 @@
   - Armorer Bee (armor)
   - Sharpening Bee (attack damage)
   - Smelter Bee (furnace recipes)
+  - Police Bee
   - Taxcollector Bee
   - Thief Bee
   - Assassin Bee
@@ -34,10 +35,12 @@
   - Doctor Bee (healing and regeneration)
   - Plague Bee (cleansing and zombie-villager curing)
   - Electrician Bee (lightning damage and mob conversions)
-  - Devil Bee (nearby fires)
+  - Devil Bee
+  - Mad Scientist Bee
   - Collecting Bee
   - Energy Bee
   - Temporal Bee
+  - Dire Bee
   - Artistic Bee
   - N.C.A.
   - Yente Bee

@@ -37,6 +37,7 @@ Currently implemented:
 - Armorer Bee
 - Sharpening Bee
 - Smelter Bee
+- Police Bee
 - Taxcollector Bee
 - Thief Bee
 - Assassin Bee
@@ -52,9 +53,11 @@ Currently implemented:
 - Plague Bee (cleansing and zombie-villager curing)
 - Electrician Bee (lightning damage and mob conversions)
 - Devil Bee
+- Mad Scientist Bee
 - Collecting Bee
 - Energy Bee
 - Temporal Bee
+- Dire Bee (house building; cobblestone, glass, and torch outputs)
 - Artistic Bee
 - N.C.A.
 - Yente Bee

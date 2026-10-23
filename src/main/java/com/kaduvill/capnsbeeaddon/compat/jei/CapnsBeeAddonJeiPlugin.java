@@ -15,6 +15,7 @@ import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeCategory
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipeWrapper;
 import com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee.CrusherBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.DevilBee.DevilBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.DireBee.DireBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.ElectricianBee.ElectricianBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.EnergyBee.EnergyBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeCategory;
@@ -23,8 +24,10 @@ import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeWrap
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.HusbandryBee.HusbandryBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.LumberBee.LumberBeeRecipes;
+import com.kaduvill.capnsbeeaddon.compat.jei.MadScientistBee.MadScientistBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.MinerBee.MinerBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.NCABee.NCABeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.PoliceBee.PoliceBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.PriestBee.PriestBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.RepairBee.RepairBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.RetrainingBee.RetrainingBeeRecipe;
@@ -75,6 +78,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack armorerQueen = ItemStack.EMPTY;
     private ItemStack sharpeningQueen = ItemStack.EMPTY;
     private ItemStack smelterQueen = ItemStack.EMPTY;
+    private ItemStack policeQueen = ItemStack.EMPTY;
     private ItemStack taxcollectorQueen = ItemStack.EMPTY;
     private ItemStack thiefQueen = ItemStack.EMPTY;
     private ItemStack assassinQueen = ItemStack.EMPTY;
@@ -91,9 +95,11 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack plagueQueen = ItemStack.EMPTY;
     private ItemStack electricianQueen = ItemStack.EMPTY;
     private ItemStack devilQueen = ItemStack.EMPTY;
+    private ItemStack madScientistQueen = ItemStack.EMPTY;
     private ItemStack collectingQueen = ItemStack.EMPTY;
     private ItemStack energyQueen = ItemStack.EMPTY;
     private ItemStack temporalQueen = ItemStack.EMPTY;
+    private ItemStack direQueen = ItemStack.EMPTY;
     private ItemStack artisticQueen = ItemStack.EMPTY;
     private ItemStack ncaQueen = ItemStack.EMPTY;
     private ClockworkBeeRecipe clockworkRecipe;
@@ -147,6 +153,13 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     SmelterBeeRecipes.UID, "jei.capnsbeeaddon.smelter.title", 20,
                     "jei.capnsbeeaddon.base_rate", null, smelterQueen, getPedestal()));
+        }
+        if (config.isPoliceBeeJeiEnabled()) {
+            policeQueen = getQueen(CareerBeeSpecies.POLICE, "Police");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    PoliceBeeRecipe.UID, "jei.capnsbeeaddon.police.title", PoliceBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    policeQueen, ItemStack.EMPTY, false));
         }
         if (config.isTaxcollectorBeeJeiEnabled()) {
             taxcollectorQueen = getQueen(CareerBeeSpecies.TAXCOLLECTOR, "Taxcollector");
@@ -237,6 +250,13 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.devil.chance",
                     devilQueen, ItemStack.EMPTY, false));
         }
+        if (config.isMadScientistBeeJeiEnabled()) {
+            madScientistQueen = getQueen(CareerBeeSpecies.MAD_SCIENTIST, "Mad Scientist");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    MadScientistBeeRecipe.UID, "jei.capnsbeeaddon.mad_scientist.title", MadScientistBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.mad_scientist.chance",
+                    madScientistQueen, ItemStack.EMPTY, false));
+        }
         if (config.isCollectingBeeJeiEnabled()) {
             collectingQueen = getQueen(CareerBeeSpecies.WOMBLING, "Collecting");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
@@ -257,6 +277,13 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     TemporalBeeRecipe.UID, "jei.capnsbeeaddon.temporal.title", TemporalBeeRecipe.BASE_TICKS,
                     "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.temporal.rate_modifiers",
                     temporalQueen, ItemStack.EMPTY, false));
+        }
+        if (config.isDireBeeJeiEnabled()) {
+            direQueen = getQueen(CareerBeeSpecies.DIRE, "Dire");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    DireBeeRecipe.UID, "jei.capnsbeeaddon.dire.title", DireBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    direQueen, ItemStack.EMPTY, false));
         }
         if (config.isArtisticBeeJeiEnabled()) {
             artisticQueen = getQueen(CareerBeeSpecies.ARTIST, "Artistic");
@@ -344,6 +371,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isArmorerBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.ARMORER, armorerQueen);
         if (config.isSharpeningBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.SHARPENING, sharpeningQueen);
         if (config.isSmelterBeeJeiEnabled()) registerSmelter(registry);
+        if (config.isPoliceBeeJeiEnabled()) registerPolice(registry);
         if (config.isTaxcollectorBeeJeiEnabled()) registerTaxcollector(registry);
         if (config.isThiefBeeJeiEnabled()) registerThief(registry);
         if (config.isAssassinBeeJeiEnabled()) registerAssassin(registry);
@@ -361,9 +389,11 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isPlagueBeeJeiEnabled()) registerMedical(registry, true);
         if (config.isElectricianBeeJeiEnabled()) registerElectrician(registry);
         if (config.isDevilBeeJeiEnabled()) registerDevil(registry);
+        if (config.isMadScientistBeeJeiEnabled()) registerMadScientist(registry);
         if (config.isCollectingBeeJeiEnabled()) registerCollecting(registry);
         if (config.isEnergyBeeJeiEnabled()) registerEnergy(registry);
         if (config.isTemporalBeeJeiEnabled()) registerTemporal(registry);
+        if (config.isDireBeeJeiEnabled()) registerDire(registry);
         if (config.isArtisticBeeJeiEnabled()) registerArtistic(registry);
         if (config.isNCABeeJeiEnabled()) registerNCA(registry);
         if (config.isYenteBeeJeiEnabled() && yenteRecipe != null) registerAttachedBee(registry, yenteRecipe);
@@ -482,6 +512,19 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private static ItemStack getPedestal() {
         Item item = Item.getByNameOrId("careerbees:flower_pedastal");
         return item == null ? ItemStack.EMPTY : new ItemStack(item);
+    }
+
+    private void registerPolice(IModRegistry registry) {
+        try {
+            registry.addRecipes(Collections.singletonList(new PoliceBeeRecipe(
+                    registry.getJeiHelpers().getGuiHelper(),
+                    registry.getIngredientRegistry().getIngredientRenderer(VanillaTypes.ITEM),
+                    ItemIngredients.IngredientType.REPORT.get())), PoliceBeeRecipe.UID);
+            registerCatalysts(registry, PoliceBeeRecipe.UID, policeQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered Police Bee JEI overview page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Police Bee JEI overview page", failure);
+        }
     }
 
     private void registerTaxcollector(IModRegistry registry) {
@@ -632,6 +675,16 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         }
     }
 
+    private void registerMadScientist(IModRegistry registry) {
+        try {
+            registry.addRecipes(Collections.singletonList(new MadScientistBeeRecipe()), MadScientistBeeRecipe.UID);
+            registerCatalysts(registry, MadScientistBeeRecipe.UID, madScientistQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered Mad Scientist Bee JEI overview page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Mad Scientist Bee JEI overview page", failure);
+        }
+    }
+
     private void registerCollecting(IModRegistry registry) {
         try {
             registry.addRecipes(Collections.singletonList(new CollectingBeeRecipe()), CollectingBeeRecipe.UID);
@@ -656,6 +709,17 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered Temporal Bee JEI overview page");
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Temporal Bee JEI overview page", failure);
+        }
+    }
+
+    private void registerDire(IModRegistry registry) {
+        try {
+            registry.addRecipes(Collections.singletonList(new DireBeeRecipe(registry.getJeiHelpers().getGuiHelper())),
+                    DireBeeRecipe.UID);
+            registerCatalysts(registry, DireBeeRecipe.UID, direQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered Dire Bee JEI overview page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Dire Bee JEI overview page", failure);
         }
     }
 

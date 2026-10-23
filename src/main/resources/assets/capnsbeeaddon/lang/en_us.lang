@@ -95,6 +95,16 @@ jei.capnsbeeaddon.armorer.title=Armorer Bee
 jei.capnsbeeaddon.sharpening.title=Sharpening Bee
 jei.capnsbeeaddon.smelter.title=Smelter Bee
 
+jei.capnsbeeaddon.police.title=Police Bee
+jei.capnsbeeaddon.police.description=Attacks hostile mobs
+jei.capnsbeeaddon.police.target=Nearby hostile mob
+jei.capnsbeeaddon.police.neutral=Includes neutral monsters
+jei.capnsbeeaddon.police.any_mob=Any hostile mob
+jei.capnsbeeaddon.police.output=Random mob loot
+jei.capnsbeeaddon.police.collected=Collected on Police kills
+jei.capnsbeeaddon.police.report=Created on Police kills
+jei.capnsbeeaddon.police.report_details=Records the mob and collected drops
+
 jei.capnsbeeaddon.taxcollector.title=Taxcollector Bee
 jei.capnsbeeaddon.taxcollector.scope=Any hostile mob
 jei.capnsbeeaddon.taxcollector.input=Nearby hostile mob; not consumed
@@ -188,6 +198,10 @@ jei.capnsbeeaddon.devil.title=Devil Bee
 jei.capnsbeeaddon.devil.description=Starts nearby fires
 jei.capnsbeeaddon.devil.chance=1%% chance per attempt
 
+jei.capnsbeeaddon.mad_scientist.title=Mad Scientist Bee
+jei.capnsbeeaddon.mad_scientist.description=Cause random explosions
+jei.capnsbeeaddon.mad_scientist.chance=5%% chance per attempt
+
 jei.capnsbeeaddon.collecting.title=Collecting Bee
 jei.capnsbeeaddon.collecting.description=Collects dropped items
 
@@ -198,6 +212,10 @@ jei.capnsbeeaddon.energy.base_rate=Base rate: %s RF/t
 jei.capnsbeeaddon.temporal.title=Temporal Bee
 jei.capnsbeeaddon.temporal.description=Accelerates nearby blocks
 jei.capnsbeeaddon.temporal.rate_modifiers=Unaffected by speed and production
+
+jei.capnsbeeaddon.dire.title=Dire Bee
+jei.capnsbeeaddon.dire.description=Builds a house
+jei.capnsbeeaddon.dire.placed=Placed directly in the world
 
 jei.capnsbeeaddon.artistic.title=Artistic Bee
 jei.capnsbeeaddon.artistic.description=Decorates your walls
