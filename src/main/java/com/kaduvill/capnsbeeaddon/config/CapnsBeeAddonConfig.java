@@ -12,6 +12,7 @@ public final class CapnsBeeAddonConfig {
 
     private static final String BUGFIXES = "Bugfixes";
     private static final String OPTIMIZATIONS = "Optimizations";
+    private static final String CAREER_BEES_TWEAKS = "Career Bees Tweaks";
     private static final String JEI = "JEI";
     private static final String TOP = "TOP";
 
@@ -28,6 +29,9 @@ public final class CapnsBeeAddonConfig {
     public final boolean queenCanWorkCache;
     public final boolean tileApiaryRedstoneLookup;
     public final boolean tileApiaryEmptyCoverTick;
+    public final boolean revealDireBee;
+    public final boolean revealSoaringBee;
+    public final boolean revealBensenBee;
     public final boolean registerJeiPages;
     public final boolean crusherBee;
     public final boolean honeySmelterBee;
@@ -72,6 +76,8 @@ public final class CapnsBeeAddonConfig {
         config.setCategoryRequiresMcRestart(BUGFIXES, true);
         config.setCategoryComment(OPTIMIZATIONS, "Optional performance patches. Requires a full game/server restart.");
         config.setCategoryRequiresMcRestart(OPTIMIZATIONS, true);
+        config.setCategoryComment(CAREER_BEES_TWEAKS, "Optional Career Bees tweaks. Requires a full game/server restart.");
+        config.setCategoryRequiresMcRestart(CAREER_BEES_TWEAKS, true);
         config.setCategoryComment(JEI, "Optional addon JEI/HEI pages. Requires a full client restart.");
         config.setCategoryRequiresMcRestart(JEI, true);
 
@@ -111,6 +117,12 @@ public final class CapnsBeeAddonConfig {
         tileApiaryEmptyCoverTick = readBoolean(config, OPTIMIZATIONS,
                 "TileApiaryEmptyCoverTick",
                 "Skip cover traversal for Industrial Apiaries known to have no covers.");
+        revealDireBee = readBoolean(config, CAREER_BEES_TWEAKS, "RevealDireBee", false,
+                "Remove the Dire Bee's secret status while retaining its exclusion from discovery totals. Default: false.");
+        revealSoaringBee = readBoolean(config, CAREER_BEES_TWEAKS, "RevealSoaringBee", false,
+                "Remove the Soaring Bee's secret status while retaining its exclusion from discovery totals. Default: false.");
+        revealBensenBee = readBoolean(config, CAREER_BEES_TWEAKS, "RevealBensenBee", false,
+                "Remove the Bensen Bee's secret status while retaining its exclusion from discovery totals. Default: false.");
         registerJeiPages = readBoolean(config, JEI, "RegisterJeiPages",
                 "Master switch for all JEI/HEI pages added by this addon.");
         crusherBee = readBoolean(config, JEI, "CrusherBee",
@@ -188,6 +200,8 @@ public final class CapnsBeeAddonConfig {
         config.setCategoryPropertyOrder(OPTIMIZATIONS, new ArrayList<>(Arrays.asList(
                 "BusinessBeeTradeGenerationFix", "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
+        config.setCategoryPropertyOrder(CAREER_BEES_TWEAKS, new ArrayList<>(Arrays.asList(
+                "RevealDireBee", "RevealSoaringBee", "RevealBensenBee")));
         config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList(
                 "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee", "MinerBees",
                 "ArmorerBee", "SharpeningBee", "SmelterBee", "PoliceBee", "TaxcollectorBee", "ThiefBee", "AssassinBee", "RepairBee",
@@ -342,7 +356,12 @@ public final class CapnsBeeAddonConfig {
 
     private static boolean readBoolean(Configuration config, String category,
                                        String name, String comment) {
-        return config.get(category, name, true, comment)
+        return readBoolean(config, category, name, true, comment);
+    }
+
+    private static boolean readBoolean(Configuration config, String category,
+                                       String name, boolean defaultValue, String comment) {
+        return config.get(category, name, defaultValue, comment)
                 .setRequiresMcRestart(true).getBoolean();
     }
 

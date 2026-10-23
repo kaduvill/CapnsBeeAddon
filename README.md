@@ -14,6 +14,9 @@ It adds Industrial Apiary upgrades, accurate Career Bee territory visualization,
 - Prevents Energy Bee overflow from causing negative energy transfers.
 - Energy Bee compatibility with receivers requiring sided energy input.
 
+### Career Bees tweaks (configurable and disabled by default)
+- Reveal secret bees: Dire, Bensen and Soaring
+
 ### Item tooltips
 
 Adds concise tooltips for Career Bees frames, the Alveary Frame Holder, Flower Pedestal, Bee Armor and Triquetra, plus Bee-Bee Gun controls.

@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "capnsbeeaddon.refmap.json",
   "mixins": [
+    "careerbees.tweaks.CareerBeeEntryRevealMixin",
     "careerbees.EffectAccelerationMixin",
     "careerbees.EffectAccelerationAccessor",
     "careerbees.EffectDiggingMixin",

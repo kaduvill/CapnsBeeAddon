@@ -1,5 +1,6 @@
 0.2.0
 - Add config
+- Add configoptions: RevealDireBee, RevealSoaringBee, and RevealBensenBee in Career Bees Tweaks configsection
 - Add optional The One Probe integration for attached Yente princesses and Student drones, with separate toggles in the TOP config category (extended view only)
 - Fixed Miner, Fortune Miner and Silky Miner used in Bee-Bee gun could break bedrock (hardness -1)
 - Fixed Honey-Smelter Bee-Bee Gun deleting stacked ingots. Convert one ingot per action and preserve the remainder
