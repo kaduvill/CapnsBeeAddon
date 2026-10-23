@@ -2,6 +2,7 @@ package com.kaduvill.capnsbeeaddon.compat.jei;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
 import com.kaduvill.capnsbeeaddon.config.CapnsBeeAddonConfig;
+import com.kaduvill.capnsbeeaddon.compat.jei.ArtisticBee.ArtisticBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.AssassinBee.AssassinBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.ButcherBee.ButcherBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.ChefBee.ChefBeeRecipes;
@@ -20,12 +21,14 @@ import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipeWrap
 import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.HusbandryBee.HusbandryBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.LumberBee.LumberBeeRecipes;
+import com.kaduvill.capnsbeeaddon.compat.jei.NCABee.NCABeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.PriestBee.PriestBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.RepairBee.RepairBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.RetrainingBee.RetrainingBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.TaxcollectorBee.TaxcollectorBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.TemporalBee.TemporalBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.ThiefBee.ThiefBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.TradingBee.TradingBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.TradingBee.TradingBeeRecipeCategory;
@@ -83,6 +86,9 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack devilQueen = ItemStack.EMPTY;
     private ItemStack collectingQueen = ItemStack.EMPTY;
     private ItemStack energyQueen = ItemStack.EMPTY;
+    private ItemStack temporalQueen = ItemStack.EMPTY;
+    private ItemStack artisticQueen = ItemStack.EMPTY;
+    private ItemStack ncaQueen = ItemStack.EMPTY;
     private ClockworkBeeRecipe clockworkRecipe;
     private TradingBeeRecipes.Snapshot tradingRecipes;
 
@@ -227,6 +233,27 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     "jei.capnsbeeaddon.base_rate_single", null,
                     energyQueen, ItemStack.EMPTY, false));
         }
+        if (config.isTemporalBeeJeiEnabled()) {
+            temporalQueen = getQueen(CareerBeeSpecies.ACCELERATION, "Temporal");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    TemporalBeeRecipe.UID, "jei.capnsbeeaddon.temporal.title", TemporalBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.temporal.rate_modifiers",
+                    temporalQueen, ItemStack.EMPTY, false));
+        }
+        if (config.isArtisticBeeJeiEnabled()) {
+            artisticQueen = getQueen(CareerBeeSpecies.ARTIST, "Artistic");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    ArtisticBeeRecipe.UID, "jei.capnsbeeaddon.artistic.title", ArtisticBeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    artisticQueen, ItemStack.EMPTY, false));
+        }
+        if (config.isNCABeeJeiEnabled()) {
+            ncaQueen = getQueen(CareerBeeSpecies.NCA, "N.C.A.");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    NCABeeRecipe.UID, "jei.capnsbeeaddon.nca.title", NCABeeRecipe.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.processing_chance",
+                    ncaQueen, ItemStack.EMPTY, false));
+        }
         if (config.isBusinessBeeJeiEnabled() || config.isJunkSellerBeeJeiEnabled()) {
             try {
                 tradingRecipes = TradingBeeRecipes.read();
@@ -295,6 +322,9 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isDevilBeeJeiEnabled()) registerDevil(registry);
         if (config.isCollectingBeeJeiEnabled()) registerCollecting(registry);
         if (config.isEnergyBeeJeiEnabled()) registerEnergy(registry);
+        if (config.isTemporalBeeJeiEnabled()) registerTemporal(registry);
+        if (config.isArtisticBeeJeiEnabled()) registerArtistic(registry);
+        if (config.isNCABeeJeiEnabled()) registerNCA(registry);
         if (tradingRecipes != null) {
             if (config.isBusinessBeeJeiEnabled()) registerTrading(registry, Mode.BUSINESS, businessQueen);
             if (config.isJunkSellerBeeJeiEnabled()) registerTrading(registry, Mode.JUNK_SELLER, junkSellerQueen);
@@ -561,6 +591,38 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                 EnergyBeeRecipe.UID);
         registerCatalysts(registry, EnergyBeeRecipe.UID, energyQueen, false);
         CapnsBeeAddon.LOGGER.info("Registered Energy Bee JEI overview page");
+    }
+
+    private void registerTemporal(IModRegistry registry) {
+        try {
+            registry.addRecipes(Collections.singletonList(new TemporalBeeRecipe()), TemporalBeeRecipe.UID);
+            registerCatalysts(registry, TemporalBeeRecipe.UID, temporalQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered Temporal Bee JEI overview page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Temporal Bee JEI overview page", failure);
+        }
+    }
+
+    private void registerArtistic(IModRegistry registry) {
+        try {
+            registry.addRecipes(Collections.singletonList(new ArtisticBeeRecipe()),
+                    ArtisticBeeRecipe.UID);
+            registerCatalysts(registry, ArtisticBeeRecipe.UID, artisticQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered Artistic Bee JEI overview page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Artistic Bee JEI overview page", failure);
+        }
+    }
+
+    private void registerNCA(IModRegistry registry) {
+        try {
+            registry.addRecipes(Collections.singletonList(new NCABeeRecipe(registry.getJeiHelpers().getGuiHelper())),
+                    NCABeeRecipe.UID);
+            registerCatalysts(registry, NCABeeRecipe.UID, ncaQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered N.C.A. Bee JEI overview page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register N.C.A. Bee JEI overview page", failure);
+        }
     }
 
     private void registerTrading(IModRegistry registry, Mode mode, ItemStack queen) {

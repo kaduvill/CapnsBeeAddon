@@ -188,3 +188,18 @@ jei.capnsbeeaddon.collecting.description=Collects dropped items
 jei.capnsbeeaddon.energy.title=Energy Bee
 jei.capnsbeeaddon.energy.description=Powers adjacent blocks
 jei.capnsbeeaddon.energy.base_rate=Base rate: %s RF/t
+
+jei.capnsbeeaddon.temporal.title=Temporal Bee
+jei.capnsbeeaddon.temporal.description=Accelerates nearby blocks
+jei.capnsbeeaddon.temporal.rate_modifiers=Unaffected by speed and production
+
+jei.capnsbeeaddon.artistic.title=Artistic Bee
+jei.capnsbeeaddon.artistic.description=Decorates your walls
+jei.capnsbeeaddon.artistic.placed=Placed directly on a nearby wall
+jei.capnsbeeaddon.artistic.wall=Requires free wall space nearby
+
+jei.capnsbeeaddon.nca.title=N.C.A.
+jei.capnsbeeaddon.nca.description=Spawns creepers
+jei.capnsbeeaddon.nca.wither=Wither I (0:50)
+jei.capnsbeeaddon.nca.explosion=Base explosion strength: 5
+jei.capnsbeeaddon.nca.loot=No normal death loot

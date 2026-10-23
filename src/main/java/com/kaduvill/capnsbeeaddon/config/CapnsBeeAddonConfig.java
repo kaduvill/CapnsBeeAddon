@@ -49,6 +49,9 @@ public final class CapnsBeeAddonConfig {
     public final boolean devilBee;
     public final boolean collectingBee;
     public final boolean energyBee;
+    public final boolean temporalBee;
+    public final boolean artisticBee;
+    public final boolean ncaBee;
 
     private CapnsBeeAddonConfig(File file) {
         // Preserve the category names, including the capitalization of JEI.
@@ -141,6 +144,12 @@ public final class CapnsBeeAddonConfig {
                 "Register the Collecting Bee dropped-item collection overview page. Requires RegisterJeiPages.");
         energyBee = readBoolean(config, JEI, "EnergyBee",
                 "Register the Energy Bee power generation overview page. Requires RegisterJeiPages.");
+        temporalBee = readBoolean(config, JEI, "TemporalBee",
+                "Register the Temporal Bee block acceleration overview page. Requires RegisterJeiPages.");
+        artisticBee = readBoolean(config, JEI, "ArtisticBee",
+                "Register the Artistic Bee wall decoration overview page. Requires RegisterJeiPages.");
+        ncaBee = readBoolean(config, JEI, "NCABee",
+                "Register the N.C.A. Bee Creeper spawning overview page. Requires RegisterJeiPages.");
 
         // Forge appends unknown properties, so these lists must be mutable.
         config.setCategoryPropertyOrder(BUGFIXES, new ArrayList<>(Arrays.asList(
@@ -153,7 +162,7 @@ public final class CapnsBeeAddonConfig {
                 "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee",
                 "ArmorerBee", "SharpeningBee", "SmelterBee", "TaxcollectorBee", "ThiefBee", "AssassinBee", "RepairBee",
                 "RetrainingBee", "PriestBee", "HusbandryBee", "ButcherBee", "BusinessBee", "JunkSellerBee",
-                "ClockworkBee", "DoctorBee", "PlagueBee", "ElectricianBee", "DevilBee", "CollectingBee", "EnergyBee")));
+                "ClockworkBee", "DoctorBee", "PlagueBee", "ElectricianBee", "DevilBee", "CollectingBee", "EnergyBee", "TemporalBee", "ArtisticBee", "NCABee")));
         if (config.hasChanged()) {
             config.save();
         }
@@ -258,6 +267,18 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isEnergyBeeJeiEnabled() {
         return registerJeiPages && energyBee;
+    }
+
+    public boolean isTemporalBeeJeiEnabled() {
+        return registerJeiPages && temporalBee;
+    }
+
+    public boolean isArtisticBeeJeiEnabled() {
+        return registerJeiPages && artisticBee;
+    }
+
+    public boolean isNCABeeJeiEnabled() {
+        return registerJeiPages && ncaBee;
     }
 
     private static boolean readBoolean(Configuration config, String category,
