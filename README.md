@@ -18,6 +18,12 @@ It adds Industrial Apiary upgrades, accurate Career Bee territory visualization,
 
 Adds concise tooltips for Career Bees frames, the Alveary Frame Holder, Flower Pedestal, Bee Armor and Triquetra, plus Bee-Bee Gun controls.
 
+### The One Probe integration (optional)
+
+- Show attached Yente princess or Student drone on Forestry and Gendustry bee housings. Alvearies show these lines on the exact block the helper was attached to.
+- Extended view only. The `TOP` category in `capnsbeeaddon.cfg` contains the `TopIntegration` master switch and separate `YenteBee` and `StudentBee` toggles (default `true`; restart required).
+
+
 ### Career Bees JEI
 
 Adds JEI pages for Career Bees. These can be deactivated in config (default=true)
@@ -82,7 +88,7 @@ Reduces an Industrial Apiary's effective bee territory while slightly increasing
 
 Each installed upgrade applies multiplicatively:
 
-* Territory: `×0.70`
+* Territory: `×0.73`
 * Energy use: `×1.05`
 * Maximum installed: `6`
 
@@ -125,3 +131,4 @@ Capn's Bee Addon is developed against these exact Minecraft 1.12.2 dependencies:
 * MixinBooter 10.7
 * Mixin 0.8.7
 * JEI 4.16.1.301 API (optional)
+* The One Probe 1.12-1.4.28 API (optional)

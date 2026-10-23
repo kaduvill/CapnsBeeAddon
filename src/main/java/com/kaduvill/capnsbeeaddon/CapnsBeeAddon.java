@@ -1,8 +1,11 @@
 package com.kaduvill.capnsbeeaddon;
 
+import com.kaduvill.capnsbeeaddon.config.CapnsBeeAddonConfig;
 import com.kaduvill.capnsbeeaddon.network.CapnsBeeAddonNetwork;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,6 +34,11 @@ public final class CapnsBeeAddon {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         CapnsBeeAddonNetwork.init();
+        if (Loader.isModLoaded("theoneprobe") && CapnsBeeAddonConfig.get().isTopIntegrationEnabled()) {
+            // The callback is named as a string so TOP classes are never loaded without TOP.
+            FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe",
+                    "com.kaduvill.capnsbeeaddon.compat.top.TopIntegration");
+        }
         LOGGER.info("{} {} initialized", NAME, VERSION);
     }
 }

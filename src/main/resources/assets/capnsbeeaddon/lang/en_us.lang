@@ -209,3 +209,8 @@ jei.capnsbeeaddon.nca.description=Spawns creepers
 jei.capnsbeeaddon.nca.wither=Wither I (0:50)
 jei.capnsbeeaddon.nca.explosion=Base explosion strength: 5
 jei.capnsbeeaddon.nca.loot=No normal death loot
+
+
+## The One Probe integration (optional)
+top.capnsbeeaddon.yente=Yente attached
+top.capnsbeeaddon.student=Student attached

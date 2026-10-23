@@ -13,7 +13,11 @@ public final class CapnsBeeAddonConfig {
     private static final String BUGFIXES = "Bugfixes";
     private static final String OPTIMIZATIONS = "Optimizations";
     private static final String JEI = "JEI";
+    private static final String TOP = "TOP";
 
+    public final boolean topIntegration;
+    public final boolean topYenteBee;
+    public final boolean topStudentBee;
     public final boolean minerBeeGunUnbreakableBlockFix;
     public final boolean honeySmelterBeeGunStackFix;
     public final boolean assassinBeeAutomationFix;
@@ -55,9 +59,10 @@ public final class CapnsBeeAddonConfig {
     public final boolean ncaBee;
 
     private CapnsBeeAddonConfig(File file) {
-        // Preserve the category names, including the capitalization of JEI.
+        // Preserve the category names, including the capitalization of JEI and TOP.
         Configuration config = new Configuration(file, true);
-        config.setCategoryComment("general", "Reserved for general settings.");
+        config.setCategoryComment(TOP, "Optional The One Probe integration. Requires The One Probe and a full game/server restart.");
+        config.setCategoryRequiresMcRestart(TOP, true);
         config.setCategoryComment(BUGFIXES, "Optional bug fixes. Requires a full game/server restart.");
         config.setCategoryRequiresMcRestart(BUGFIXES, true);
         config.setCategoryComment(OPTIMIZATIONS, "Optional performance patches. Requires a full game/server restart.");
@@ -65,6 +70,12 @@ public final class CapnsBeeAddonConfig {
         config.setCategoryComment(JEI, "Optional addon JEI/HEI pages. Requires a full client restart.");
         config.setCategoryRequiresMcRestart(JEI, true);
 
+        topIntegration = readBoolean(config, TOP, "TopIntegration",
+                "Master switch for this addon's The One Probe integration.");
+        topYenteBee = readBoolean(config, TOP, "YenteBee",
+                "Show an attached Yente princess in The One Probe's extended view. Requires TopIntegration.");
+        topStudentBee = readBoolean(config, TOP, "StudentBee",
+                "Show an attached Student drone in The One Probe's extended view. Requires TopIntegration.");
         minerBeeGunUnbreakableBlockFix = readBoolean(config, BUGFIXES,
                 "MinerBeeGunUnbreakableBlockFix",
                 "Prevent Miner, Fortunate Miner and Silky Miner Bees fired from the Bee Gun from mining blocks with negative hardness (such as bedrock). Does not change apiary mining.");
@@ -155,6 +166,7 @@ public final class CapnsBeeAddonConfig {
                 "Register the N.C.A. Bee Creeper spawning overview page. Requires RegisterJeiPages.");
 
         // Forge appends unknown properties, so these lists must be mutable.
+        config.setCategoryPropertyOrder(TOP, new ArrayList<>(Arrays.asList("TopIntegration", "YenteBee", "StudentBee")));
         config.setCategoryPropertyOrder(BUGFIXES, new ArrayList<>(Arrays.asList(
                 "MinerBeeGunUnbreakableBlockFix", "HoneySmelterBeeGunStackFix", "AssassinBeeAutomationFix", "EnergyBeeOverflowFix",
                 "EnergyBeeSidedEnergyFix")));
@@ -174,6 +186,10 @@ public final class CapnsBeeAddonConfig {
     /** Called by the late mixin loader, before any mod mixins are selected. */
     public static CapnsBeeAddonConfig get() {
         return Holder.INSTANCE;
+    }
+
+    public boolean isTopIntegrationEnabled() {
+        return topIntegration && (topYenteBee || topStudentBee);
     }
 
     public boolean isCrusherBeeJeiEnabled() {
