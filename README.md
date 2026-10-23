@@ -44,6 +44,7 @@ Currently implemented:
 - Doctor Bee (healing and regeneration)
 - Plague Bee (cleansing and zombie-villager curing)
 - Electrician Bee (lightning damage and mob conversions)
+- Devil Bee (nearby fires)
 
 ### Temporal Focus upgrades (Gendustry)
 

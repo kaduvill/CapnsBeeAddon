@@ -176,3 +176,7 @@ jei.capnsbeeaddon.electrician.pig=Transforms pigs
 jei.capnsbeeaddon.electrician.villager=Transforms villagers
 jei.capnsbeeaddon.electrician.creeper=Charges creepers
 jei.capnsbeeaddon.electrician.charged=Charged Creeper
+
+jei.capnsbeeaddon.devil.title=Devil Bee
+jei.capnsbeeaddon.devil.description=Starts nearby fires
+jei.capnsbeeaddon.devil.chance=1%% chance per attempt
