@@ -85,6 +85,10 @@ jei.capnsbeeaddon.chef.applications=Applications: %s
 jei.capnsbeeaddon.lumber.title=Lumber Bee
 jei.capnsbeeaddon.lumber.input=Nearby tree; not consumed
 
+jei.capnsbeeaddon.mason.title=Mason Bee
+jei.capnsbeeaddon.mason.description=Transforms nearby blocks
+jei.capnsbeeaddon.mason.further=Can be converted further into Stone Bricks
+
 jei.capnsbeeaddon.miner.title=Miner Bees
 jei.capnsbeeaddon.miner.description=Mines ores
 jei.capnsbeeaddon.miner.fortune=Mines ores with Fortune II
@@ -202,12 +206,21 @@ jei.capnsbeeaddon.mad_scientist.title=Mad Scientist Bee
 jei.capnsbeeaddon.mad_scientist.description=Cause random explosions
 jei.capnsbeeaddon.mad_scientist.chance=5%% chance per attempt
 
+jei.capnsbeeaddon.quantum.title=Teleposition
+jei.capnsbeeaddon.quantum.description=Randomly swaps blocks
+jei.capnsbeeaddon.quantum.eligible=Any eligible block
+jei.capnsbeeaddon.quantum.matching=Swaps ordinary, matching blocks
+
 jei.capnsbeeaddon.collecting.title=Collecting Bee
 jei.capnsbeeaddon.collecting.description=Collects dropped items
 
 jei.capnsbeeaddon.energy.title=Energy Bee
 jei.capnsbeeaddon.energy.description=Powers adjacent blocks
 jei.capnsbeeaddon.energy.base_rate=Base rate: %s RF/t
+
+jei.capnsbeeaddon.bensen.title=Bensen Bee
+jei.capnsbeeaddon.bensen.description=Plays jazz
+jei.capnsbeeaddon.bensen.band=Multiple bees form a band
 
 jei.capnsbeeaddon.temporal.title=Temporal Bee
 jei.capnsbeeaddon.temporal.description=Accelerates nearby blocks

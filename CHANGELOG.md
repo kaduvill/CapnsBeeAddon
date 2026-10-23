@@ -17,6 +17,7 @@
   - Honey-Smelter Bee
   - Chef Bee (honey glazing)
   - Lumber Bee (tree bark)
+  - Mason Bee
   - Miner / Fortunate Miner / Silky Miner Bees
   - Armorer Bee (armor)
   - Sharpening Bee (attack damage)
@@ -38,9 +39,11 @@
   - Electrician Bee (lightning damage and mob conversions)
   - Devil Bee
   - Mad Scientist Bee
+  - Quantum Charming / Quantum Strange Bees (shared Teleposition overview)
   - Collecting Bee
   - Energy Bee
   - Temporal Bee
+  - Bensen Bee
   - Dire Bee
   - Artistic Bee
   - N.C.A.

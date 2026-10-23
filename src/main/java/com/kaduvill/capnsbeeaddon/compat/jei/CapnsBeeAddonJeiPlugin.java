@@ -6,6 +6,8 @@ import com.kaduvill.capnsbeeaddon.compat.jei.ArtisticBee.ArtisticBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.AssassinBee.AssassinBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.AttachedBee.AttachedBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.AttachedBee.AttachedBeeRecipeCategory;
+import com.kaduvill.capnsbeeaddon.compat.jei.BensenBee.BensenBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.BensenBee.BensenBeeRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.ButcherBee.ButcherBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.ChefBee.ChefBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.ClockworkBee.ClockworkBeeRecipe;
@@ -25,10 +27,13 @@ import com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter.HoneySmelterRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.HusbandryBee.HusbandryBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.LumberBee.LumberBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.MadScientistBee.MadScientistBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.MasonBee.MasonBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.MinerBee.MinerBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.NCABee.NCABeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.PoliceBee.PoliceBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.PriestBee.PriestBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.QuantumBee.QuantumBeeRecipe;
+import com.kaduvill.capnsbeeaddon.compat.jei.QuantumBee.QuantumBeeRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.RepairBee.RepairBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.RetrainingBee.RetrainingBeeRecipe;
 import com.kaduvill.capnsbeeaddon.compat.jei.SmelterBee.SmelterBeeRecipeRegistryPlugin;
@@ -72,6 +77,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack honeySmelterQueen = ItemStack.EMPTY;
     private ItemStack chefQueen = ItemStack.EMPTY;
     private ItemStack lumberQueen = ItemStack.EMPTY;
+    private ItemStack masonQueen = ItemStack.EMPTY;
     private ItemStack minerQueen = ItemStack.EMPTY;
     private ItemStack fortunateMinerQueen = ItemStack.EMPTY;
     private ItemStack silkyMinerQueen = ItemStack.EMPTY;
@@ -99,12 +105,16 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
     private ItemStack collectingQueen = ItemStack.EMPTY;
     private ItemStack energyQueen = ItemStack.EMPTY;
     private ItemStack temporalQueen = ItemStack.EMPTY;
+    private ItemStack bensenQueen = ItemStack.EMPTY;
     private ItemStack direQueen = ItemStack.EMPTY;
     private ItemStack artisticQueen = ItemStack.EMPTY;
     private ItemStack ncaQueen = ItemStack.EMPTY;
     private ClockworkBeeRecipe clockworkRecipe;
     private AttachedBeeRecipe yenteRecipe;
     private AttachedBeeRecipe studentRecipe;
+    private QuantumBeeRecipe quantumRecipe;
+    private ItemStack quantumCharmingQueen = ItemStack.EMPTY;
+    private ItemStack quantumStrangeQueen = ItemStack.EMPTY;
     private TradingBeeRecipes.Snapshot tradingRecipes;
 
     @Override
@@ -130,6 +140,13 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     LumberBeeRecipes.UID, "jei.capnsbeeaddon.lumber.title", 200,
                     "jei.capnsbeeaddon.base_rate", null, lumberQueen, ItemStack.EMPTY));
+        }
+        if (config.isMasonBeeJeiEnabled()) {
+            masonQueen = getQueen(CareerBeeSpecies.MASON, "Mason");
+            registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
+                    MasonBeeRecipes.UID, "jei.capnsbeeaddon.mason.title", MasonBeeRecipes.BASE_TICKS,
+                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    masonQueen, ItemStack.EMPTY));
         }
         if (config.isMinerBeesJeiEnabled()) {
             minerQueen = getQueen(CareerBeeSpecies.DIGGING_BASE, "Miner");
@@ -257,6 +274,9 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.mad_scientist.chance",
                     madScientistQueen, ItemStack.EMPTY, false));
         }
+        if (config.isQuantumBeesJeiEnabled()) {
+            quantumRecipe = registerQuantumBeeCategory(registry);
+        }
         if (config.isCollectingBeeJeiEnabled()) {
             collectingQueen = getQueen(CareerBeeSpecies.WOMBLING, "Collecting");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
@@ -270,6 +290,10 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                     EnergyBeeRecipe.UID, "jei.capnsbeeaddon.energy.title", EnergyBeeRecipe.BASE_TICKS,
                     "jei.capnsbeeaddon.base_rate_single", null,
                     energyQueen, ItemStack.EMPTY, false));
+        }
+        if (config.isBensenBeeJeiEnabled()) {
+            bensenQueen = getQueen(CareerBeeSpecies.BENSEN, "Bensen");
+            registry.addRecipeCategories(new BensenBeeRecipeCategory(registry.getJeiHelpers().getGuiHelper(), bensenQueen));
         }
         if (config.isTemporalBeeJeiEnabled()) {
             temporalQueen = getQueen(CareerBeeSpecies.ACCELERATION, "Temporal");
@@ -324,6 +348,21 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         }
     }
 
+    private QuantumBeeRecipe registerQuantumBeeCategory(IRecipeCategoryRegistration registry) {
+        try {
+            quantumCharmingQueen = getQueen(CareerBeeSpecies.QUANTUM_CHARM, "Quantum Charming");
+            quantumStrangeQueen = getQueen(CareerBeeSpecies.QUANTUM_STRANGE, "Quantum Strange");
+            ItemStack queen = quantumCharmingQueen.isEmpty() ? quantumStrangeQueen : quantumCharmingQueen;
+            if (queen.isEmpty()) return null;
+            QuantumBeeRecipe recipe = new QuantumBeeRecipe();
+            registry.addRecipeCategories(new QuantumBeeRecipeCategory(registry.getJeiHelpers().getGuiHelper(), queen));
+            return recipe;
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Quantum Bees Teleposition JEI category", failure);
+            return null;
+        }
+    }
+
     private AttachedBeeRecipe registerAttachedBeeCategory(IRecipeCategoryRegistration registry, AttachedBeeRecipe.Kind kind) {
         try {
             Item apiary = Item.getByNameOrId("forestry:apiary");
@@ -367,6 +406,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         }
         if (config.isChefBeeJeiEnabled()) registerChef(registry);
         if (config.isLumberBeeJeiEnabled()) registerLumber(registry);
+        if (config.isMasonBeeJeiEnabled()) registerMason(registry);
         if (config.isMinerBeesJeiEnabled()) registerMiners(registry);
         if (config.isArmorerBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.ARMORER, armorerQueen);
         if (config.isSharpeningBeeJeiEnabled()) registerEquipment(registry, EquipmentBeeRecipes.SHARPENING, sharpeningQueen);
@@ -390,8 +430,10 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         if (config.isElectricianBeeJeiEnabled()) registerElectrician(registry);
         if (config.isDevilBeeJeiEnabled()) registerDevil(registry);
         if (config.isMadScientistBeeJeiEnabled()) registerMadScientist(registry);
+        if (config.isQuantumBeesJeiEnabled() && quantumRecipe != null) registerQuantumBee(registry, quantumRecipe);
         if (config.isCollectingBeeJeiEnabled()) registerCollecting(registry);
         if (config.isEnergyBeeJeiEnabled()) registerEnergy(registry);
+        if (config.isBensenBeeJeiEnabled()) registerBensen(registry);
         if (config.isTemporalBeeJeiEnabled()) registerTemporal(registry);
         if (config.isDireBeeJeiEnabled()) registerDire(registry);
         if (config.isArtisticBeeJeiEnabled()) registerArtistic(registry);
@@ -460,6 +502,16 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             CapnsBeeAddon.LOGGER.info("Registered {} Lumber Bee JEI recipes", recipes.size());
         } catch (RuntimeException | LinkageError failure) {
             CapnsBeeAddon.LOGGER.warn("Cannot register Lumber Bee JEI recipes", failure);
+        }
+    }
+
+    private void registerMason(IModRegistry registry) {
+        try {
+            registry.addRecipes(MasonBeeRecipes.create(), MasonBeeRecipes.UID);
+            registerCatalysts(registry, MasonBeeRecipes.UID, masonQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered 5 Mason Bee JEI conversions");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Mason Bee JEI conversions", failure);
         }
     }
 
@@ -675,6 +727,17 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
         }
     }
 
+    private void registerQuantumBee(IModRegistry registry, QuantumBeeRecipe recipe) {
+        try {
+            registry.addRecipes(Collections.singletonList(recipe), QuantumBeeRecipe.UID);
+            registerCatalysts(registry, QuantumBeeRecipe.UID, quantumCharmingQueen, false);
+            registerCatalysts(registry, QuantumBeeRecipe.UID, quantumStrangeQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered Quantum Bees Teleposition JEI overview page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Quantum Bees Teleposition JEI overview page", failure);
+        }
+    }
+
     private void registerMadScientist(IModRegistry registry) {
         try {
             registry.addRecipes(Collections.singletonList(new MadScientistBeeRecipe()), MadScientistBeeRecipe.UID);
@@ -700,6 +763,16 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                 EnergyBeeRecipe.UID);
         registerCatalysts(registry, EnergyBeeRecipe.UID, energyQueen, false);
         CapnsBeeAddon.LOGGER.info("Registered Energy Bee JEI overview page");
+    }
+
+    private void registerBensen(IModRegistry registry) {
+        try {
+            registry.addRecipes(Collections.singletonList(new BensenBeeRecipe()), BensenBeeRecipe.UID);
+            registerCatalysts(registry, BensenBeeRecipe.UID, bensenQueen, false);
+            CapnsBeeAddon.LOGGER.info("Registered Bensen Bee JEI overview page");
+        } catch (RuntimeException | LinkageError failure) {
+            CapnsBeeAddon.LOGGER.warn("Cannot register Bensen Bee JEI overview page", failure);
+        }
     }
 
     private void registerTemporal(IModRegistry registry) {
