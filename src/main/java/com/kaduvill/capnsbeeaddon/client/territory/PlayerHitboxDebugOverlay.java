@@ -8,11 +8,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
 import org.lwjgl.opengl.GL11;
 
+//TODO: MAKE THIS AN INGAME COMMAND?
 /**
  * Temporary debug overlay for the local player's entity bounding box.
  *
  * Disabled by commenting out its render call in
- * IndustrialApiaryTerritoryClientEvents.
+ * CareerTerritoryClientEvents.
  */
 public final class PlayerHitboxDebugOverlay {
 

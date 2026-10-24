@@ -23,6 +23,9 @@
     "gendustry.TileApiaryRedstoneLookupMixin",
     "gendustry.TileApiaryEmptyCoverTickMixin"
   ],
+  "client": [
+    "client.ForestryApiaryTerritoryMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

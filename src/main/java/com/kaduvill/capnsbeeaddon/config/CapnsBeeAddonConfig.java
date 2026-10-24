@@ -13,6 +13,7 @@ public final class CapnsBeeAddonConfig {
     private static final String BUGFIXES = "Bugfixes";
     private static final String OPTIMIZATIONS = "Optimizations";
     private static final String CAREER_BEES_TWEAKS = "Career Bees Tweaks";
+    private static final String CAREER_BEE_TERRITORY = "Career Bee Territory";
     private static final String JEI = "JEI";
     private static final String TOP = "TOP";
 
@@ -32,6 +33,9 @@ public final class CapnsBeeAddonConfig {
     public final boolean revealDireBee;
     public final boolean revealSoaringBee;
     public final boolean revealBensenBee;
+    public final boolean forestryApiaryTerritory;
+    public final boolean gendustryApiaryTerritory;
+    public final boolean advancedTemporalOverlay;
     public final boolean registerJeiPages;
     public final boolean crusherBee;
     public final boolean honeySmelterBee;
@@ -81,6 +85,8 @@ public final class CapnsBeeAddonConfig {
         config.setCategoryRequiresMcRestart(OPTIMIZATIONS, true);
         config.setCategoryComment(CAREER_BEES_TWEAKS, "Optional Career Bees tweaks. Requires a full game/server restart.");
         config.setCategoryRequiresMcRestart(CAREER_BEES_TWEAKS, true);
+        config.setCategoryComment(CAREER_BEE_TERRITORY, "Career Bee territory visualization. Client settings control buttons and overlays; server settings control Forestry boundary replies and advanced Temporal snapshots. Requires a full game/server restart.");
+        config.setCategoryRequiresMcRestart(CAREER_BEE_TERRITORY, true);
         config.setCategoryComment(JEI, "Optional addon JEI/HEI pages. Requires a full client restart.");
         config.setCategoryRequiresMcRestart(JEI, true);
 
@@ -126,6 +132,12 @@ public final class CapnsBeeAddonConfig {
                 "Remove the Soaring Bee's secret status while retaining its exclusion from discovery totals. Default: false.");
         revealBensenBee = readBoolean(config, CAREER_BEES_TWEAKS, "RevealBensenBee", false,
                 "Remove the Bensen Bee's secret status while retaining its exclusion from discovery totals. Default: false.");
+        forestryApiaryTerritory = readBoolean(config, CAREER_BEE_TERRITORY, "ForestryApiary",
+                "Enable the Career Bee territory button and overlays for Forestry Apiaries. Does not include Bee Houses or Alvearies.");
+        gendustryApiaryTerritory = readBoolean(config, CAREER_BEE_TERRITORY, "GendustryIndustrialApiary",
+                "Enable the Career Bee territory button and overlays for Gendustry Industrial Apiaries.");
+        advancedTemporalOverlay = readBoolean(config, CAREER_BEE_TERRITORY, "AdvancedTemporalOverlay",
+                "Enable sneak-click Temporal target boxes and diagnostics for enabled apiaries. Requests server snapshots every 20 client ticks while active, inspecting loaded chunks.");
         registerJeiPages = readBoolean(config, JEI, "RegisterJeiPages",
                 "Master switch for all JEI/HEI pages added by this addon.");
         crusherBee = readBoolean(config, JEI, "CrusherBee",
@@ -211,6 +223,8 @@ public final class CapnsBeeAddonConfig {
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
         config.setCategoryPropertyOrder(CAREER_BEES_TWEAKS, new ArrayList<>(Arrays.asList(
                 "RevealDireBee", "RevealSoaringBee", "RevealBensenBee")));
+        config.setCategoryPropertyOrder(CAREER_BEE_TERRITORY, new ArrayList<>(Arrays.asList(
+                "ForestryApiary", "GendustryIndustrialApiary", "AdvancedTemporalOverlay")));
         config.setCategoryPropertyOrder(JEI, new ArrayList<>(Arrays.asList(
                 "RegisterJeiPages", "CrusherBee", "HoneySmelterBee", "ChefBee", "LumberBee", "MasonBee", "MinerBees",
                 "ArmorerBee", "SharpeningBee", "SmelterBee", "PoliceBee", "TaxcollectorBee", "ThiefBee", "AssassinBee", "RepairBee",
@@ -229,6 +243,11 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isTopIntegrationEnabled() {
         return topIntegration && (topYenteBee || topStudentBee);
+    }
+
+    public boolean isAdvancedTemporalOverlayEnabled() {
+        return advancedTemporalOverlay
+                && (forestryApiaryTerritory || gendustryApiaryTerritory);
     }
 
     public boolean isCrusherBeeJeiEnabled() {

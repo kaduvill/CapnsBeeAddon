@@ -1,5 +1,8 @@
 package com.kaduvill.capnsbeeaddon.client.territory;
 
+import com.kaduvill.capnsbeeaddon.compat.careerbees.CareerTerritorySupport;
+import com.kaduvill.capnsbeeaddon.compat.careerbees.CareerTerritoryInfo;
+import com.kaduvill.capnsbeeaddon.compat.careerbees.CareerTerritoryResolver;
 import forestry.api.apiculture.IBeeHousing;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -134,7 +137,7 @@ public final class GuiButtonCareerTerritory extends GuiButton {
                         ? "gui.capnsbeeaddon.territory.hide"
                         : "gui.capnsbeeaddon.territory.show"
         ));
-        if (cachedInfo.isTemporal()) {
+        if (cachedInfo.isTemporal() && CareerTerritorySupport.isAdvancedEnabled(housing)) {
             tooltip.add(I18n.format(
                     CareerTerritoryOverlay.isAdvancedSelected(cachedInfo)
                             ? "gui.capnsbeeaddon.temporal.hide"
@@ -143,7 +146,7 @@ public final class GuiButtonCareerTerritory extends GuiButton {
         }
         tooltip.add(I18n.format(
                 "gui.capnsbeeaddon.territory.effect",
-                cachedInfo.getEffectName()
+                I18n.format(cachedInfo.getEffectTranslationKey())
         ));
         tooltip.add(I18n.format(
                 "gui.capnsbeeaddon.territory.size",
@@ -164,12 +167,14 @@ public final class GuiButtonCareerTerritory extends GuiButton {
     public void toggleOverlay(boolean advanced) {
         refresh(Minecraft.getMinecraft(), true);
         if (cachedInfo != null) {
-            CareerTerritoryOverlay.toggle(cachedInfo, advanced);
+            CareerTerritoryOverlay.toggle(cachedInfo,
+                    advanced && CareerTerritorySupport.isAdvancedEnabled(housing),
+                    CareerTerritorySupport.needsServerBoundary(housing));
         }
     }
 
     private void refresh(Minecraft minecraft, boolean force) {
-        if (minecraft.world == null) {
+        if (minecraft.world == null || !CareerTerritorySupport.isEnabled(housing)) {
             cachedInfo = null;
             lastResolvedTick = Long.MIN_VALUE;
             return;

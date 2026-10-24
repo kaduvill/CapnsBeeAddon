@@ -1,3 +1,8 @@
+0.2.1
+- Add Career Bee territory visualization to Forestry Apiaries
+- Add Career Bee Territory config category with ForestryApiary, GendustryIndustrialApiary, and AdvancedTemporalOverlay switches
+- Limit Forestry boundary and advanced Temporal requests together to one per player every 20 server ticks
+
 0.2.0
 - Add config
 - Add configoptions: RevealDireBee, RevealSoaringBee, and RevealBensenBee in Career Bees Tweaks configsection

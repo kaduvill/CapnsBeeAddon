@@ -1,4 +1,4 @@
-package com.kaduvill.capnsbeeaddon.client.territory;
+package com.kaduvill.capnsbeeaddon.compat.careerbees;
 
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 import java.util.Locale;
 
 /**
- * Immutable client-side description of one Career Bee territory overlay.
+ * Immutable, common-side description of one Career Bee territory boundary.
  *
  * Contains no live World, TileEntity, housing, bee or ItemStack references.
  */
@@ -16,7 +16,8 @@ public final class CareerTerritoryInfo {
     private final int dimension;
     private final BlockPos source;
     private final AxisAlignedBB bounds;
-    private final String effectName;
+    private final String effectTranslationKey;
+    private final boolean blockAligned;
     private final String sizeText;
     private final boolean temporal;
 
@@ -24,14 +25,15 @@ public final class CareerTerritoryInfo {
             int dimension,
             @Nonnull BlockPos source,
             @Nonnull AxisAlignedBB bounds,
-            @Nonnull String effectName,
+            @Nonnull String effectTranslationKey,
             boolean blockAligned,
             boolean temporal
     ) {
         this.dimension = dimension;
         this.source = source.toImmutable();
         this.bounds = bounds;
-        this.effectName = effectName;
+        this.effectTranslationKey = effectTranslationKey;
+        this.blockAligned = blockAligned;
         this.sizeText = formatSize(bounds, blockAligned);
         this.temporal = temporal;
     }
@@ -54,8 +56,12 @@ public final class CareerTerritoryInfo {
     }
 
     @Nonnull
-    public String getEffectName() {
-        return effectName;
+    public String getEffectTranslationKey() {
+        return effectTranslationKey;
+    }
+
+    public boolean isBlockAligned() {
+        return blockAligned;
     }
 
     /**

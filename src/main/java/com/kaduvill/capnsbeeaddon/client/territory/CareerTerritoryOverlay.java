@@ -1,10 +1,13 @@
 package com.kaduvill.capnsbeeaddon.client.territory;
 
+import com.kaduvill.capnsbeeaddon.compat.careerbees.CareerTerritorySupport;
+import com.kaduvill.capnsbeeaddon.compat.careerbees.CareerTerritoryInfo;
+import com.kaduvill.capnsbeeaddon.compat.careerbees.CareerTerritoryResolver;
 import com.kaduvill.capnsbeeaddon.compat.careerbees.TemporalTerritorySnapshot;
 import com.kaduvill.capnsbeeaddon.compat.gendustry.TemporalFocusUpgradeHelper.TemporalFocusMode;
+import com.kaduvill.capnsbeeaddon.config.CapnsBeeAddonConfig;
 import com.kaduvill.capnsbeeaddon.network.CapnsBeeAddonNetwork;
 import forestry.api.apiculture.IBeeHousing;
-import net.bdew.gendustry.api.blocks.IIndustrialApiary;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -47,16 +50,21 @@ public final class CareerTerritoryOverlay {
 
     private static HudLine[] hudLines = new HudLine[0];
     private static int refreshTicks;
+    private static final BasicBoundaryRefresh BASIC_REFRESH = new BasicBoundaryRefresh();
+    @Nullable
+    private static World selectionWorld;
 
     private CareerTerritoryOverlay() {
     }
 
     public static void toggle(
             CareerTerritoryInfo info,
-            boolean advanced
+            boolean advanced,
+            boolean serverBoundary
     ) {
         if (advanced) {
-            if (!info.isTemporal()) {
+            if (!info.isTemporal()
+                    || !CapnsBeeAddonConfig.get().isAdvancedTemporalOverlayEnabled()) {
                 return;
             }
             if (mode == Mode.ADVANCED_TEMPORAL && sameSource(info)) {
@@ -64,6 +72,8 @@ public final class CareerTerritoryOverlay {
                 return;
             }
             mode = Mode.ADVANCED_TEMPORAL;
+            BASIC_REFRESH.clear();
+            selectionWorld = Minecraft.getMinecraft().world;
             selected = info;
             snapshot = null;
             hudLines = pendingHud();
@@ -76,10 +86,16 @@ public final class CareerTerritoryOverlay {
             clear();
         } else {
             mode = Mode.BASIC_TERRITORY;
+            BASIC_REFRESH.clear();
+            selectionWorld = Minecraft.getMinecraft().world;
             selected = info;
             snapshot = null;
             hudLines = new HudLine[0];
             refreshTicks = 0;
+            if (serverBoundary) {
+                BASIC_REFRESH.begin();
+                requestBasicBoundary();
+            }
         }
     }
 
@@ -104,6 +120,8 @@ public final class CareerTerritoryOverlay {
     }
 
     public static void clear() {
+        BASIC_REFRESH.clear();
+        selectionWorld = null;
         mode = Mode.OFF;
         selected = null;
         snapshot = null;
@@ -117,6 +135,7 @@ public final class CareerTerritoryOverlay {
         CareerTerritoryInfo current = selected;
         if (mode != Mode.ADVANCED_TEMPORAL
                 || current == null
+                || Minecraft.getMinecraft().world != selectionWorld
                 || incoming.getDimension() != current.getDimension()
                 || incoming.getSource() != current.getSource().toLong()) {
             return;
@@ -132,6 +151,23 @@ public final class CareerTerritoryOverlay {
         hudLines = buildHud(incoming);
     }
 
+    public static void acceptBasicBoundary(int dimension, long source, int generation,
+                                           @Nullable CareerTerritoryInfo incoming) {
+        CareerTerritoryInfo current = selected;
+        if (mode != Mode.BASIC_TERRITORY || current == null
+                || Minecraft.getMinecraft().world != selectionWorld
+                || dimension != current.getDimension()
+                || source != current.getSource().toLong()
+                || !BASIC_REFRESH.accept(generation)) {
+            return;
+        }
+        if (incoming == null) {
+            clear();
+        } else {
+            selected = incoming;
+        }
+    }
+
     public static void clientTick() {
         CareerTerritoryInfo current = selected;
         if (mode == Mode.OFF || current == null) {
@@ -140,9 +176,13 @@ public final class CareerTerritoryOverlay {
 
         Minecraft minecraft = Minecraft.getMinecraft();
         World world = minecraft.world;
-        if (world == null
+        if (world == null || world != selectionWorld
                 || world.provider.getDimension() != current.getDimension()) {
             clear();
+            return;
+        }
+        // A paused integrated server cannot answer; do not age out the selection or queue requests.
+        if (minecraft.isGamePaused()) {
             return;
         }
 
@@ -158,13 +198,15 @@ public final class CareerTerritoryOverlay {
             return;
         }
 
-        if (mode == Mode.ADVANCED_TEMPORAL
-                && !(tile instanceof IIndustrialApiary)) {
+        if (!(tile instanceof IBeeHousing)
+                || (mode == Mode.ADVANCED_TEMPORAL
+                    ? !CareerTerritorySupport.isAdvancedEnabled((IBeeHousing) tile)
+                    : !CareerTerritorySupport.isEnabled((IBeeHousing) tile))) {
             clear();
             return;
         }
-        if (mode == Mode.BASIC_TERRITORY
-                && !(tile instanceof IBeeHousing)) {
+
+        if (BASIC_REFRESH.tick()) {
             clear();
             return;
         }
@@ -176,6 +218,9 @@ public final class CareerTerritoryOverlay {
 
         if (mode == Mode.ADVANCED_TEMPORAL) {
             requestSnapshot();
+        } else if (BASIC_REFRESH.isActive()) {
+            // Forestry's client inventory is not synchronized after its GUI closes.
+            requestBasicBoundary();
         } else {
             CareerTerritoryInfo refreshed =
                     CareerTerritoryResolver.resolve((IBeeHousing) tile);
@@ -222,7 +267,7 @@ public final class CareerTerritoryOverlay {
         CareerTerritoryInfo current = selected;
 
         if (current == null
-                || world == null
+                || world == null || world != selectionWorld
                 || world.provider.getDimension() != current.getDimension()) {
             return;
         }
@@ -296,7 +341,7 @@ public final class CareerTerritoryOverlay {
         World world = minecraft.world;
         TemporalTerritorySnapshot current = snapshot;
         if (current == null
-                || world == null
+                || world == null || world != selectionWorld
                 || world.provider.getDimension() != current.getDimension()) {
             return;
         }
@@ -398,11 +443,21 @@ public final class CareerTerritoryOverlay {
 
     private static void requestSnapshot() {
         CareerTerritoryInfo current = selected;
-        if (mode == Mode.ADVANCED_TEMPORAL && current != null) {
+        if (mode == Mode.ADVANCED_TEMPORAL && current != null
+                && CapnsBeeAddonConfig.get().isAdvancedTemporalOverlayEnabled()) {
             CapnsBeeAddonNetwork.requestTemporalSnapshot(
                     current.getDimension(),
                     current.getSource().toLong()
             );
+        }
+    }
+
+    private static void requestBasicBoundary() {
+        CareerTerritoryInfo current = selected;
+        if (mode == Mode.BASIC_TERRITORY && current != null && BASIC_REFRESH.isActive()
+                && CapnsBeeAddonConfig.get().forestryApiaryTerritory) {
+            CapnsBeeAddonNetwork.requestBasicBoundary(current.getDimension(),
+                    current.getSource().toLong(), BASIC_REFRESH.getGeneration());
         }
     }
 

@@ -111,9 +111,15 @@ Bee effects and the normal queen lifecycle continue to run
 
 ### Career Bee territory overlay
 
-Adds a GUI toggle that displays the active Career Bee effect territory as an in-world wireframe.
+Adds a GUI toggle to Forestry Apiaries and Gendustry Industrial Apiaries that displays the active Career Bee effect territory as an in-world wireframe.
 
-Uses Territory modifiers, refreshes once per second, and requires no chunk scanning or custom networking.
+Normal click shows the territory boundary, including housing/frame/upgrade territory modifiers.This calculation does not scan the territory or load chunks.
+Sneak-click with a Temporal bee shows advanced target counts.
+
+* `ForestryApiary`: enables the button and overlays for Forestry Apiaries (Bee Houses and Alvearies are excluded).
+* `GendustryIndustrialApiary`: enables the button and overlays for Gendustry Industrial Apiaries.
+* `AdvancedTemporalOverlay`: enables advanced Temporal targets and diagnostics for either enabled apiary.
+
 
 
 ### Performance improvements

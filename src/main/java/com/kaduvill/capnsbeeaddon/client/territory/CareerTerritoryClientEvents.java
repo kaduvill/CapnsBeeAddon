@@ -1,12 +1,19 @@
 package com.kaduvill.capnsbeeaddon.client.territory;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
+import com.kaduvill.capnsbeeaddon.config.CapnsBeeAddonConfig;
 import com.kaduvill.capnsbeeaddon.network.CapnsBeeAddonNetwork.TemporalSnapshotEvent;
+import com.kaduvill.capnsbeeaddon.network.CapnsBeeAddonNetwork.BasicBoundaryEvent;
 import forestry.api.apiculture.IBeeHousing;
+import forestry.apiculture.gui.ContainerBeeHousing;
+import forestry.apiculture.gui.GuiBeeHousing;
+import forestry.apiculture.tiles.TileApiary;
 import net.bdew.gendustry.machines.apiary.GuiApiary;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.inventory.Slot;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -17,16 +24,16 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
+import java.util.List;
 
 /**
- * Adds one vanilla GUI button over Gendustry's Industrial Apiary GUI and owns
- * the client-only overlay events.
+ * Shares the territory button and client-only overlay events between supported apiaries.
  */
 @Mod.EventBusSubscriber(
         modid = CapnsBeeAddon.MODID,
         value = Side.CLIENT
 )
-public final class IndustrialApiaryTerritoryClientEvents {
+public final class CareerTerritoryClientEvents {
 
     private static final int BUTTON_ID = 0xCA71;
 
@@ -38,29 +45,22 @@ public final class IndustrialApiaryTerritoryClientEvents {
     private static final int BUTTON_RELATIVE_Y = 5;
 
     @Nullable
-    private static GuiApiary activeGui;
+    private static GuiScreen activeGui;
 
     @Nullable
     private static GuiButtonCareerTerritory activeButton;
 
-    private IndustrialApiaryTerritoryClientEvents() {
+    private CareerTerritoryClientEvents() {
     }
 
     @SubscribeEvent
     public static void onGuiInit(GuiScreenEvent.InitGuiEvent.Post event) {
-        if (!(event.getGui() instanceof GuiApiary)) {
+        if (!CapnsBeeAddonConfig.get().gendustryApiaryTerritory
+                || !(event.getGui() instanceof GuiApiary)) {
             return;
         }
 
         GuiApiary gui = (GuiApiary) event.getGui();
-
-        // Be defensive against another init pass on the same GUI.
-        Iterator<GuiButton> iterator = event.getButtonList().iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().id == BUTTON_ID) {
-                iterator.remove();
-            }
-        }
 
         int guiLeft = (gui.width - GUI_WIDTH) / 2;
         int guiTop = (gui.height - GUI_HEIGHT) / 2;
@@ -78,14 +78,46 @@ public final class IndustrialApiaryTerritoryClientEvents {
             return;
         }
 
+        addButton(gui, event.getButtonList(), (IBeeHousing) apiary,
+                guiLeft + BUTTON_RELATIVE_X, guiTop + BUTTON_RELATIVE_Y);
+    }
+
+    /** Called after every Forestry analyzer initialization, including internal rebuilds. */
+    public static void onForestryGuiInit(GuiBeeHousing<?> gui, List<GuiButton> buttons) {
+        if (!CapnsBeeAddonConfig.get().forestryApiaryTerritory
+                || !(gui.inventorySlots instanceof ContainerBeeHousing)) {
+            return;
+        }
+
+        // Slots retain the housing tile. Inspect them only during GUI initialization,
+        // avoiding another accessor and any dependence on analyzer-dependent slot indices.
+        for (Slot slot : gui.inventorySlots.inventorySlots) {
+            if (slot.inventory instanceof TileApiary) {
+                // Use the interface directly without resolving Forestry's optional BuildCraft API.
+                addButton(gui, buttons, (IBeeHousing) slot.inventory,
+                        gui.getGuiLeft() + 151, gui.getGuiTop() + 2);
+                return;
+            }
+        }
+    }
+
+    private static void addButton(GuiScreen gui, List<GuiButton> buttons,
+                                  IBeeHousing housing, int x, int y) {
+        Iterator<GuiButton> iterator = buttons.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next() instanceof GuiButtonCareerTerritory) {
+                iterator.remove();
+            }
+        }
+
         GuiButtonCareerTerritory button = new GuiButtonCareerTerritory(
                 BUTTON_ID,
-                guiLeft + BUTTON_RELATIVE_X,
-                guiTop + BUTTON_RELATIVE_Y,
-                (IBeeHousing) apiary
+                x,
+                y,
+                housing
         );
 
-        event.getButtonList().add(button);
+        buttons.add(button);
         activeGui = gui;
         activeButton = button;
     }
@@ -109,10 +141,16 @@ public final class IndustrialApiaryTerritoryClientEvents {
         CareerTerritoryOverlay.acceptSnapshot(event.getSnapshot());
     }
 
+    @SubscribeEvent
+    public static void onBasicBoundary(BasicBoundaryEvent event) {
+        CareerTerritoryOverlay.acceptBasicBoundary(event.dimension, event.source,
+                event.generation, event.boundary);
+    }
+
     /**
      * GuiScreen draws vanilla buttons, but it does not automatically invoke
      * GuiButton#drawButtonForegroundLayer. Draw the tooltip after the complete
-     * Gendustry screen so slots and widgets cannot cover it.
+     * screen so slots and widgets cannot cover it.
      */
     @SubscribeEvent
     public static void onGuiDrawn(GuiScreenEvent.DrawScreenEvent.Post event) {

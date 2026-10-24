@@ -32,6 +32,10 @@ public final class CapnsBeeAddonMixinLoader implements ILateMixinLoader, IMixinC
         CapnsBeeAddonConfig config = CapnsBeeAddonConfig.get();
         // Match names without loading mixin classes or their target mods.
         switch (mixinClassName) {
+            case MIXIN_PACKAGE + "client.ForestryApiaryTerritoryMixin":
+                return config.forestryApiaryTerritory;
+            case MIXIN_PACKAGE + "careerbees.EffectAccelerationAccessor":
+                return config.isAdvancedTemporalOverlayEnabled();
             case MIXIN_PACKAGE + "careerbees.tweaks.CareerBeeEntryRevealMixin":
                 return config.revealDireBee || config.revealSoaringBee || config.revealBensenBee;
             case MIXIN_PACKAGE + "careerbees.EffectDiggingMixin":
@@ -57,7 +61,7 @@ public final class CapnsBeeAddonMixinLoader implements ILateMixinLoader, IMixinC
             case MIXIN_PACKAGE + "gendustry.TileApiaryEmptyCoverTickMixin":
                 return config.tileApiaryEmptyCoverTick;
             default:
-                // Feature implementations and the territory overlay accessor stay active.
+                // Gameplay feature implementations stay active independently of visualization.
                 return true;
         }
     }

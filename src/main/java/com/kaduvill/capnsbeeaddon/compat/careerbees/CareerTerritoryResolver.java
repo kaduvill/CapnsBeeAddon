@@ -1,4 +1,4 @@
-package com.kaduvill.capnsbeeaddon.client.territory;
+package com.kaduvill.capnsbeeaddon.compat.careerbees;
 
 import com.rwtema.careerbees.effects.EffectAcceleration;
 import com.rwtema.careerbees.effects.EffectBase;
@@ -200,7 +200,7 @@ public final class CareerTerritoryResolver {
                 world.provider.getDimension(),
                 source,
                 bounds,
-                effect.getAlleleName(),
+                effect.getUnlocalizedName(),
                 blockAligned,
                 effect instanceof EffectAcceleration
         );
