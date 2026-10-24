@@ -14,8 +14,11 @@ It adds Industrial Apiary upgrades, accurate Career Bee territory visualization,
 - Prevents Energy Bee overflow from causing negative energy transfers.
 - Energy Bee compatibility with receivers requiring sided energy input.
 
-### Career Bees tweaks (configurable and disabled by default)
-- Reveal secret bees: Dire, Bensen and Soaring
+### Career Bees tweaks (configurable)
+- Accurate effect descriptions: (focusing on matching description to what career bees effects actually does, and removing untrue claims)
+  - Fortunate Miner effect from Fortune 3 to Fortune 2
+  - Police effect: removes the high-luck claim and clarifies that kills count as player kills
+- Reveal secret bees: Dire, Bensen and Soaring (disabled by default)
 
 ### Item tooltips
 

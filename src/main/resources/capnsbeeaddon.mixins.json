@@ -24,6 +24,7 @@
     "gendustry.TileApiaryEmptyCoverTickMixin"
   ],
   "client": [
+    "client.CareerBeeEffectDescriptionMixin",
     "client.ForestryApiaryTerritoryMixin"
   ],
   "injectors": {

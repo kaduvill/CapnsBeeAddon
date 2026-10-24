@@ -1,4 +1,5 @@
 0.2.1
+- Add AccurateEffectDescriptions boolean in config (default true): corrects Fortunate Miner and Police effect descriptions
 - Add Career Bee territory visualization to Forestry Apiaries
 - Add Career Bee Territory config category with ForestryApiary, GendustryIndustrialApiary, and AdvancedTemporalOverlay switches
 - Added debug config to render player's actual hitbox as a red wireframe

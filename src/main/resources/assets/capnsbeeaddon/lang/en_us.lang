@@ -65,6 +65,10 @@ tooltip.capnsbeeaddon.bee_armor.description=Provides Apiarist protection
 tooltip.capnsbeeaddon.triquetra.description=Right-click compatible blocks to cycle their color
 
 
+## Career Bee effect descriptions
+effect.capnsbeeaddon.miner.fortune.desc=Mines ores (with Fortune %s)
+effect.capnsbeeaddon.police.desc=Attacks nearby monsters and collects their drops. Its kills count as player kills.
+
 ## JEI
 jei.capnsbeeaddon.base_rate=Base rate: %s ticks
 jei.capnsbeeaddon.base_rate_single=Base rate: %s tick
@@ -91,7 +95,7 @@ jei.capnsbeeaddon.mason.further=Can be converted further into Stone Bricks
 
 jei.capnsbeeaddon.miner.title=Miner Bees
 jei.capnsbeeaddon.miner.description=Mines ores
-jei.capnsbeeaddon.miner.fortune=Mines ores with Fortune II
+jei.capnsbeeaddon.miner.fortune=Mines ores with Fortune %s
 jei.capnsbeeaddon.miner.silky=Mines ores with Silk Touch I
 jei.capnsbeeaddon.miner.rate_modifiers=Affected by speed and production modifiers
 

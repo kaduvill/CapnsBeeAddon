@@ -31,6 +31,7 @@ public final class CapnsBeeAddonConfig {
     public final boolean queenCanWorkCache;
     public final boolean tileApiaryRedstoneLookup;
     public final boolean tileApiaryEmptyCoverTick;
+    public final boolean accurateEffectDescriptions;
     public final boolean revealDireBee;
     public final boolean revealSoaringBee;
     public final boolean revealBensenBee;
@@ -132,6 +133,8 @@ public final class CapnsBeeAddonConfig {
         tileApiaryEmptyCoverTick = readBoolean(config, OPTIMIZATIONS,
                 "TileApiaryEmptyCoverTick",
                 "Skip cover traversal for Industrial Apiaries known to have no covers.");
+        accurateEffectDescriptions = readBoolean(config, CAREER_BEES_TWEAKS, "AccurateEffectDescriptions",
+                "Correct supported Career Bee analyzer effect descriptions. Currently corrects Fortunate Miner and Police descriptions. Client-only; JEI always uses the shared accurate effect values, even when this is disabled. Default: true.");
         revealDireBee = readBoolean(config, CAREER_BEES_TWEAKS, "RevealDireBee", false,
                 "Remove the Dire Bee's secret status while retaining its exclusion from discovery totals. Default: false.");
         revealSoaringBee = readBoolean(config, CAREER_BEES_TWEAKS, "RevealSoaringBee", false,
@@ -228,7 +231,7 @@ public final class CapnsBeeAddonConfig {
                 "BusinessBeeTradeGenerationFix", "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
         config.setCategoryPropertyOrder(CAREER_BEES_TWEAKS, new ArrayList<>(Arrays.asList(
-                "RevealDireBee", "RevealSoaringBee", "RevealBensenBee")));
+                "AccurateEffectDescriptions", "RevealDireBee", "RevealSoaringBee", "RevealBensenBee")));
         config.setCategoryPropertyOrder(CAREER_BEE_TERRITORY, new ArrayList<>(Arrays.asList(
                 "ForestryApiary", "GendustryIndustrialApiary", "AdvancedTemporalOverlay")));
         config.setCategoryPropertyOrder(DEBUG, new ArrayList<>(Arrays.asList("PlayerHitboxDebugWireframe")));

@@ -1,6 +1,7 @@
 package com.kaduvill.capnsbeeaddon.compat.jei.MinerBee;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
+import com.kaduvill.capnsbeeaddon.compat.careerbees.CareerBeeEffectValues;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipe;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
@@ -49,7 +50,15 @@ public final class MinerBeeRecipe implements BeeEffectRecipe {
 
     @Override
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-        String caption = I18n.format(page.captionKey);
+        String caption;
+        if (page == Page.FORTUNATE) {
+            int fortune = CareerBeeEffectValues.getFortuneLevel();
+            String levelKey = "enchantment.level." + fortune;
+            String level = I18n.hasKey(levelKey) ? I18n.format(levelKey) : Integer.toString(fortune);
+            caption = I18n.format(page.captionKey, level);
+        } else {
+            caption = I18n.format(page.captionKey);
+        }
         minecraft.fontRenderer.drawString(caption,
                 (recipeWidth - minecraft.fontRenderer.getStringWidth(caption)) / 2, 32, 0x808080);
     }
