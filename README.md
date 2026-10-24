@@ -133,6 +133,7 @@ Sneak-click with a Temporal bee shows advanced target counts.
 * Skips trade generation for Business/Junk Seller Bees (these trades was always rejected later in Career Bees code path):
   * Junk Seller trade generation without extractable emeralds in adjacent inventory
   * Vanilla treasure-map
+  * Quark Pathfinder Maps and Charm Structure Maps (optional mods)
   * Immersive Engineering ore-vein map/revolver-part (Immersive Engineering is optional)
   * Forestry pollen/saplings
 

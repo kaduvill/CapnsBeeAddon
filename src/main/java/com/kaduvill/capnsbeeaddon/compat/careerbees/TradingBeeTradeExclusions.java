@@ -14,6 +14,8 @@ public final class TradingBeeTradeExclusions {
             case "forestry.arboriculture.VillagerArboristTrades$GivePollenForEmeralds":
             case "blusunrize.immersiveengineering.common.util.IEVillagerHandler$OreveinMapForEmeralds":
             case "blusunrize.immersiveengineering.common.util.IEVillagerHandler$RevolverPieceForEmeralds":
+            case "vazkii.quark.world.feature.PathfinderMaps$PathfinderMapTrade":
+            case "svenhjol.charm.world.feature.StructureMaps$StructureMapTrade":
                 return true;
             default:
                 return false;
