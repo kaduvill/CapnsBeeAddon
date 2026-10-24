@@ -182,6 +182,9 @@ public final class CareerTerritoryClientEvents {
     @SubscribeEvent
     public static void onRenderWorldLast(RenderWorldLastEvent event) {
         CareerTerritoryOverlay.render(event.getPartialTicks());
+        if (CapnsBeeAddonConfig.get().playerHitboxDebugWireframe) {
+            PlayerHitboxDebugOverlay.render(event.getPartialTicks());
+        }
     }
 
     @SubscribeEvent
@@ -189,9 +192,5 @@ public final class CareerTerritoryClientEvents {
         if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
             CareerTerritoryOverlay.renderHud();
         }
-
-
-        // Temporary player-hitbox visualization for territory testing.
-        //PlayerHitboxDebugOverlay.render(event.getPartialTicks());
     }
 }

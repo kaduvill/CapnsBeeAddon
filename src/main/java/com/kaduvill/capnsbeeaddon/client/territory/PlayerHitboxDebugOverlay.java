@@ -6,16 +6,18 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL14;
 
-//TODO: MAKE THIS AN INGAME COMMAND?
+import java.nio.FloatBuffer;
+
 /**
- * Temporary debug overlay for the local player's entity bounding box.
- *
- * Disabled by commenting out its render call in
- * CareerTerritoryClientEvents.
+ * Client-only local-player hitbox wireframe, enabled by Debug.PlayerHitboxDebugWireframe.
  */
 public final class PlayerHitboxDebugOverlay {
+
+    private static final FloatBuffer PREVIOUS_COLOUR = BufferUtils.createFloatBuffer(16);
 
     private PlayerHitboxDebugOverlay() {
     }
@@ -25,7 +27,8 @@ public final class PlayerHitboxDebugOverlay {
         EntityPlayerSP player = minecraft.player;
         Entity camera = minecraft.getRenderViewEntity();
 
-        if (minecraft.world == null || player == null || camera == null) {
+        if (minecraft.world == null || player == null || camera == null
+                || player.world != minecraft.world || camera.world != minecraft.world) {
             return;
         }
 
@@ -60,6 +63,22 @@ public final class PlayerHitboxDebugOverlay {
          * Keep GlStateManager's cached state synchronized. Do not restore
          * state through raw glPushAttrib/glPopAttrib.
          */
+        boolean blendEnabled = GL11.glIsEnabled(GL11.GL_BLEND);
+        boolean textureEnabled = GL11.glIsEnabled(GL11.GL_TEXTURE_2D);
+        boolean depthEnabled = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);
+        boolean depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
+        int blendSourceRgb = GL11.glGetInteger(GL14.GL_BLEND_SRC_RGB);
+        int blendDestinationRgb = GL11.glGetInteger(GL14.GL_BLEND_DST_RGB);
+        int blendSourceAlpha = GL11.glGetInteger(GL14.GL_BLEND_SRC_ALPHA);
+        int blendDestinationAlpha = GL11.glGetInteger(GL14.GL_BLEND_DST_ALPHA);
+        float lineWidth = GL11.glGetFloat(GL11.GL_LINE_WIDTH);
+        PREVIOUS_COLOUR.clear();
+        GL11.glGetFloat(GL11.GL_CURRENT_COLOR, PREVIOUS_COLOUR);
+        float red = PREVIOUS_COLOUR.get(0);
+        float green = PREVIOUS_COLOUR.get(1);
+        float blue = PREVIOUS_COLOUR.get(2);
+        float alpha = PREVIOUS_COLOUR.get(3);
+
         GlStateManager.pushMatrix();
         try {
             GlStateManager.enableBlend();
@@ -94,13 +113,15 @@ public final class PlayerHitboxDebugOverlay {
                     0.95F
             );
         } finally {
-            GL11.glLineWidth(1.0F);
-            GlStateManager.depthMask(true);
-            GlStateManager.enableDepth();
-            GlStateManager.enableTexture2D();
-            GlStateManager.disableBlend();
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.popMatrix();
+            GlStateManager.tryBlendFuncSeparate(blendSourceRgb, blendDestinationRgb,
+                    blendSourceAlpha, blendDestinationAlpha);
+            GlStateManager.depthMask(depthMask);
+            if (blendEnabled) GlStateManager.enableBlend(); else GlStateManager.disableBlend();
+            if (textureEnabled) GlStateManager.enableTexture2D(); else GlStateManager.disableTexture2D();
+            if (depthEnabled) GlStateManager.enableDepth(); else GlStateManager.disableDepth();
+            GL11.glLineWidth(lineWidth);
+            GlStateManager.color(red, green, blue, alpha);
         }
     }
 }
