@@ -16,6 +16,10 @@ public final class BeeEffectDescriptions {
                         new Object[]{CareerBeeEffectValues.getFortuneLevel()});
             case "careerbees.allele.effect.steal.mob.desc":
                 return original.call("effect.capnsbeeaddon.police.desc", arguments);
+            case "careerbees.allele.effect.crusher.desc":
+                return original.call("effect.capnsbeeaddon.crusher.desc",
+                        new Object[]{CareerBeeEffectValues.getCrusherMinOutput(),
+                                CareerBeeEffectValues.getCrusherMaxOutput()});
             default:
                 return original.call(key, arguments);
         }

@@ -134,7 +134,7 @@ public final class CapnsBeeAddonConfig {
                 "TileApiaryEmptyCoverTick",
                 "Skip cover traversal for Industrial Apiaries known to have no covers.");
         accurateEffectDescriptions = readBoolean(config, CAREER_BEES_TWEAKS, "AccurateEffectDescriptions",
-                "Correct supported Career Bee analyzer effect descriptions. Currently corrects Fortunate Miner and Police descriptions. Client-only; JEI always uses the shared accurate effect values, even when this is disabled. Default: true.");
+                "Correct supported Career Bee analyzer effect descriptions. Currently corrects Fortunate Miner, Police, and Ore Crusher descriptions. Client-only; JEI always uses the shared accurate effect values, even when this is disabled. Default: true.");
         revealDireBee = readBoolean(config, CAREER_BEES_TWEAKS, "RevealDireBee", false,
                 "Remove the Dire Bee's secret status while retaining its exclusion from discovery totals. Default: false.");
         revealSoaringBee = readBoolean(config, CAREER_BEES_TWEAKS, "RevealSoaringBee", false,

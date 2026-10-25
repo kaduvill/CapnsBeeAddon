@@ -1,6 +1,7 @@
 package com.kaduvill.capnsbeeaddon.compat.jei.CrusherBee;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
+import com.kaduvill.capnsbeeaddon.compat.careerbees.CareerBeeEffectValues;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
@@ -111,7 +112,7 @@ public final class CrusherBeeRecipeCategory implements IRecipeCategory<CrusherBe
         layout.getItemStacks().addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
             if (input || slotIndex != 1) return;
             tooltip.add(I18n.format("jei.capnsbeeaddon.output_range",
-                    CrusherBeeRecipes.MIN_OUTPUT, CrusherBeeRecipes.MAX_OUTPUT));
+                    CareerBeeEffectValues.getCrusherMinOutput(), CareerBeeEffectValues.getCrusherMaxOutput()));
         });
     }
 }

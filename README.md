@@ -18,6 +18,7 @@ It adds Industrial Apiary upgrades, accurate Career Bee territory visualization,
 - Accurate effect descriptions: (focusing on matching description to what career bees effects actually does, and removing untrue claims)
   - Fortunate Miner effect from Fortune 3 to Fortune 2
   - Police effect: removes the high-luck claim and clarifies that kills count as player kills
+  - Ore Crusher effect: corrects the yield to 2–4 dust per ore
 - Reveal secret bees: Dire, Bensen and Soaring (disabled by default)
 
 ### Item tooltips

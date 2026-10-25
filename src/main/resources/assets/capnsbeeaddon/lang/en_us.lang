@@ -265,4 +265,5 @@ top.capnsbeeaddon.student=Student attached
 
 ## Career Bee effect descriptions (overrides)
 effect.capnsbeeaddon.miner.fortune.desc=Mines ores (with Fortune %s)
-effect.capnsbeeaddon.police.desc=Attacks nearby monsters and collects their drops. Its kills count as player kills.
+effect.capnsbeeaddon.police.desc=Attacks nearby monsters and collects their drops. Counts as player kills
+effect.capnsbeeaddon.crusher.desc=Grinds up any metal ores placed on flower pedastals, to give %s-%s dust

@@ -9,4 +9,13 @@ public final class CareerBeeEffectValues {
         // Keep this independent of the client-only description switch.
         return 2;
     }
+
+    // Career Bees 0.4.0: EffectOreCrushing.modifyStack uses 2 + world.rand.nextInt(3).
+    public static int getCrusherMinOutput() {
+        return 2;
+    }
+
+    public static int getCrusherMaxOutput() {
+        return 4;
+    }
 }

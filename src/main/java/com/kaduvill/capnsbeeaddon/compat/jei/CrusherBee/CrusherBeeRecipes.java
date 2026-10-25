@@ -19,10 +19,6 @@ import java.util.Set;
 /** Reads Career Bees 0.4.0's selected outputs without consuming world RNG. */
 public final class CrusherBeeRecipes {
 
-    // EffectOreCrushing.modifyStack uses setCount(2 + world.rand.nextInt(3)).
-    public static final int MIN_OUTPUT = 2;
-    public static final int MAX_OUTPUT = 4;
-
     private CrusherBeeRecipes() {
     }
 
