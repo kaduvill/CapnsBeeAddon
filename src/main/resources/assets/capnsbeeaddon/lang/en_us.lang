@@ -65,9 +65,7 @@ tooltip.capnsbeeaddon.bee_armor.description=Provides Apiarist protection
 tooltip.capnsbeeaddon.triquetra.description=Right-click compatible blocks to cycle their color
 
 
-## Career Bee effect descriptions
-effect.capnsbeeaddon.miner.fortune.desc=Mines ores (with Fortune %s)
-effect.capnsbeeaddon.police.desc=Attacks nearby monsters and collects their drops. Its kills count as player kills.
+
 
 ## JEI
 jei.capnsbeeaddon.base_rate=Base rate: %s ticks
@@ -263,3 +261,8 @@ jei.capnsbeeaddon.student.space=No room for products
 ## The One Probe integration (optional)
 top.capnsbeeaddon.yente=Yente attached
 top.capnsbeeaddon.student=Student attached
+
+
+## Career Bee effect descriptions (overrides)
+effect.capnsbeeaddon.miner.fortune.desc=Mines ores (with Fortune %s)
+effect.capnsbeeaddon.police.desc=Attacks nearby monsters and collects their drops. Its kills count as player kills.
