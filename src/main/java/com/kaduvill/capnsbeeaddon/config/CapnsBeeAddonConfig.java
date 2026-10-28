@@ -129,10 +129,10 @@ public final class CapnsBeeAddonConfig {
                 "Reuse the Industrial Apiary queen's canWork result within one world tick.");
         tileApiaryRedstoneLookup = readBoolean(config, OPTIMIZATIONS,
                 "TileApiaryRedstoneLookup",
-                "Skip unused Industrial Apiary redstone queries. Controls its supporting accessors too.");
+                "Skip unused Industrial Apiary redstone queries. Controls its supporting accessors too. Automatically skipped when using Gendustry CEu.");
         tileApiaryEmptyCoverTick = readBoolean(config, OPTIMIZATIONS,
                 "TileApiaryEmptyCoverTick",
-                "Skip cover traversal for Industrial Apiaries known to have no covers.");
+                "Skip cover traversal for Industrial Apiaries known to have no covers. Automatically skipped when using Gendustry CEu.");
         accurateEffectDescriptions = readBoolean(config, CAREER_BEES_TWEAKS, "AccurateEffectDescriptions",
                 "Correct supported Career Bee analyzer effect descriptions. Currently corrects Fortunate Miner, Police, and Ore Crusher descriptions. Client-only; JEI always uses the shared accurate effect values, even when this is disabled. Default: true.");
         revealDireBee = readBoolean(config, CAREER_BEES_TWEAKS, "RevealDireBee", false,

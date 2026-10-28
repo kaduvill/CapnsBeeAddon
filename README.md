@@ -141,6 +141,8 @@ Sneak-click with a Temporal bee shows advanced target counts.
   * Immersive Engineering ore-vein map/revolver-part (Immersive Engineering is optional)
   * Forestry pollen/saplings
 
+Gendustry optimizations are automatically skipped when Gendustry CEu is installed.
+
 
 ## Development versions
 

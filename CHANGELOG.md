@@ -1,3 +1,6 @@
+0.2.2
+- Automatically disable redstone and empty-cover optimizations when using Gendustry CEu
+
 0.2.1
 - Add AccurateEffectDescriptions boolean in config (default true): corrects Fortunate Miner, Police, and Ore Crusher effect descriptions
 - Add Career Bee territory visualization to Forestry Apiaries

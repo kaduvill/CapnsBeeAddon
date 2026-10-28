@@ -1,6 +1,9 @@
 package com.kaduvill.capnsbeeaddon.mixin;
 
 import com.kaduvill.capnsbeeaddon.config.CapnsBeeAddonConfig;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -14,6 +17,8 @@ public final class CapnsBeeAddonMixinLoader implements ILateMixinLoader, IMixinC
 
     private static final String MIXIN_PACKAGE = "com.kaduvill.capnsbeeaddon.mixin.";
 
+    private boolean useLegacyGendustryApiaryPatches;
+
     @Override
     public List<String> getMixinConfigs() {
         CapnsBeeAddonConfig.get();
@@ -25,6 +30,12 @@ public final class CapnsBeeAddonMixinLoader implements ILateMixinLoader, IMixinC
     @Override
     public void onLoad(String mixinPackage) {
         CapnsBeeAddonConfig.get();
+
+        ModContainer gendustry =
+                Loader.instance().getIndexedModList().get("gendustry");
+        useLegacyGendustryApiaryPatches = gendustry != null
+                && gendustry.getProcessedVersion().compareTo(
+                        new DefaultArtifactVersion("gendustry", "1.6.6.0")) < 0;
     }
 
     @Override
@@ -59,9 +70,11 @@ public final class CapnsBeeAddonMixinLoader implements ILateMixinLoader, IMixinC
             case MIXIN_PACKAGE + "gendustry.TileApiaryRedstoneLookupMixin":
             case MIXIN_PACKAGE + "gendustry.TileApiaryAccessor":
             case MIXIN_PACKAGE + "gendustry.TileApiaryServerTickClosureAccessor":
-                return config.tileApiaryRedstoneLookup;
+                return useLegacyGendustryApiaryPatches
+                        && config.tileApiaryRedstoneLookup;
             case MIXIN_PACKAGE + "gendustry.TileApiaryEmptyCoverTickMixin":
-                return config.tileApiaryEmptyCoverTick;
+                return useLegacyGendustryApiaryPatches
+                        && config.tileApiaryEmptyCoverTick;
             default:
                 // Gameplay feature implementations stay active independently of visualization.
                 return true;
