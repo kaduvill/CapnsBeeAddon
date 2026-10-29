@@ -35,6 +35,7 @@ public final class CapnsBeeAddonConfig {
     public final boolean revealDireBee;
     public final boolean revealSoaringBee;
     public final boolean revealBensenBee;
+    public final int temporalBeeExtraTicks;
     public final boolean forestryApiaryTerritory;
     public final boolean gendustryApiaryTerritory;
     public final boolean advancedTemporalOverlay;
@@ -141,6 +142,12 @@ public final class CapnsBeeAddonConfig {
                 "Remove the Soaring Bee's secret status while retaining its exclusion from discovery totals. Default: false.");
         revealBensenBee = readBoolean(config, CAREER_BEES_TWEAKS, "RevealBensenBee", false,
                 "Remove the Bensen Bee's secret status while retaining its exclusion from discovery totals. Default: false.");
+        temporalBeeExtraTicks = Math.max(0, config.get(
+                CAREER_BEES_TWEAKS, "TemporalBeeExtraTicks", 4,
+                "Extra TileEntity updates per world-tick phase (START and END) for Temporal Bee. "
+                        + "Default: 4, giving 8 extra updates per full world tick. 4 leaves Career Bees unchanged. "
+                        + "0 disables these extra updates. Random-ticking blocks are unchanged.",
+                0, Integer.MAX_VALUE).setRequiresMcRestart(true).getInt());
         forestryApiaryTerritory = readBoolean(config, CAREER_BEE_TERRITORY, "ForestryApiary",
                 "Enable the Career Bee territory button and overlays for Forestry Apiaries. Does not include Bee Houses or Alvearies.");
         gendustryApiaryTerritory = readBoolean(config, CAREER_BEE_TERRITORY, "GendustryIndustrialApiary",
@@ -231,7 +238,7 @@ public final class CapnsBeeAddonConfig {
                 "BusinessBeeTradeGenerationFix", "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
         config.setCategoryPropertyOrder(CAREER_BEES_TWEAKS, new ArrayList<>(Arrays.asList(
-                "AccurateEffectDescriptions", "RevealDireBee", "RevealSoaringBee", "RevealBensenBee")));
+                "AccurateEffectDescriptions", "RevealDireBee", "RevealSoaringBee", "RevealBensenBee", "TemporalBeeExtraTicks")));
         config.setCategoryPropertyOrder(CAREER_BEE_TERRITORY, new ArrayList<>(Arrays.asList(
                 "ForestryApiary", "GendustryIndustrialApiary", "AdvancedTemporalOverlay")));
         config.setCategoryPropertyOrder(DEBUG, new ArrayList<>(Arrays.asList("PlayerHitboxDebugWireframe")));

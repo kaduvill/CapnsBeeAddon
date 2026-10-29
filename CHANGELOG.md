@@ -1,3 +1,7 @@
+0.3.0
+- Added configurable bee effect tweaks:
+  - Temporal Bees: adjust acceleration (default unchanged)
+
 0.2.2
 - Automatically disable redstone and empty-cover optimizations when using Gendustry CEu
 

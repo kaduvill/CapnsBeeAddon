@@ -51,6 +51,8 @@ public final class CapnsBeeAddonMixinLoader implements ILateMixinLoader, IMixinC
                 return config.isAdvancedTemporalOverlayEnabled();
             case MIXIN_PACKAGE + "careerbees.tweaks.CareerBeeEntryRevealMixin":
                 return config.revealDireBee || config.revealSoaringBee || config.revealBensenBee;
+            case MIXIN_PACKAGE + "careerbees.tweaks.EffectAccelerationExtraTicksMixin":
+                return config.temporalBeeExtraTicks != 4;
             case MIXIN_PACKAGE + "careerbees.EffectDiggingMixin":
                 return config.minerBeeGunUnbreakableBlockFix;
             case MIXIN_PACKAGE + "careerbees.EntityBeeSwarmHoneySmelterMixin":
