@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.kaduvill.capnsbeeaddon'
-version = '1.12.2-0.2.2'
+version = '1.12.2-0.3.0'
 
 if (System.getenv('BUILD_NUMBER') != null) {
     version = "${version}.${System.getenv('BUILD_NUMBER')}"
