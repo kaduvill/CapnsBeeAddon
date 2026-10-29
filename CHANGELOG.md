@@ -1,4 +1,4 @@
-0.3.0
+0.2.2
 - Automatically disable redstone and empty-cover optimizations when using Gendustry CEu
 
 0.2.1
