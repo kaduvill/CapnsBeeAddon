@@ -14,15 +14,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /** Shared two-slot bee layout with optional pedestal and arrow details. */
 public final class BeeEffectRecipeCategory implements IRecipeCategory<BeeEffectRecipe> {
     private final String uid;
     private final String titleKey;
     private final String baseRateKey;
+    private final BeeEffectScaling scaling;
     @Nullable
     private final String intervalNoteKey;
     private final int baseTicks;
@@ -35,16 +36,18 @@ public final class BeeEffectRecipeCategory implements IRecipeCategory<BeeEffectR
     private final ItemStack setup;
 
     public BeeEffectRecipeCategory(IGuiHelper helper, String uid, String titleKey, int baseTicks,
-                                   String baseRateKey, @Nullable String intervalNoteKey, ItemStack queen, ItemStack setup) {
-        this(helper, uid, titleKey, baseTicks, baseRateKey, intervalNoteKey, queen, setup, true);
+                                   String baseRateKey, BeeEffectScaling scaling, @Nullable String intervalNoteKey,
+                                   ItemStack queen, ItemStack setup) {
+        this(helper, uid, titleKey, baseTicks, baseRateKey, scaling, intervalNoteKey, queen, setup, true);
     }
 
     public BeeEffectRecipeCategory(IGuiHelper helper, String uid, String titleKey, int baseTicks,
-                                   String baseRateKey, @Nullable String intervalNoteKey, ItemStack queen, ItemStack setup,
-                                   boolean drawSlots) {
+                                   String baseRateKey, BeeEffectScaling scaling, @Nullable String intervalNoteKey,
+                                   ItemStack queen, ItemStack setup, boolean drawSlots) {
         this.uid = uid;
         this.titleKey = titleKey;
         this.baseRateKey = baseRateKey;
+        this.scaling = Objects.requireNonNull(scaling, "scaling");
         this.baseTicks = baseTicks;
         this.drawSlots = drawSlots;
         this.intervalNoteKey = intervalNoteKey;
@@ -87,8 +90,9 @@ public final class BeeEffectRecipeCategory implements IRecipeCategory<BeeEffectR
     @Override
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         if (mouseX >= 68 && mouseX < 68 + arrow.getWidth() && mouseY >= 8 && mouseY < 8 + arrow.getHeight()) {
-            if (intervalNoteKey == null) return Collections.singletonList(I18n.format(baseRateKey, baseTicks));
-            return Arrays.asList(I18n.format(baseRateKey, baseTicks), I18n.format(intervalNoteKey));
+            String baseRate = I18n.format(baseRateKey, baseTicks);
+            if (intervalNoteKey == null) return BeeEffectTooltips.withModifiers(scaling, baseRate);
+            return BeeEffectTooltips.withModifiers(scaling, baseRate, I18n.format(intervalNoteKey));
         }
         return Collections.emptyList();
     }

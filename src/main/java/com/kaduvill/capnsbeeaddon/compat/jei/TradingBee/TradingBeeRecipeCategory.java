@@ -2,6 +2,8 @@ package com.kaduvill.capnsbeeaddon.compat.jei.TradingBee;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
 import com.kaduvill.capnsbeeaddon.compat.jei.TradingBee.TradingBeeRecipes.Mode;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectScaling;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectTooltips;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
@@ -14,7 +16,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -71,8 +72,8 @@ public final class TradingBeeRecipeCategory implements IRecipeCategory<TradingBe
     @Override
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         if (!TradingBeeRecipeLayout.overArrow(mouseX, mouseY)) return Collections.emptyList();
-        return Arrays.asList(I18n.format("jei.capnsbeeaddon.base_rate", BASE_TICKS),
-                I18n.format("jei.capnsbeeaddon.trading.rate_modifiers"),
+        return BeeEffectTooltips.withModifiers(BeeEffectScaling.ATTEMPT_RATE,
+                I18n.format("jei.capnsbeeaddon.base_rate", BASE_TICKS),
                 I18n.format(mode.translation + ".attempts"));
     }
 

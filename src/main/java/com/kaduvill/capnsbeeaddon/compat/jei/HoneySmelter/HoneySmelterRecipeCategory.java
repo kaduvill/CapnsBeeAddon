@@ -1,6 +1,8 @@
 package com.kaduvill.capnsbeeaddon.compat.jei.HoneySmelter;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectScaling;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectTooltips;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
@@ -85,7 +87,7 @@ public final class HoneySmelterRecipeCategory implements IRecipeCategory<HoneySm
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         if (mouseX >= ARROW_X && mouseX < ARROW_X + arrow.getWidth()
                 && mouseY >= SLOT_Y && mouseY < SLOT_Y + arrow.getHeight()) {
-            return Collections.singletonList(
+            return BeeEffectTooltips.withModifiers(BeeEffectScaling.ATTEMPT_RATE,
                     I18n.format("jei.capnsbeeaddon.base_rate", BASE_PROCESSING_TICKS));
         }
         return Collections.emptyList();

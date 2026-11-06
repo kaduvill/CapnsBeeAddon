@@ -47,6 +47,7 @@ import com.kaduvill.capnsbeeaddon.compat.jei.TradingBee.TradingBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.TradingBee.TradingBeeRecipes.Mode;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeCategory;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectRecipeRegistryPlugin;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectScaling;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeOverviewRecipeRegistryPlugin;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.EquipmentBeeRecipes;
 import com.kaduvill.capnsbeeaddon.compat.jei.common.MedicalBeeRecipe;
@@ -132,20 +133,21 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             chefQueen = getQueen(CareerBeeSpecies.COOK, "Chef");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     ChefBeeRecipes.UID, "jei.capnsbeeaddon.chef.title", 60,
-                    "jei.capnsbeeaddon.base_rate_per_application", "jei.capnsbeeaddon.chef.per_application",
+                    "jei.capnsbeeaddon.base_rate_per_application", BeeEffectScaling.ATTEMPT_RATE,
+                    "jei.capnsbeeaddon.chef.per_application",
                     chefQueen, getPedestal()));
         }
         if (config.isLumberBeeJeiEnabled()) {
             lumberQueen = getQueen(CareerBeeSpecies.LUMBER, "Lumber");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     LumberBeeRecipes.UID, "jei.capnsbeeaddon.lumber.title", 200,
-                    "jei.capnsbeeaddon.base_rate", null, lumberQueen, ItemStack.EMPTY));
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null, lumberQueen, ItemStack.EMPTY));
         }
         if (config.isMasonBeeJeiEnabled()) {
             masonQueen = getQueen(CareerBeeSpecies.MASON, "Mason");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     MasonBeeRecipes.UID, "jei.capnsbeeaddon.mason.title", MasonBeeRecipes.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null,
                     masonQueen, ItemStack.EMPTY));
         }
         if (config.isMinerBeesJeiEnabled()) {
@@ -154,7 +156,7 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             silkyMinerQueen = getQueen(CareerBeeSpecies.DIGGING_SILKY, "Silky Miner");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     MinerBeeRecipe.UID, "jei.capnsbeeaddon.miner.title", MinerBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.miner.rate_modifiers",
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null,
                     minerQueen, ItemStack.EMPTY, false));
         }
         if (config.isArmorerBeeJeiEnabled()) {
@@ -169,64 +171,65 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             smelterQueen = getQueen(CareerBeeSpecies.SMELTER, "Smelter");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     SmelterBeeRecipes.UID, "jei.capnsbeeaddon.smelter.title", 20,
-                    "jei.capnsbeeaddon.base_rate", null, smelterQueen, getPedestal()));
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null, smelterQueen, getPedestal()));
         }
         if (config.isPoliceBeeJeiEnabled()) {
             policeQueen = getQueen(CareerBeeSpecies.POLICE, "Police");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     PoliceBeeRecipe.UID, "jei.capnsbeeaddon.police.title", PoliceBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null,
                     policeQueen, ItemStack.EMPTY, false));
         }
         if (config.isTaxcollectorBeeJeiEnabled()) {
             taxcollectorQueen = getQueen(CareerBeeSpecies.TAXCOLLECTOR, "Taxcollector");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     TaxcollectorBeeRecipe.UID, "jei.capnsbeeaddon.taxcollector.title", TaxcollectorBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", null, taxcollectorQueen, ItemStack.EMPTY));
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null, taxcollectorQueen, ItemStack.EMPTY));
         }
         if (config.isThiefBeeJeiEnabled()) {
             thiefQueen = getQueen(CareerBeeSpecies.THIEF, "Thief");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     ThiefBeeRecipe.UID, "jei.capnsbeeaddon.thief.title", ThiefBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", null, thiefQueen, ItemStack.EMPTY, false));
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null, thiefQueen, ItemStack.EMPTY, false));
         }
         if (config.isAssassinBeeJeiEnabled()) {
             assassinQueen = getQueen(CareerBeeSpecies.ASSASSIN, "Assassin");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     AssassinBeeRecipe.UID, "jei.capnsbeeaddon.assassin.title", AssassinBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", null, assassinQueen, ItemStack.EMPTY));
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null, assassinQueen, ItemStack.EMPTY));
         }
         if (config.isRepairBeeJeiEnabled()) {
             repairQueen = getQueen(CareerBeeSpecies.REPAIR, "Repair");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     RepairBeeRecipe.UID, "jei.capnsbeeaddon.repair.title", RepairBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.processing_chance", repairQueen, getPedestal()));
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE,
+                    "jei.capnsbeeaddon.processing_chance", repairQueen, getPedestal()));
         }
         if (config.isRetrainingBeeJeiEnabled()) {
             graduateQueen = getQueen(CareerBeeSpecies.VOCATIONAL, "Graduate");
             phdQueen = getQueen(CareerBeeSpecies.PHD, "PHD");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     RetrainingBeeRecipe.UID, "jei.capnsbeeaddon.retraining.title", RetrainingBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", null, graduateQueen, getPedestal()));
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null, graduateQueen, getPedestal()));
         }
         if (config.isPriestBeeJeiEnabled()) {
             priestQueen = getQueen(CareerBeeSpecies.PRIEST, "Priest");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     PriestBeeRecipe.UID, "jei.capnsbeeaddon.priest.title", PriestBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", null, priestQueen, getPedestal()));
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null, priestQueen, getPedestal()));
         }
         if (config.isHusbandryBeeJeiEnabled()) {
             husbandryQueen = getQueen(CareerBeeSpecies.HUSBANDRYIST, "Husbandry");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     HusbandryBeeRecipe.UID, "jei.capnsbeeaddon.husbandry.title", HusbandryBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.husbandry.limit",
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, "jei.capnsbeeaddon.husbandry.limit",
                     husbandryQueen, ItemStack.EMPTY, false));
         }
         if (config.isButcherBeeJeiEnabled()) {
             butcherQueen = getQueen(CareerBeeSpecies.BUTCHER, "Butcher");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     ButcherBeeRecipe.UID, "jei.capnsbeeaddon.butcher.title", ButcherBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", null, butcherQueen, ItemStack.EMPTY, false));
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null, butcherQueen, ItemStack.EMPTY, false));
         }
         if (config.isClockworkBeeJeiEnabled()) {
             Item engine = Item.getByNameOrId("forestry:engine_clockwork");
@@ -243,35 +246,35 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             doctorQueen = getQueen(CareerBeeSpecies.DOCTOR, "Doctor");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     MedicalBeeRecipe.DOCTOR_UID, "jei.capnsbeeaddon.doctor.title", MedicalBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate_per_application", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    "jei.capnsbeeaddon.base_rate_per_application", BeeEffectScaling.ATTEMPT_RATE, null,
                     doctorQueen, ItemStack.EMPTY, false));
         }
         if (config.isPlagueBeeJeiEnabled()) {
             plagueQueen = getQueen(CareerBeeSpecies.PLAGUE_DOCTOR, "Plague");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     MedicalBeeRecipe.PLAGUE_UID, "jei.capnsbeeaddon.plague.title", MedicalBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate_per_application", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    "jei.capnsbeeaddon.base_rate_per_application", BeeEffectScaling.ATTEMPT_RATE, null,
                     plagueQueen, ItemStack.EMPTY, false));
         }
         if (config.isElectricianBeeJeiEnabled()) {
             electricianQueen = getQueen(CareerBeeSpecies.ELECTRICIAN, "Electrician");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     ElectricianBeeRecipe.UID, "jei.capnsbeeaddon.electrician.title", ElectricianBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.electrician.chance",
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, "jei.capnsbeeaddon.electrician.chance",
                     electricianQueen, ItemStack.EMPTY, false));
         }
         if (config.isDevilBeeJeiEnabled()) {
             devilQueen = getQueen(CareerBeeSpecies.DEVIL, "Devil");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     DevilBeeRecipe.UID, "jei.capnsbeeaddon.devil.title", DevilBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.devil.chance",
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, "jei.capnsbeeaddon.devil.chance",
                     devilQueen, ItemStack.EMPTY, false));
         }
         if (config.isMadScientistBeeJeiEnabled()) {
             madScientistQueen = getQueen(CareerBeeSpecies.MAD_SCIENTIST, "Mad Scientist");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     MadScientistBeeRecipe.UID, "jei.capnsbeeaddon.mad_scientist.title", MadScientistBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.mad_scientist.chance",
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, "jei.capnsbeeaddon.mad_scientist.chance",
                     madScientistQueen, ItemStack.EMPTY, false));
         }
         if (config.isQuantumBeesJeiEnabled()) {
@@ -281,14 +284,14 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             collectingQueen = getQueen(CareerBeeSpecies.WOMBLING, "Collecting");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     CollectingBeeRecipe.UID, "jei.capnsbeeaddon.collecting.title", CollectingBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null,
                     collectingQueen, ItemStack.EMPTY, false));
         }
         if (config.isEnergyBeeJeiEnabled()) {
             energyQueen = getQueen(CareerBeeSpecies.ENERGY, "Energy");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     EnergyBeeRecipe.UID, "jei.capnsbeeaddon.energy.title", EnergyBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate_single", null,
+                    "jei.capnsbeeaddon.base_rate_single", BeeEffectScaling.ENERGY_OUTPUT, null,
                     energyQueen, ItemStack.EMPTY, false));
         }
         if (config.isBensenBeeJeiEnabled()) {
@@ -299,28 +302,28 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
             temporalQueen = getQueen(CareerBeeSpecies.ACCELERATION, "Temporal");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     TemporalBeeRecipe.UID, "jei.capnsbeeaddon.temporal.title", TemporalBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.temporal.rate_modifiers",
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.UNAFFECTED, null,
                     temporalQueen, ItemStack.EMPTY, false));
         }
         if (config.isDireBeeJeiEnabled()) {
             direQueen = getQueen(CareerBeeSpecies.DIRE, "Dire");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     DireBeeRecipe.UID, "jei.capnsbeeaddon.dire.title", DireBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null,
                     direQueen, ItemStack.EMPTY, false));
         }
         if (config.isArtisticBeeJeiEnabled()) {
             artisticQueen = getQueen(CareerBeeSpecies.ARTIST, "Artistic");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     ArtisticBeeRecipe.UID, "jei.capnsbeeaddon.artistic.title", ArtisticBeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.trading.rate_modifiers",
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, null,
                     artisticQueen, ItemStack.EMPTY, false));
         }
         if (config.isNCABeeJeiEnabled()) {
             ncaQueen = getQueen(CareerBeeSpecies.NCA, "N.C.A.");
             registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                     NCABeeRecipe.UID, "jei.capnsbeeaddon.nca.title", NCABeeRecipe.BASE_TICKS,
-                    "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.processing_chance",
+                    "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE, "jei.capnsbeeaddon.processing_chance",
                     ncaQueen, ItemStack.EMPTY, false));
         }
         if (config.isYenteBeeJeiEnabled()) {
@@ -383,7 +386,8 @@ public final class CapnsBeeAddonJeiPlugin implements IModPlugin {
                                            EquipmentBeeRecipes effect, ItemStack queen) {
         registry.addRecipeCategories(new BeeEffectRecipeCategory(registry.getJeiHelpers().getGuiHelper(),
                 effect.getUid(), effect.getTitleKey(), effect.getBaseTicks(),
-                "jei.capnsbeeaddon.base_rate", "jei.capnsbeeaddon.processing_chance", queen, getPedestal()));
+                "jei.capnsbeeaddon.base_rate", BeeEffectScaling.ATTEMPT_RATE,
+                "jei.capnsbeeaddon.processing_chance", queen, getPedestal()));
     }
 
     private static ItemStack getQueen(CareerBeeEntry bee, String name) {

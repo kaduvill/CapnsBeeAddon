@@ -57,8 +57,9 @@ public final class EnergyBeeRecipe implements BeeEffectRecipe {
     @Override
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         if (mouseX >= 124 && mouseX < 142 && mouseY >= 8 && mouseY < 26) {
-            return Arrays.asList(I18n.format("jei.capnsbeeaddon.energy.base_rate", BASE_RF_PER_TICK),
-                    I18n.format("jei.capnsbeeaddon.trading.rate_modifiers"));
+            return Arrays.asList(I18n.format("jei.capnsbeeaddon.energy.example_rate", BASE_RF_PER_TICK),
+                    I18n.format("jei.capnsbeeaddon.energy.example_speed"),
+                    I18n.format("jei.capnsbeeaddon.energy.example_production"));
         }
         return Collections.emptyList();
     }

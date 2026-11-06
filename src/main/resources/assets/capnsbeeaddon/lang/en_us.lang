@@ -76,6 +76,15 @@ jei.capnsbeeaddon.operations=Operations: %s
 jei.capnsbeeaddon.processing_chance=20%% chance per attempt
 jei.capnsbeeaddon.any_species=Any species
 
+jei.capnsbeeaddon.effect_modifiers=Effect modifiers
+jei.capnsbeeaddon.effect_modifiers.speed_gene=Speed gene: %s
+jei.capnsbeeaddon.effect_modifiers.production=Production modifiers: %s
+jei.capnsbeeaddon.effect_modifiers.yes=Yes
+jei.capnsbeeaddon.effect_modifiers.no=No
+jei.capnsbeeaddon.effect_modifiers.attempt_rate=Affects attempt frequency
+jei.capnsbeeaddon.effect_modifiers.energy_output=Affects RF output
+jei.capnsbeeaddon.effect_modifiers.clockwork_winding=Affects engine winding
+
 jei.capnsbeeaddon.crusher.title=Ore Crusher Bee
 
 jei.capnsbeeaddon.honey_smelter.title=Honey-Smelter Bee
@@ -95,7 +104,6 @@ jei.capnsbeeaddon.miner.title=Miner Bees
 jei.capnsbeeaddon.miner.description=Mines ores
 jei.capnsbeeaddon.miner.fortune=Mines ores with Fortune %s
 jei.capnsbeeaddon.miner.silky=Mines ores with Silk Touch I
-jei.capnsbeeaddon.miner.rate_modifiers=Affected by speed and production modifiers
 
 jei.capnsbeeaddon.armorer.title=Armorer Bee
 jei.capnsbeeaddon.sharpening.title=Sharpening Bee
@@ -162,7 +170,6 @@ jei.capnsbeeaddon.trading.page=Page %s / %s
 jei.capnsbeeaddon.trading.amounts_vary=Amounts may vary
 jei.capnsbeeaddon.trading.random_enchants=May have random enchants
 jei.capnsbeeaddon.trading.fake_copy=Fake cardboard copy
-jei.capnsbeeaddon.trading.rate_modifiers=Scales with speed and production
 jei.capnsbeeaddon.trading.adjacent=Payment: adjacent inventories
 
 jei.capnsbeeaddon.clockwork.title=Clockwork Bee
@@ -218,7 +225,9 @@ jei.capnsbeeaddon.collecting.description=Collects dropped items
 
 jei.capnsbeeaddon.energy.title=Energy Bee
 jei.capnsbeeaddon.energy.description=Powers adjacent blocks
-jei.capnsbeeaddon.energy.base_rate=Base rate: %s RF/t
+jei.capnsbeeaddon.energy.example_rate=Example output: %s RF/t
+jei.capnsbeeaddon.energy.example_speed=Speed gene: Slow (0.8)
+jei.capnsbeeaddon.energy.example_production=Production modifiers: ×1
 
 jei.capnsbeeaddon.bensen.title=Bensen Bee
 jei.capnsbeeaddon.bensen.description=Plays jazz
@@ -226,7 +235,6 @@ jei.capnsbeeaddon.bensen.band=Multiple bees form a band
 
 jei.capnsbeeaddon.temporal.title=Temporal Bee
 jei.capnsbeeaddon.temporal.description=Accelerates nearby blocks
-jei.capnsbeeaddon.temporal.rate_modifiers=Unaffected by speed and production
 
 jei.capnsbeeaddon.dire.title=Dire Bee
 jei.capnsbeeaddon.dire.description=Builds a house

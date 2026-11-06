@@ -1,6 +1,8 @@
 package com.kaduvill.capnsbeeaddon.compat.jei.QuantumBee;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectScaling;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectTooltips;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -61,7 +63,8 @@ public final class QuantumBeeRecipeCategory implements IRecipeCategory<QuantumBe
                     + I18n.format("jei.capnsbeeaddon.quantum.eligible"));
         }
         if (mouseX >= 68 && mouseX < 92 && mouseY >= 8 && mouseY < 25) {
-            return Collections.singletonList(I18n.format("jei.capnsbeeaddon.quantum.matching"));
+            return BeeEffectTooltips.withModifiers(BeeEffectScaling.UNAFFECTED,
+                    I18n.format("jei.capnsbeeaddon.quantum.matching"));
         }
         return Collections.emptyList();
     }

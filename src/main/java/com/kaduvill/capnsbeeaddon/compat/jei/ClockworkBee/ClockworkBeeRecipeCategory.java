@@ -1,6 +1,8 @@
 package com.kaduvill.capnsbeeaddon.compat.jei.ClockworkBee;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectScaling;
+import com.kaduvill.capnsbeeaddon.compat.jei.common.BeeEffectTooltips;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
@@ -55,7 +57,8 @@ public final class ClockworkBeeRecipeCategory implements IRecipeCategory<Clockwo
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         if (mouseX >= 68 && mouseX < 68 + arrow.getWidth()
                 && mouseY >= 8 && mouseY < 8 + arrow.getHeight()) {
-            return Collections.singletonList(I18n.format("jei.capnsbeeaddon.base_rate_single", BASE_TICKS));
+            return BeeEffectTooltips.withModifiers(BeeEffectScaling.CLOCKWORK_WINDING,
+                    I18n.format("jei.capnsbeeaddon.base_rate_single", BASE_TICKS));
         }
         return Collections.emptyList();
     }

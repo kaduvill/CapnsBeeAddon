@@ -1,4 +1,5 @@
 0.3.0
+- JEI arrow tooltips now show whether Speed gene and production modifiers affect each effect
 - Added configurable bee effect tweaks:
   - Temporal Bees: adjust acceleration (default unchanged)
 
