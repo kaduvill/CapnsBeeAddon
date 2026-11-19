@@ -6,6 +6,8 @@ import net.minecraftforge.fml.common.Loader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** Startup settings shared by mixin selection and optional integrations. */
 public final class CapnsBeeAddonConfig {
@@ -17,6 +19,8 @@ public final class CapnsBeeAddonConfig {
     private static final String DEBUG = "Debug";
     private static final String JEI = "JEI";
     private static final String TOP = "TOP";
+    private static final Pattern CRUSHER_OUTPUT_RANGE =
+            Pattern.compile("\\s*([0-9]+)\\s*-\\s*([0-9]+)\\s*");
 
     public final boolean topIntegration;
     public final boolean topYenteBee;
@@ -38,6 +42,9 @@ public final class CapnsBeeAddonConfig {
     public final int temporalBeeExtraTicks;
     public final int sharpeningMaxDamageBonus;
     public final int armorerMaxArmorBonusPercent;
+    public final int fortunateMinerFortuneLevel;
+    public final int crusherMinOutput;
+    public final int crusherMaxOutput;
     public final boolean forestryApiaryTerritory;
     public final boolean gendustryApiaryTerritory;
     public final boolean advancedTemporalOverlay;
@@ -160,6 +167,15 @@ public final class CapnsBeeAddonConfig {
                 "Maximum armor percentage modifier per item added by Armorer queens and the Bee-Bee Gun. "
                         + "Default: 100, retaining native Career Bees behavior. Custom limits preserve existing bonuses. "
                         + "0 prevents modifications. Requires a full game/server restart.");
+        fortunateMinerFortuneLevel = Math.max(1, Math.min(100, config.get(
+                CAREER_BEES_TWEAKS, "FortunateMinerFortuneLevel", 2,
+                "Fortune level used by Fortunate Miner queens and the Bee-Bee Gun. "
+                        + "Range: 1-100. Default: 2, retaining native Career Bees behavior. "
+                        + "Requires a full game/server restart.",
+                1, 100).setRequiresMcRestart(true).getInt()));
+        int[] crusherOutput = readCrusherOutputRange(config);
+        crusherMinOutput = crusherOutput[0];
+        crusherMaxOutput = crusherOutput[1];
         forestryApiaryTerritory = readBoolean(config, CAREER_BEE_TERRITORY, "ForestryApiary",
                 "Enable the Career Bee territory button and overlays for Forestry Apiaries. Does not include Bee Houses or Alvearies.");
         gendustryApiaryTerritory = readBoolean(config, CAREER_BEE_TERRITORY, "GendustryIndustrialApiary",
@@ -251,7 +267,8 @@ public final class CapnsBeeAddonConfig {
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
         config.setCategoryPropertyOrder(CAREER_BEES_TWEAKS, new ArrayList<>(Arrays.asList(
                 "AccurateEffectDescriptions", "RevealDireBee", "RevealSoaringBee", "RevealBensenBee", "TemporalBeeExtraTicks",
-                "SharpeningMaxDamageBonus", "ArmorerMaxArmorBonusPercent")));
+                "SharpeningMaxDamageBonus", "ArmorerMaxArmorBonusPercent", "FortunateMinerFortuneLevel",
+                "CrusherOutputRange")));
         config.setCategoryPropertyOrder(CAREER_BEE_TERRITORY, new ArrayList<>(Arrays.asList(
                 "ForestryApiary", "GendustryIndustrialApiary", "AdvancedTemporalOverlay")));
         config.setCategoryPropertyOrder(DEBUG, new ArrayList<>(Arrays.asList("PlayerHitboxDebugWireframe")));
@@ -422,6 +439,28 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isStudentBeeJeiEnabled() {
         return registerJeiPages && studentBee;
+    }
+
+    private static int[] readCrusherOutputRange(Configuration config) {
+        String value = config.get(CAREER_BEES_TWEAKS, "CrusherOutputRange", "2-4",
+                "Dust produced per ore by Ore Crusher queens and the Bee-Bee Gun, as an inclusive min-max range. "
+                        + "Examples: 2-4 gives 2, 3, or 4 dust; 4-4 always gives 4. "
+                        + "Both endpoints must be within 1-64, with minimum <= maximum. Invalid ranges use 2-4. "
+                        + "Default: 2-4, retaining native Career Bees behavior. Requires a full game/server restart.",
+                CRUSHER_OUTPUT_RANGE).setRequiresMcRestart(true).getString();
+        Matcher matcher = CRUSHER_OUTPUT_RANGE.matcher(value);
+        if (matcher.matches()) {
+            try {
+                int minimum = Integer.parseInt(matcher.group(1));
+                int maximum = Integer.parseInt(matcher.group(2));
+                if (minimum >= 1 && minimum <= maximum && maximum <= 64) {
+                    return new int[]{minimum, maximum};
+                }
+            } catch (NumberFormatException invalidRange) {
+                // Overflowing endpoints use the same native defaults as other invalid ranges.
+            }
+        }
+        return new int[]{2, 4};
     }
 
     private static int readNonNegativeInt(Configuration config, String category,

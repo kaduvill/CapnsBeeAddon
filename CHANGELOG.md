@@ -3,6 +3,9 @@
 - Added configurable bee effect tweaks:
   - Temporal Bees: adjust acceleration (default unchanged)
   - Sharpening and Armorer Bees: adjust maximum bonuses (default unchanged)
+  - Fortunate Miner Bees: adjust Fortune level (default unchanged)
+  - Ore Crusher Bees: adjust dust output (default unchanged)
+
 
 0.2.2
 - Automatically disable redstone and empty-cover optimizations when using Gendustry CEu

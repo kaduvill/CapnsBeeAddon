@@ -57,6 +57,10 @@ public final class CapnsBeeAddonMixinLoader implements ILateMixinLoader, IMixinC
                 return config.sharpeningMaxDamageBonus != 5;
             case MIXIN_PACKAGE + "careerbees.tweaks.EffectArmorerLimitsMixin":
                 return config.armorerMaxArmorBonusPercent != 100;
+            case MIXIN_PACKAGE + "careerbees.tweaks.EffectDiggingFortuneMixin":
+                return config.fortunateMinerFortuneLevel != 2;
+            case MIXIN_PACKAGE + "careerbees.tweaks.EffectOreCrushingOutputMixin":
+                return config.crusherMinOutput != 2 || config.crusherMaxOutput != 4;
             case MIXIN_PACKAGE + "careerbees.EffectDiggingMixin":
                 return config.minerBeeGunUnbreakableBlockFix;
             case MIXIN_PACKAGE + "careerbees.EntityBeeSwarmHoneySmelterMixin":
