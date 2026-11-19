@@ -1,3 +1,6 @@
+0.3.1
+- More tweaks?
+
 0.3.0
 - JEI arrow tooltips now show whether Speed gene and production modifiers affect each effect
 - Added configurable bee effect tweaks:
