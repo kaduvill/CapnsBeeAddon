@@ -1,8 +1,18 @@
 package com.kaduvill.capnsbeeaddon.compat.careerbees;
 
+import com.kaduvill.capnsbeeaddon.config.CapnsBeeAddonConfig;
+
 /** Effective effect values shared by descriptions, JEI, and future gameplay tweaks. */
 public final class CareerBeeEffectValues {
     private CareerBeeEffectValues() {}
+
+    public static double getSharpeningMaxDamageBonus() {
+        return CapnsBeeAddonConfig.get().sharpeningMaxDamageBonus;
+    }
+
+    public static double getArmorerMaxArmorBonus() {
+        return CapnsBeeAddonConfig.get().armorerMaxArmorBonusPercent / 100.0;
+    }
 
     public static int getFortuneLevel() {
         // Career Bees 0.4.0: EffectDigging.digPosition's FORTUNE branch.

@@ -1,6 +1,8 @@
 package com.kaduvill.capnsbeeaddon.compat.jei.common;
 
 import com.kaduvill.capnsbeeaddon.CapnsBeeAddon;
+import com.kaduvill.capnsbeeaddon.compat.careerbees.CareerBeeEffectValues;
+import com.kaduvill.capnsbeeaddon.compat.careerbees.EquipmentBeeBonus;
 import com.rwtema.careerbees.effects.EffectArmorer;
 import com.rwtema.careerbees.effects.EffectAttributeBoost;
 import com.rwtema.careerbees.effects.EffectSharpen;
@@ -29,16 +31,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-/** Cached clean equipment -> native maximum bonus; no progress simulation during display or lookup. */
+/** Cached clean equipment -> effective maximum bonus; no progress simulation during display or lookup. */
 public final class EquipmentBeeRecipes {
     private static final String MODIFIERS = "AttributeModifiersCustom";
-    // Both installed native curves finish below this bound (88 and 51 successful changes).
-    private static final int MAX_OPERATIONS = 128;
+    // Covers the supported integer caps; native defaults still finish after 88 and 51 changes.
+    private static final int MAX_OPERATIONS = 512;
 
     public static final EquipmentBeeRecipes ARMORER = new EquipmentBeeRecipes("armorer", 16, true,
-            EffectArmorer.INSTANCE, UUID.fromString("65C761AF-1772-437F-903B-1CCA6371D572"), 1, 1.0);
+            EffectArmorer.INSTANCE, EquipmentBeeBonus.ARMORER, 1, CareerBeeEffectValues.getArmorerMaxArmorBonus());
     public static final EquipmentBeeRecipes SHARPENING = new EquipmentBeeRecipes("sharpening", 20, false,
-            EffectSharpen.INSTANCE, UUID.fromString("78EE8D4A-80DC-4639-9A4E-266B7591794D"), 0, 5.0);
+            EffectSharpen.INSTANCE, EquipmentBeeBonus.SHARPENING, 0, CareerBeeEffectValues.getSharpeningMaxDamageBonus());
 
     private final String name;
     private final int baseTicks;
@@ -49,7 +51,7 @@ public final class EquipmentBeeRecipes {
     private final List<UUID> ownedIds;
 
     private EquipmentBeeRecipes(String name, int baseTicks, boolean armor, EffectAttributeBoost effect,
-                                UUID baseId, int operation, double maximum) {
+                                EquipmentBeeBonus bonus, int operation, double maximum) {
         this.name = name;
         this.baseTicks = baseTicks;
         this.armor = armor;
@@ -59,8 +61,7 @@ public final class EquipmentBeeRecipes {
         List<UUID> ids = new ArrayList<>();
         // EffectAttributeBoost's slot UUID derivation and NBT format in the installed Career Bees version.
         for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
-            UUID id = slot.ordinal() == 0 ? baseId
-                    : new UUID(baseId.getLeastSignificantBits(), baseId.getMostSignificantBits() + slot.ordinal());
+            UUID id = bonus.getModifierId(slot);
             ids.add(id);
             NBTTagCompound modifier = SharedMonsterAttributes.writeAttributeModifierToNBT(
                     new AttributeModifier(id, "Bee Modification", maximum, operation));
@@ -70,7 +71,7 @@ public final class EquipmentBeeRecipes {
             modifiers.put(slot, modifier);
         }
         // The base class also owns a UUID for a null slot, though these two effects use concrete slots.
-        ids.add(new UUID(baseId.getLeastSignificantBits(), baseId.getMostSignificantBits() - 1));
+        ids.add(bonus.getModifierId(null));
         this.finalModifiers = Collections.unmodifiableMap(modifiers);
         this.ownedIds = Collections.unmodifiableList(ids);
     }
@@ -82,6 +83,7 @@ public final class EquipmentBeeRecipes {
     public int getBaseTicks() { return baseTicks; }
 
     public List<Recipe> read(Iterable<ItemStack> ingredients) {
+        if (maximum == 0.0) return Collections.emptyList();
         Map<NBTTagCompound, Recipe> recipes = new LinkedHashMap<>();
         Set<NBTTagCompound> seen = new HashSet<>();
         for (ItemStack stack : ingredients) {

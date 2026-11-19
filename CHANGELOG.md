@@ -2,6 +2,7 @@
 - JEI arrow tooltips now show whether Speed gene and production modifiers affect each effect
 - Added configurable bee effect tweaks:
   - Temporal Bees: adjust acceleration (default unchanged)
+  - Sharpening and Armorer Bees: adjust maximum bonuses (default unchanged)
 
 0.2.2
 - Automatically disable redstone and empty-cover optimizations when using Gendustry CEu

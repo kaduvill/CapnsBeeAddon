@@ -8,6 +8,8 @@
   "mixins": [
     "careerbees.tweaks.CareerBeeEntryRevealMixin",
     "careerbees.tweaks.EffectAccelerationExtraTicksMixin",
+    "careerbees.tweaks.EffectSharpenLimitsMixin",
+    "careerbees.tweaks.EffectArmorerLimitsMixin",
     "careerbees.EffectAccelerationMixin",
     "careerbees.EffectAccelerationAccessor",
     "careerbees.EffectDiggingMixin",

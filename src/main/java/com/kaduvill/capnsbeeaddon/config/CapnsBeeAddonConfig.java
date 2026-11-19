@@ -36,6 +36,8 @@ public final class CapnsBeeAddonConfig {
     public final boolean revealSoaringBee;
     public final boolean revealBensenBee;
     public final int temporalBeeExtraTicks;
+    public final int sharpeningMaxDamageBonus;
+    public final int armorerMaxArmorBonusPercent;
     public final boolean forestryApiaryTerritory;
     public final boolean gendustryApiaryTerritory;
     public final boolean advancedTemporalOverlay;
@@ -148,6 +150,16 @@ public final class CapnsBeeAddonConfig {
                         + "Default: 4, giving 8 extra updates per full world tick. 4 leaves Career Bees unchanged. "
                         + "0 disables these extra updates. Random-ticking blocks are unchanged.",
                 0, Integer.MAX_VALUE).setRequiresMcRestart(true).getInt());
+        sharpeningMaxDamageBonus = readNonNegativeInt(config, CAREER_BEES_TWEAKS,
+                "SharpeningMaxDamageBonus", 5,
+                "Maximum attack-damage bonus added by Sharpening queens and the Bee-Bee Gun. "
+                        + "Default: 5, retaining native Career Bees behavior. Custom limits preserve existing bonuses. "
+                        + "0 prevents modifications. Requires a full game/server restart.");
+        armorerMaxArmorBonusPercent = readNonNegativeInt(config, CAREER_BEES_TWEAKS,
+                "ArmorerMaxArmorBonusPercent", 100,
+                "Maximum armor percentage modifier per item added by Armorer queens and the Bee-Bee Gun. "
+                        + "Default: 100, retaining native Career Bees behavior. Custom limits preserve existing bonuses. "
+                        + "0 prevents modifications. Requires a full game/server restart.");
         forestryApiaryTerritory = readBoolean(config, CAREER_BEE_TERRITORY, "ForestryApiary",
                 "Enable the Career Bee territory button and overlays for Forestry Apiaries. Does not include Bee Houses or Alvearies.");
         gendustryApiaryTerritory = readBoolean(config, CAREER_BEE_TERRITORY, "GendustryIndustrialApiary",
@@ -238,7 +250,8 @@ public final class CapnsBeeAddonConfig {
                 "BusinessBeeTradeGenerationFix", "BeeCanWorkEnvironmentFastPath", "QueenCanWorkCache",
                 "TileApiaryRedstoneLookup", "TileApiaryEmptyCoverTick")));
         config.setCategoryPropertyOrder(CAREER_BEES_TWEAKS, new ArrayList<>(Arrays.asList(
-                "AccurateEffectDescriptions", "RevealDireBee", "RevealSoaringBee", "RevealBensenBee", "TemporalBeeExtraTicks")));
+                "AccurateEffectDescriptions", "RevealDireBee", "RevealSoaringBee", "RevealBensenBee", "TemporalBeeExtraTicks",
+                "SharpeningMaxDamageBonus", "ArmorerMaxArmorBonusPercent")));
         config.setCategoryPropertyOrder(CAREER_BEE_TERRITORY, new ArrayList<>(Arrays.asList(
                 "ForestryApiary", "GendustryIndustrialApiary", "AdvancedTemporalOverlay")));
         config.setCategoryPropertyOrder(DEBUG, new ArrayList<>(Arrays.asList("PlayerHitboxDebugWireframe")));
@@ -409,6 +422,12 @@ public final class CapnsBeeAddonConfig {
 
     public boolean isStudentBeeJeiEnabled() {
         return registerJeiPages && studentBee;
+    }
+
+    private static int readNonNegativeInt(Configuration config, String category,
+                                          String name, int defaultValue, String comment) {
+        return Math.max(0, config.get(category, name, defaultValue, comment,
+                0, Integer.MAX_VALUE).setRequiresMcRestart(true).getInt());
     }
 
     private static boolean readBoolean(Configuration config, String category,
